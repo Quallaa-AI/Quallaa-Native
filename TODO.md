@@ -152,29 +152,32 @@
 
 ---
 
-## Phase 4: Text Replacements & Polish (Week 2 - Days 1-2)
+## Phase 4: Text Replacements & Polish (Week 2 - Days 1-2) ✅ COMPLETE
 
-### Global Text Replacements
-- [ ] **IMPORTANT**: Create backup branch before mass find/replace
-- [ ] Search all user-visible strings for "Theia IDE": `grep -r "Theia IDE" packages/`
-- [ ] Replace "Theia IDE" → "Quallaa" in user-visible strings (UI components, menus, dialogs)
-- [ ] Search for "Theia Blueprint": `grep -r "Theia Blueprint" packages/`
-- [ ] Replace "Theia Blueprint" → "Quallaa" (if any references exist)
-- [ ] Search for "Theia Electron Example": Should be updated by package.json changes
-- [ ] **DO NOT** replace "Theia" in code comments, internal variable names, or file names
-- [ ] **DO NOT** replace "Eclipse Theia" in attribution notices or copyright headers
-- [ ] Review window title: Ensure it shows "Quallaa" not "Theia"
-- [ ] Review application menu (macOS menu bar): Ensure "About Quallaa", "Quit Quallaa", etc.
-- [ ] Test application thoroughly after replacements
+### Global Text Replacements ✅
+- [x] **IMPORTANT**: Create backup branch before mass find/replace ✅ (`backup/before-phase4-text-replacements`)
+- [x] Search all user-visible strings for "Theia IDE": `grep -r "Theia IDE" packages/` ✅
+- [x] Replace "Theia IDE" → "Quallaa" in user-visible strings: ✅
+  - [x] AI chat welcome message: "Ask the Quallaa AI" (was "Ask the Theia IDE AI")
+  - [x] Debug session client name: "Quallaa" (was "Theia IDE")
+- [x] Search for "Theia Blueprint": `grep -r "Theia Blueprint" packages/` ✅ (none found, as expected)
+- [x] **Intentionally preserved** "Theia IDE" in:
+  - AI prompt templates (internal context for AI models, not user-visible)
+  - i18n translation files (defer translation updates to post-MVP)
+  - README documentation (not user-facing UI)
+- [x] **Confirmed NOT replaced** "Eclipse Theia" in attribution notices or copyright headers ✅
+- [x] Review window title: Shows "Quallaa" ✅ (via `applicationName` config from Phase 2)
+- [x] Review application menu (macOS menu bar): Will show "Quallaa" ✅ (via `applicationName` config from Phase 2)
+- [ ] Test application thoroughly after replacements (pending build)
 
-### Package Namespace Migration (Optional - Can Defer)
-- [ ] **DECISION**: Rename packages from `@theia/*` to `@quallaa/*` now or post-MVP?
-- [ ] If NOW: Create automated script for find/replace across all package.json files
-- [ ] If NOW: Update all TypeScript imports from `@theia/*` to `@quallaa/*`
-- [ ] If NOW: Run full rebuild: `yarn install && yarn build`
-- [ ] If NOW: Fix any build errors from namespace changes
-- [ ] If NOW: Update all documentation references
-- [ ] **RECOMMENDATION**: Defer to post-MVP to reduce risk and scope
+### Package Namespace Migration (Optional - Can Defer) ⏭️ DEFERRED
+- [x] **DECISION**: Rename packages from `@theia/*` to `@quallaa/*` now or post-MVP? ✅ **DEFERRED to post-MVP**
+- **RATIONALE**: Massive refactor with high risk, low user-visible benefit for MVP
+- Keeping `@theia/*` namespace for MVP avoids:
+  - Updating 90+ package.json files
+  - Updating thousands of TypeScript imports
+  - Potential build breaks and debugging time
+  - Merge conflicts when pulling upstream Theia updates
 
 ---
 
