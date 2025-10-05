@@ -1,7 +1,7 @@
 {
   "private": true,
-  "name": "@theia/example-electron",
-  "productName": "Theia Electron Example",
+  "name": "@quallaa/quallaa",
+  "productName": "Quallaa",
   "version": "1.65.0",
   "main": "lib/backend/electron-main.js",
   "license": "EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0",
@@ -9,19 +9,16 @@
     "target": "electron",
     "frontend": {
       "config": {
-        "applicationName": "Theia Electron Example",
+        "applicationName": "Quallaa",
         "reloadOnReconnect": true,
         "electron": {
-          "splashScreenOptions": {
-            "content": "resources/theia-logo.svg",
-            "height": 90
-          }
         }
       }
     },
     "backend": {
       "config": {
-        "frontendConnectionTimeout": -1
+        "frontendConnectionTimeout": -1,
+        "preferences-dir": ".quallaa"
       }
     }
   },
@@ -104,6 +101,7 @@
     "clean": "theia clean",
     "compile": "tsc -b",
     "lint": "theiaext lint",
+    "package": "electron-builder --mac",
     "rebuild": "theia rebuild:electron --cacheRoot ../..",
     "start": "theia start --plugins=local-dir:../../plugins --ovsx-router-config=../ovsx-router-config.json",
     "start:debug": "npm run -s start --log-level=debug --remote-debugging-port=9222",

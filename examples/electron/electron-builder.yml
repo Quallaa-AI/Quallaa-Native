@@ -1,0 +1,46 @@
+appId: com.quallaa.ide
+productName: Quallaa
+copyright: Copyright © 2025 Quallaa AI
+
+directories:
+  output: dist
+  buildResources: resources
+
+files:
+  - lib/**
+  - src-gen/**
+  - package.json
+
+mac:
+  category: public.app-category.developer-tools
+  icon: resources/icon.icns
+  target:
+    - dmg
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: resources/entitlements.mac.plist
+  entitlementsInherit: resources/entitlements.mac.plist
+  # Code signing will use APPLE_IDENTITY environment variable
+  # identity: ${APPLE_IDENTITY}
+
+dmg:
+  title: Quallaa ${version}
+  icon: resources/icon.icns
+  background: null
+  window:
+    width: 540
+    height: 380
+  contents:
+    - x: 140
+      y: 150
+      type: file
+    - x: 400
+      y: 150
+      type: link
+      path: /Applications
+
+# Notarization (requires APPLE_ID, APPLE_ID_PASSWORD, APPLE_TEAM_ID env vars)
+afterSign: scripts/notarize.js
+
+# Compression
+compression: normal
