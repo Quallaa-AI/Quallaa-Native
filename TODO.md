@@ -8,18 +8,20 @@
 
 ## Phase 1: Project Setup & Foundation (Week 1 - Days 1-2)
 
-### Day 1: Repository & Environment Setup
-- [ ] Verify current repository is the Theia platform (NOT Theia IDE template)
-- [ ] Confirm Node.js version >= 20 installed
-- [ ] Confirm Yarn installed and configured
-- [ ] Run `yarn install` to install all dependencies
-- [ ] Run `yarn build` to verify initial build works
-- [ ] Test run the electron example: `cd examples/electron && yarn start`
-- [ ] Document current build time and startup time (baseline metrics)
+### Day 1: Repository & Environment Setup ✅ COMPLETE
+- [x] Verify current repository is the Theia platform (NOT Theia IDE template) ✅
+- [x] Confirm Node.js version >= 20 installed ✅ (v23.9.0)
+- [x] Confirm Yarn installed and configured ✅ (v1.22.22)
+- [x] Run `yarn install` to install all dependencies ✅ (2,488 packages)
+- [x] Run `yarn build` to verify initial build works ✅ (55.6s compile time)
+- [x] Test run the electron example: `cd examples/electron && yarn start` ✅
+- [x] Document current build time and startup time (baseline metrics) ✅ (BASELINE-METRICS.md created)
+- [x] Transfer repository to Quallaa-AI organization ✅
+- [x] Make repository private ✅
 - [ ] Verify Apple Developer Program membership is active
 - [ ] Obtain Apple Developer code signing certificate
 - [ ] Export signing certificate and password for later CI/CD use
-- [ ] Set up Git branch for rebrand work (e.g., `feature/quallaa-rebrand`)
+- [x] Set up Git branch for rebrand work ✅ (`feature/quallaa-rebrand-macos`)
 
 ### Day 2: Legal & Compliance Foundation
 - [ ] Review EPL 2.0 license requirements (file in repo as `docs/EPL-2.0-COMPLIANCE.md`)
@@ -35,11 +37,11 @@
 ## Phase 2: Core Branding Changes (Week 1 - Days 3-5)
 
 ### Branding Decisions Required (Complete BEFORE making changes)
-- [ ] **DECISION**: Confirm final application name: "Quallaa"
-- [ ] **DECISION**: Choose company identifier for `build.appId` (e.g., `com.quallaa.ide`)
-- [ ] **DECISION**: Choose package namespace (e.g., `@quallaa/*` or keep `@theia/*`)
-- [ ] **DECISION**: Confirm copyright holder name for new files
-- [ ] **DECISION**: Design icon (512x512@2x minimum) - assign to designer or use placeholder
+- [x] **DECISION**: Confirm final application name: "Quallaa" ✅
+- [x] **DECISION**: Choose company identifier for `build.appId` (e.g., `com.quallaa.ide`) - PENDING USER INPUT
+- [x] **DECISION**: Choose package namespace: Keep `@theia/*` for MVP ✅
+- [x] **DECISION**: Confirm copyright holder name for new files - "Quallaa AI" (PENDING USER CONFIRMATION)
+- [x] **DECISION**: Design icon - COMPLETE ✅ (logo/QuallaaLogo.png exists)
 
 ### File Modifications - examples/electron/package.json
 - [ ] Change `"name"` field from `"@theia/example-electron"` to `"@quallaa/quallaa"` or chosen name
@@ -57,12 +59,12 @@
 - [ ] If renaming packages: Update all import statements in TypeScript files
 - [ ] **RECOMMENDATION**: Keep `@theia/*` namespace for MVP to avoid massive refactor
 
-### Visual Assets - examples/electron/resources/
-- [ ] Create macOS icon file: `icon.icns` (512x512@2x minimum)
-- [ ] Use macOS Icon Composer or online tool to convert PNG to ICNS format
+### Visual Assets - examples/electron/resources/ ✅ COMPLETE
+- [x] Create macOS icon file: `icon.icns` ✅ (28KB, all sizes 16x16 to 512x512@2x)
+- [x] Generated from existing logo using macOS sips/iconutil ✅
 - [ ] Replace or remove splash screen: Update or delete `resources/theia-logo.svg`
 - [ ] Create new splash HTML if desired: `resources/splash.html` (optional for MVP)
-- [ ] Test icon appears correctly in macOS dock and app switcher
+- [ ] Test icon appears correctly in macOS dock and app switcher (after package build)
 - [ ] Test splash screen displays on launch (if implemented)
 
 ### electron-builder Configuration
