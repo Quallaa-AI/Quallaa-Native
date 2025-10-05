@@ -1,8 +1,11 @@
-# Quallaa Rebranding Project Plan - macOS MVP
+# Quallaa Rebranding Project Plan - Desktop + Web Hybrid Strategy
 
-**Goal**: Rebrand Eclipse Theia to Quallaa for macOS desktop distribution
-**Timeline**: 2-3 weeks for basic rebrand MVP
-**Platform**: macOS only (initial release)
+**Goal**: Rebrand Eclipse Theia to Quallaa for desktop (macOS/Windows/Linux) and web distribution
+**Timeline**: 3-4 weeks for hybrid MVP
+**Platforms**:
+- **Desktop**: macOS (primary), Windows/Linux (future)
+- **Web**: Browser-based SaaS deployment
+**Strategy**: Dual deployment model for maximum market reach
 
 ---
 
@@ -18,10 +21,21 @@
 - [x] Document current build time and startup time (baseline metrics) ✅ (BASELINE-METRICS.md created)
 - [x] Transfer repository to Quallaa-AI organization ✅
 - [x] Make repository private ✅
-- [ ] Verify Apple Developer Program membership is active
-- [ ] Obtain Apple Developer code signing certificate
-- [ ] Export signing certificate and password for later CI/CD use
+- [x] Created .env.example for code signing credentials ✅
 - [x] Set up Git branch for rebrand work ✅ (`feature/quallaa-rebrand-macos`)
+
+### Apple Developer Code Signing Setup (PENDING)
+- [ ] Verify Apple Developer Program membership is active (or enroll at $99/year)
+- [ ] Create Developer ID Application certificate (for distribution outside App Store)
+- [ ] Generate Certificate Signing Request (CSR) via Keychain Access
+- [ ] Download and install certificate in Keychain
+- [ ] Create app-specific password at appleid.apple.com
+- [ ] Set up environment variables in `.env` file:
+  - [ ] APPLE_IDENTITY (from: `security find-identity -v -p codesigning`)
+  - [ ] APPLE_ID (your Apple ID email)
+  - [ ] APPLE_ID_PASSWORD (app-specific password)
+  - [ ] APPLE_TEAM_ID (from developer.apple.com/account)
+- [ ] Test code signing: `cd examples/electron && yarn package`
 
 ### Day 2: Legal & Compliance Foundation
 - [ ] Review EPL 2.0 license requirements (file in repo as `docs/EPL-2.0-COMPLIANCE.md`)
@@ -43,14 +57,14 @@
 - [x] **DECISION**: Confirm copyright holder name for new files - "Quallaa AI" (PENDING USER CONFIRMATION)
 - [x] **DECISION**: Design icon - COMPLETE ✅ (logo/QuallaaLogo.png exists)
 
-### File Modifications - examples/electron/package.json
-- [ ] Change `"name"` field from `"@theia/example-electron"` to `"@quallaa/quallaa"` or chosen name
-- [ ] Change `"productName"` from `"Theia Electron Example"` to `"Quallaa"`
-- [ ] Update `theia.frontend.config.applicationName` from `"Theia Electron Example"` to `"Quallaa"`
-- [ ] Change splash screen path from `"resources/theia-logo.svg"` to `"resources/quallaa-logo.svg"` (or remove splash for MVP)
-- [ ] Add user preferences directory config: `"preferences-dir": ".quallaa"` in theia.backend.config
-- [ ] Update license field if adding proprietary components (or keep EPL-2.0 for MVP)
-- [ ] Save file and verify JSON syntax is valid
+### File Modifications - examples/electron/package.json ✅ COMPLETE
+- [x] Change `"name"` field from `"@theia/example-electron"` to `"@quallaa/quallaa"` ✅
+- [x] Change `"productName"` from `"Theia Electron Example"` to `"Quallaa"` ✅
+- [x] Update `theia.frontend.config.applicationName` from `"Theia Electron Example"` to `"Quallaa"` ✅
+- [x] Removed splash screen reference (theia-logo.svg) ✅
+- [x] Add user preferences directory config: `"preferences-dir": ".quallaa"` ✅
+- [x] Added `"package"` script for electron-builder ✅
+- [x] License kept as EPL-2.0 for MVP ✅
 
 ### File Modifications - Root package.json
 - [ ] Update root `package.json` name from `"@theia/monorepo"` to `"@quallaa/monorepo"` (optional, affects internal builds only)
@@ -67,19 +81,19 @@
 - [ ] Test icon appears correctly in macOS dock and app switcher (after package build)
 - [ ] Test splash screen displays on launch (if implemented)
 
-### electron-builder Configuration
-- [ ] **CHECK**: Does `examples/electron/electron-builder.yml` exist? (Search for electron-builder config)
-- [ ] If YES: Update `appId` to match chosen identifier (e.g., `com.quallaa.ide`)
-- [ ] If YES: Update `productName` to `"Quallaa"`
-- [ ] If YES: Update `copyright` notice with current year and company name
-- [ ] If YES: Configure macOS-specific settings (category, icon path)
-- [ ] If NO: Create `examples/electron/electron-builder.yml` with Quallaa branding
-- [ ] If NO: Copy template from Theia IDE repository as reference
-- [ ] Configure code signing: Set `mac.identity` to Developer ID or use environment variable
-- [ ] Configure macOS build: Set `mac.target` to `dmg` for installer
-- [ ] Configure macOS icon: Set `mac.icon` to `resources/icon.icns`
-- [ ] Test electron-builder config: Add `"package"` script to examples/electron/package.json
-- [ ] Test packaging: Run `cd examples/electron && yarn package` (will fail without signing initially)
+### electron-builder Configuration ✅ COMPLETE
+- [x] Created `examples/electron/electron-builder.yml` ✅
+- [x] Set `appId`: `com.quallaa.ide` ✅
+- [x] Set `productName`: `Quallaa` ✅
+- [x] Set `copyright`: `© 2025 Quallaa AI` ✅
+- [x] Configured macOS-specific settings (category: developer-tools, icon path) ✅
+- [x] Configured macOS build target: `dmg` ✅
+- [x] Configured macOS icon: `resources/icon.icns` ✅
+- [x] Created `resources/entitlements.mac.plist` for macOS security ✅
+- [x] Configured code signing (uses environment variables) ✅
+- [x] Configured notarization (afterSign script placeholder) ✅
+- [x] Installed electron-builder dependency ✅
+- [ ] Test packaging: Run `cd examples/electron && yarn package` (requires Apple Developer credentials)
 
 ---
 
@@ -489,6 +503,147 @@
 
 ---
 
+## Phase 10: Web Deployment (Week 4 - Parallel Track)
+
+**Goal**: Deploy browser-based version of Quallaa for SaaS offering
+
+### Branding - examples/browser/package.json
+- [ ] Change `"name"` field from `"@theia/example-browser"` to `"@quallaa/quallaa-web"`
+- [ ] Update `theia.frontend.config.applicationName` to `"Quallaa"`
+- [ ] Add user preferences directory config: `"preferences-dir": ".quallaa"`
+- [ ] Keep same branding consistency as desktop version
+
+### Web-Specific Configuration
+- [ ] Configure server hostname and port settings
+- [ ] Set up HTTPS/SSL certificates (Let's Encrypt or cloud provider)
+- [ ] Configure CORS and security headers
+- [ ] Set up WebSocket connection settings
+- [ ] Configure file upload/download limits
+- [ ] Add authentication/authorization (if needed for SaaS)
+
+### Deployment Options (Choose One or Multiple)
+
+#### Option A: Docker Containerization
+- [ ] Create Dockerfile for browser example
+- [ ] Configure Node.js base image (node:20)
+- [ ] Add build and bundle steps to Dockerfile
+- [ ] Expose port 3000 (or configured port)
+- [ ] Test local Docker build: `docker build -t quallaa-web .`
+- [ ] Test local Docker run: `docker run -p 3000:3000 quallaa-web`
+- [ ] Create docker-compose.yml for multi-container setup (if needed)
+- [ ] Push to Docker Hub or private registry
+
+#### Option B: Cloud Platform Deployment
+- [ ] **AWS**:
+  - [ ] Deploy to EC2 instance or Elastic Beanstalk
+  - [ ] Configure Application Load Balancer
+  - [ ] Set up Auto Scaling group
+  - [ ] Configure CloudFront CDN
+  - [ ] Set up Route 53 for DNS
+- [ ] **Google Cloud**:
+  - [ ] Deploy to Cloud Run or App Engine
+  - [ ] Configure load balancing
+  - [ ] Set up Cloud CDN
+  - [ ] Configure Cloud DNS
+- [ ] **Azure**:
+  - [ ] Deploy to App Service or Container Instances
+  - [ ] Configure Front Door or Application Gateway
+  - [ ] Set up Azure CDN
+- [ ] **DigitalOcean/Railway/Render**:
+  - [ ] Simple deployment from GitHub
+  - [ ] Automatic HTTPS
+  - [ ] Environment variable configuration
+
+#### Option C: Kubernetes Deployment
+- [ ] Create Kubernetes manifests (deployment, service, ingress)
+- [ ] Configure horizontal pod autoscaling
+- [ ] Set up persistent volume claims (if needed)
+- [ ] Configure nginx ingress controller
+- [ ] Set up cert-manager for automatic SSL
+- [ ] Deploy to GKE, EKS, or AKS
+
+### Domain and SSL
+- [ ] Register domain: quallaa.io, app.quallaa.com, or similar
+- [ ] Configure DNS A/CNAME records
+- [ ] Set up SSL certificate (Let's Encrypt via certbot or cloud provider)
+- [ ] Configure SSL/TLS for WebSocket connections
+- [ ] Test HTTPS access
+
+### Web-Specific Features
+- [ ] Configure session management and persistence
+- [ ] Set up user workspace isolation (if multi-tenant)
+- [ ] Configure file storage backend (local, S3, Azure Blob, etc.)
+- [ ] Set up monitoring and logging (CloudWatch, Stackdriver, etc.)
+- [ ] Configure backup strategy for user data
+- [ ] Set up rate limiting and DDoS protection
+
+### Testing Web Deployment
+- [ ] Test from different browsers (Chrome, Firefox, Safari, Edge)
+- [ ] Test WebSocket connection stability
+- [ ] Test file operations (create, edit, save, delete)
+- [ ] Test terminal functionality in browser
+- [ ] Test extension/plugin loading
+- [ ] Load testing (simulate multiple concurrent users)
+- [ ] Test on mobile browsers (responsive design)
+
+### Web vs Desktop Feature Parity
+- [ ] Document differences between web and desktop versions
+- [ ] Identify desktop-only features (if any)
+- [ ] Identify web-only features (if any)
+- [ ] Ensure core functionality works in both
+
+### Monetization Strategy (Web SaaS)
+- [ ] **DECISION**: Free tier limits (storage, compute, users)
+- [ ] **DECISION**: Paid tier pricing ($19-49/month recommended)
+- [ ] **DECISION**: Enterprise tier (custom pricing)
+- [ ] Set up payment integration (Stripe, Paddle, etc.)
+- [ ] Create user account management system
+- [ ] Implement usage tracking and billing
+- [ ] Add upgrade/downgrade flows
+
+### Web Deployment Compliance
+- [ ] Same EPL 2.0 requirements apply
+- [ ] Add "Built on Eclipse Theia" to web About dialog
+- [ ] Link to public source repository (EPL compliance)
+- [ ] Create Terms of Service for web app
+- [ ] Create Privacy Policy (required for web service)
+- [ ] Add cookie consent (if applicable to region)
+- [ ] GDPR compliance (if serving EU users)
+
+### Performance Optimization (Web)
+- [ ] Enable gzip/brotli compression
+- [ ] Configure CDN for static assets
+- [ ] Optimize bundle size (code splitting, lazy loading)
+- [ ] Configure browser caching headers
+- [ ] Monitor Time to First Byte (TTFB)
+- [ ] Monitor Time to Interactive (TTI)
+- [ ] Target: < 3 seconds initial load time
+
+### Hybrid Strategy Integration
+- [ ] Ensure branding consistency between desktop and web
+- [ ] Create unified documentation (covers both deployment modes)
+- [ ] Plan data sync between desktop and web (future feature)
+- [ ] Cross-promote: mention web version in desktop app, vice versa
+- [ ] Consider unified licensing (desktop + web bundle)
+
+### Build Commands for Web Version
+```bash
+# Development
+npm run build:browser
+npm run start:browser
+
+# Production build
+cd examples/browser
+npm run build
+PORT=3000 node lib/backend/main.js
+
+# Docker
+docker build -t quallaa-web -f Dockerfile.browser .
+docker run -p 3000:3000 -e NODE_ENV=production quallaa-web
+```
+
+---
+
 ## Risk Mitigation & Red Lines
 
 ### Red Lines (Never Cross These)
@@ -547,24 +702,33 @@
 
 ---
 
-## Timeline Summary
+## Timeline Summary - Desktop + Web Hybrid
 
-**Week 1: Foundation & Core Branding**
-- Days 1-2: Setup, legal compliance, environment
-- Days 3-5: Package.json changes, assets, electron-builder config
+**Week 1: Foundation & Core Branding (Desktop Focus)**
+- Days 1-2: Setup, legal compliance, environment ✅ COMPLETE
+- Days 3-5: Package.json changes, assets, electron-builder config ✅ COMPLETE
 - Days 6-7: About Dialog, Getting Started widget, config directory
 
-**Week 2: Build Pipeline & Testing**
+**Week 2: Desktop Build Pipeline & Testing**
 - Days 1-2: Text replacements, UI polish
 - Days 3-5: Code signing, packaging, troubleshooting
 - Days 6-7: CI/CD (optional) or additional testing
 
-**Week 3: Distribution & Launch**
+**Week 3: Desktop Distribution & Launch**
 - Days 1-3: Documentation, compliance verification, distribution setup
 - Days 4-5: Testing, beta feedback (optional)
-- Days 6-7: Launch preparation, release
+- Days 6-7: Desktop MVP launch preparation
 
-**Total: 2-3 weeks for macOS MVP**
+**Week 4: Web Deployment (Can Run in Parallel)**
+- Days 1-2: Rebrand browser example, web-specific config
+- Days 3-4: Choose deployment platform, set up infrastructure
+- Days 5-6: Deploy to staging, test in production-like environment
+- Day 7: Web MVP launch or continue testing
+
+**Total Timeline:**
+- Desktop MVP: 2-3 weeks
+- Web MVP: +1 week (can overlap with desktop work)
+- **Both platforms: 3-4 weeks total**
 
 ---
 

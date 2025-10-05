@@ -38,3 +38,4 @@ dependency-check-summary.txt*
 allure-results
 typedoc.tsconfig.json
 .claude
+.env
