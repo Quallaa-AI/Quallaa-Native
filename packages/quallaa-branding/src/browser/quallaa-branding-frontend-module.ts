@@ -20,10 +20,10 @@ import { GettingStartedWidget } from '@theia/getting-started/lib/browser/getting
 import { QuallaaAboutDialog } from './quallaa-about-dialog';
 import { QuallaaGettingStartedWidget } from './quallaa-getting-started-widget';
 
-export default new ContainerModule(bind => {
+export default new ContainerModule((bind, unbind, isBound, rebind) => {
     bind(QuallaaAboutDialog).toSelf().inSingletonScope();
-    bind(AboutDialog).toService(QuallaaAboutDialog);
+    rebind(AboutDialog).toService(QuallaaAboutDialog);
 
     bind(QuallaaGettingStartedWidget).toSelf().inSingletonScope();
-    bind(GettingStartedWidget).toService(QuallaaGettingStartedWidget);
+    rebind(GettingStartedWidget).toService(QuallaaGettingStartedWidget);
 });
