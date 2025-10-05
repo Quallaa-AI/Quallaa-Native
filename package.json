@@ -11,7 +11,6 @@
   },
   "devDependencies": {
     "@types/chai": "4.3.0",
-    "minimatch": "^10.0.3",
     "@types/chai-spies": "1.0.3",
     "@types/chai-string": "^1.4.0",
     "@types/jsdom": "^21.1.7",
@@ -29,6 +28,7 @@
     "chalk": "4.0.0",
     "concurrently": "^3.5.0",
     "debug": "^4.3.2",
+    "electron-builder": "^26.0.12",
     "electron-mocha": "^12.3.0",
     "eslint": "8",
     "eslint-plugin-deprecation": "^3.0.0",
@@ -41,6 +41,7 @@
     "ignore-styles": "^5.0.1",
     "jsdom": "^22.1.0",
     "lerna": "^7.1.1",
+    "minimatch": "^10.0.3",
     "mkdirp": "^0.5.0",
     "nan": "2.23.0",
     "node-abi": "^4.12.0",
