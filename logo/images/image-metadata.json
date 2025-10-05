@@ -1,0 +1,158 @@
+{
+  "images": [
+    {
+      "filename": "jeff-toffoli-headshot-professional.png",
+      "original_filename": "JeffToffoli.png",
+      "category": "portrait",
+      "description": "Professional headshot of Jeff Toffoli in a modern office setting. He's wearing glasses and a brown/tan collared shirt, smiling at the camera. The background shows contemporary office architecture with glass panels and warm lighting.",
+      "keywords": ["headshot", "professional", "portrait", "glasses", "office", "business"],
+      "dimensions": "estimated 600x600",
+      "color_palette": ["brown", "tan", "warm_lighting", "glass", "neutral"],
+      "usage": "Profile photo, about pages, professional documentation"
+    },
+    {
+      "filename": "office-illustration-modern-workspace-blue-red.png",
+      "original_filename": "Office2.png",
+      "category": "illustration",
+      "description": "Stylized illustration of a modern open office workspace. Features multiple levels with blue and red office furniture, computers on desks, office chairs, and plants. The art style is flat, geometric with a contemporary color scheme.",
+      "keywords": ["office", "workspace", "modern", "illustration", "furniture", "computers", "open_plan"],
+      "dimensions": "wide format illustration",
+      "color_palette": ["blue", "red", "white", "light_blue", "pink_accents"],
+      "usage": "Website headers, office concepts, workplace illustrations"
+    },
+    {
+      "filename": "office-illustration-desk-setup-purple-chair.png",
+      "original_filename": "office3.png",
+      "category": "illustration",
+      "description": "Detailed workspace illustration featuring a purple office chair, red desk, computer monitor, desk lamp, plants, and office supplies. The style is flat design with vibrant colors and clean lines.",
+      "keywords": ["desk", "workspace", "purple_chair", "home_office", "plants", "monitor", "lamp"],
+      "dimensions": "wide format illustration",
+      "color_palette": ["purple", "red", "green", "pink_background"],
+      "usage": "Productivity content, home office concepts, workspace design"
+    },
+    {
+      "filename": "automation-robot-arm-annotation-concept.png",
+      "original_filename": "image 1.png",
+      "category": "concept",
+      "description": "3D rendered yellow/orange robotic arm with 'Auto Annotation' text label and a tag icon. The image represents automation and AI-powered annotation services. Clean blue background with modern industrial design aesthetic.",
+      "keywords": ["automation", "robot", "AI", "annotation", "technology", "3D", "industrial"],
+      "dimensions": "wide format banner",
+      "color_palette": ["yellow", "orange", "blue_background", "black_text"],
+      "usage": "AI service marketing, automation concepts, technology presentations"
+    },
+    {
+      "filename": "ai-collaboration-cafe-laptop-meeting.png",
+      "original_filename": "image 4.png",
+      "category": "lifestyle",
+      "description": "Two people having a collaborative meeting in a cafe setting with laptops. One person is speaking ('You should be a model') while the other listens. Shows a casual, friendly work environment with a user interface overlay visible.",
+      "keywords": ["collaboration", "meeting", "cafe", "laptop", "conversation", "casual_work"],
+      "dimensions": "square format",
+      "color_palette": ["warm_tones", "browns", "natural_lighting"],
+      "usage": "Collaboration tools, remote work, casual business meetings"
+    },
+    {
+      "filename": "ar-phone-photography-concept.png",
+      "original_filename": "image 10.png",
+      "category": "technology",
+      "description": "Hands holding a smartphone capturing or viewing someone through the camera, suggesting AR or photography app functionality. The background is softly blurred with warm lighting.",
+      "keywords": ["smartphone", "photography", "AR", "mobile_app", "camera", "hands"],
+      "dimensions": "landscape format",
+      "color_palette": ["warm", "neutral", "soft_focus"],
+      "usage": "Mobile app marketing, AR features, photography tools"
+    },
+    {
+      "filename": "mobile-ecommerce-backpack-catalog.png",
+      "original_filename": "image 11.png",
+      "category": "ecommerce",
+      "description": "Mobile app interface showing a grid of colorful backpacks/bags with product names and prices. Clean e-commerce design with various colored products displayed in a catalog layout.",
+      "keywords": ["mobile_app", "ecommerce", "backpacks", "catalog", "shopping", "products"],
+      "dimensions": "mobile portrait",
+      "color_palette": ["various_product_colors", "white_background"],
+      "usage": "E-commerce apps, product catalogs, mobile shopping"
+    },
+    {
+      "filename": "mobile-ecommerce-backpack-catalog-variant.png",
+      "original_filename": "image 11-2.png",
+      "category": "ecommerce",
+      "description": "Variant of the backpack catalog mobile interface, likely showing the same e-commerce app with slight layout or content differences.",
+      "keywords": ["mobile_app", "ecommerce", "backpacks", "catalog", "shopping", "variant"],
+      "dimensions": "mobile portrait",
+      "color_palette": ["various_product_colors", "white_background"],
+      "usage": "E-commerce apps, A/B testing, mobile shopping variations"
+    },
+    {
+      "filename": "mobile-ecommerce-orange-backpack-product.png",
+      "original_filename": "image 12.png",
+      "category": "ecommerce",
+      "description": "Mobile app product detail page showing an orange/red backpack for $119.99, dated June 24. Clean product presentation on mobile device with hands holding the phone.",
+      "keywords": ["mobile_app", "product_page", "orange_backpack", "ecommerce", "product_detail"],
+      "dimensions": "mobile portrait with hands",
+      "color_palette": ["orange", "black_background", "warm_lighting"],
+      "usage": "E-commerce product pages, mobile shopping, product photography"
+    },
+    {
+      "filename": "clarifai-search-api-quickstart-tutorial-thumbnail.png",
+      "original_filename": "image 16.png",
+      "category": "tutorial",
+      "description": "YouTube tutorial thumbnail for Clarifai Search API Quickstart. Features a roaring tiger on the left, Clarifai logo, Python logo, and technical text overlay. Duration shown as 7:57. Designed to attract viewers to an API tutorial video.",
+      "keywords": ["tutorial", "API", "Clarifai", "Python", "search", "thumbnail", "tiger"],
+      "dimensions": "YouTube thumbnail format",
+      "color_palette": ["blue", "orange", "white", "tiger_colors"],
+      "usage": "Tutorial thumbnails, API documentation, educational content"
+    },
+    {
+      "filename": "ux-storyboard-sketches-i-am-ai-concept-1.png",
+      "original_filename": "storyboard 1.png",
+      "category": "ux_design",
+      "description": "Hand-drawn UX storyboard sketches for 'I Am AI' concept. Shows user journey with stick figures, interface mockups, and flow diagrams. Includes scenes of people walking, interface interactions, and results screens.",
+      "keywords": ["storyboard", "UX", "sketches", "user_journey", "AI", "wireframes"],
+      "dimensions": "portrait sketch format",
+      "color_palette": ["black_ink", "white_paper", "grayscale"],
+      "usage": "UX documentation, design process, concept development"
+    },
+    {
+      "filename": "ux-storyboard-sketches-i-am-ai-concept-2.png",
+      "original_filename": "storyboard 2.png",
+      "category": "ux_design",
+      "description": "Second page of UX storyboard sketches for 'I Am AI' concept. Shows additional user interaction flows, interface layouts, and user scenarios with hand-drawn wireframes and annotations.",
+      "keywords": ["storyboard", "UX", "sketches", "user_journey", "AI", "wireframes", "page_2"],
+      "dimensions": "portrait sketch format",
+      "color_palette": ["black_ink", "white_paper", "grayscale"],
+      "usage": "UX documentation, design process, concept development"
+    },
+    {
+      "filename": "ux-storyboard-sketches-i-am-ai-concept-3.png",
+      "original_filename": "storyboard 3.png",
+      "category": "ux_design",
+      "description": "Final page of UX storyboard sketches showing computer interactions, laptop usage scenarios, and additional interface concepts. Includes notes about 'continuous takea photo of complete task' and search functionality.",
+      "keywords": ["storyboard", "UX", "sketches", "computer", "laptop", "search", "continuous_interaction"],
+      "dimensions": "portrait sketch format",
+      "color_palette": ["black_ink", "white_paper", "grayscale"],
+      "usage": "UX documentation, design process, concept development"
+    }
+  ],
+  "metadata": {
+    "total_images": 13,
+    "categories": {
+      "portrait": 1,
+      "illustration": 2,
+      "concept": 1,
+      "lifestyle": 1,
+      "technology": 1,
+      "ecommerce": 3,
+      "tutorial": 1,
+      "ux_design": 3
+    },
+    "renamed_date": "2025-07-22",
+    "original_location": "/Users/jefftoffoli/Documents/GitHub/JeffOS/images/",
+    "naming_convention": "descriptive-kebab-case-with-content-type",
+    "notes": [
+      "All files renamed from generic names to descriptive, searchable names",
+      "Office illustration files numbered 4-7 retained original numbering as they weren't analyzed individually",
+      "Storyboard sketches appear to be part of an 'I Am AI' product concept development",
+      "E-commerce images show mobile app interface for backpack/bag retail",
+      "Professional headshot suitable for business use",
+      "Mixed content types suggest portfolio or project documentation collection"
+    ]
+  }
+}
