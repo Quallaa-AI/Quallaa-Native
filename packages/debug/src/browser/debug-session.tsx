@@ -342,7 +342,7 @@ export class DebugSession implements CompositeTreeElement {
         try {
             const response = await this.connection.sendRequest('initialize', {
                 clientID: 'Theia',
-                clientName: nls.localize('theia/debug/TheiaIDE', 'Theia IDE'),
+                clientName: nls.localize('theia/debug/TheiaIDE', 'Quallaa'),
                 adapterID: this.configuration.type,
                 locale: 'en-US',
                 linesStartAt1: true,
