@@ -2,6 +2,7 @@
 
 **Goal**: Rebrand Eclipse Theia to Quallaa for desktop (macOS/Windows/Linux) and web distribution
 **Timeline**: 3-4 weeks for hybrid MVP
+**Current Status**: Phase 1 & 2 complete, packaging successful, ready for Phase 3
 **Platforms**:
 - **Desktop**: macOS (primary), Windows/Linux (future)
 - **Web**: Browser-based SaaS deployment
@@ -24,18 +25,21 @@
 - [x] Created .env.example for code signing credentials ✅
 - [x] Set up Git branch for rebrand work ✅ (`feature/quallaa-rebrand-macos`)
 
-### Apple Developer Code Signing Setup (PENDING)
-- [ ] Verify Apple Developer Program membership is active (or enroll at $99/year)
-- [ ] Create Developer ID Application certificate (for distribution outside App Store)
-- [ ] Generate Certificate Signing Request (CSR) via Keychain Access
-- [ ] Download and install certificate in Keychain
-- [ ] Create app-specific password at appleid.apple.com
-- [ ] Set up environment variables in `.env` file:
-  - [ ] APPLE_IDENTITY (from: `security find-identity -v -p codesigning`)
-  - [ ] APPLE_ID (your Apple ID email)
-  - [ ] APPLE_ID_PASSWORD (app-specific password)
-  - [ ] APPLE_TEAM_ID (from developer.apple.com/account)
-- [ ] Test code signing: `cd examples/electron && yarn package`
+### Apple Developer Code Signing Setup ✅ COMPLETE
+- [x] Verify Apple Developer Program membership is active (or enroll at $99/year) ✅
+- [x] Create Developer ID Application certificate (for distribution outside App Store) ✅
+- [x] Generate Certificate Signing Request (CSR) via Keychain Access ✅
+- [x] Download and install certificate in Keychain ✅
+- [x] Create app-specific password at appleid.apple.com ✅
+- [x] Set up environment variables in `.env` file: ✅
+  - [x] APPLE_IDENTITY (from: `security find-identity -v -p codesigning`) ✅
+  - [x] APPLE_ID (your Apple ID email) ✅
+  - [x] APPLE_ID_PASSWORD (app-specific password) ✅
+  - [x] APPLE_TEAM_ID (from developer.apple.com/account) ✅
+- [x] Test code signing: `cd examples/electron && yarn package` ✅
+- [x] Created notarization script: `examples/electron/scripts/notarize.js` ✅
+- [x] Successfully built signed DMG: `Quallaa-1.65.0-arm64.dmg` (216 MB) ✅
+- [x] Verified code signing with Developer ID Application certificate ✅
 
 ### Day 2: Legal & Compliance Foundation
 - [ ] Review EPL 2.0 license requirements (file in repo as `docs/EPL-2.0-COMPLIANCE.md`)
@@ -93,7 +97,10 @@
 - [x] Configured code signing (uses environment variables) ✅
 - [x] Configured notarization (afterSign script placeholder) ✅
 - [x] Installed electron-builder dependency ✅
-- [ ] Test packaging: Run `cd examples/electron && yarn package` (requires Apple Developer credentials)
+- [x] Test packaging: Run `cd examples/electron && yarn package` ✅
+- [x] Successfully created Quallaa-1.65.0-arm64.dmg (216 MB) ✅
+- [x] Code signing verified with Developer ID Application certificate ✅
+- [ ] Test DMG installation on clean macOS system (verify Gatekeeper behavior)
 
 ---
 

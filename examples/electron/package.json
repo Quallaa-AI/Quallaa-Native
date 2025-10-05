@@ -11,8 +11,7 @@
       "config": {
         "applicationName": "Quallaa",
         "reloadOnReconnect": true,
-        "electron": {
-        }
+        "electron": {}
       }
     },
     "backend": {
@@ -112,6 +111,7 @@
     "watch:compile": "tsc -b -w"
   },
   "devDependencies": {
+    "@electron/notarize": "^3.1.0",
     "@theia/cli": "1.65.0",
     "electron": "37.2.1"
   }

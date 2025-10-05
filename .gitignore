@@ -39,3 +39,5 @@ allure-results
 typedoc.tsconfig.json
 .claude
 .env
+examples/electron/dist/
+*.cer
