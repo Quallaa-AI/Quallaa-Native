@@ -878,12 +878,19 @@ This is a known limitation documented in various sources:
 - node-pty GitHub issues: ASAR compatibility issues with process spawning
 - electron-builder docs: Native modules may have issues inside ASAR archives
 
-### Next Steps
-- [ ] Re-enable code signing (remove `identity: null`) after terminal testing complete
-- [ ] Re-enable notarization (uncomment `afterSign: scripts/notarize.js`)
-- [ ] Test that code-signed build still has working terminals
-- [ ] Update Phase 5 checklist with terminal fix details
-- [ ] Document ASAR limitation in known issues for future reference
+### Code Signing Compatibility ✅ VERIFIED
+- [x] Re-enabled code signing configuration in electron-builder.yml
+- [x] Changed `hardenedRuntime: false` → `hardenedRuntime: true`
+- [x] Changed `identity: null` → commented `# identity: ${APPLE_IDENTITY}` (uses env var)
+- [x] Re-enabled notarization: uncommented `afterSign: scripts/notarize.js`
+- [x] Built code-signed DMG successfully with Developer ID Application certificate
+- [x] **VERIFIED**: Terminals work correctly in code-signed builds (PIDs: 50123, 50125)
+- [x] **CONFIRMED**: ASAR disable fix is fully compatible with production code signing
+
+### Status ✅ COMPLETE
+- Terminal fix (ASAR disabled) is working in both signed and unsigned builds
+- Code signing and notarization configuration restored to production settings
+- Ready for distribution with working terminals and proper macOS code signing
 
 ### Lessons Learned
 1. ASAR packaging can break native modules in subtle ways beyond file access
