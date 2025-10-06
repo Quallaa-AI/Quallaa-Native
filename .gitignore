@@ -41,3 +41,10 @@ typedoc.tsconfig.json
 .env
 examples/electron/dist/
 *.cer
+
+# Playwright test results
+examples/electron/test-results/
+examples/electron/test-results-*/
+playwright-report/
+blob-report/
+.playwright/

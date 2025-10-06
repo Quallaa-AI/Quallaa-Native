@@ -1,0 +1,211 @@
+name: Quallaa Rebrand Tests
+
+on:
+  push:
+    branches:
+      - feature/quallaa-rebrand-macos
+      - master
+  pull_request:
+    branches:
+      - feature/quallaa-rebrand-macos
+      - master
+
+jobs:
+  test-rebrand:
+    name: Test Quallaa Rebrand
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: |
+          yarn install
+
+      - name: Compile packages
+        run: |
+          yarn compile
+        continue-on-error: true # Some packages may have pre-existing TypeScript errors
+
+      - name: Install Electron test dependencies
+        working-directory: examples/electron
+        run: |
+          yarn add -D @playwright/test @types/node
+
+      - name: Install Playwright browsers
+        working-directory: examples/electron
+        run: |
+          npx playwright install --with-deps
+
+      - name: Build Electron app
+        working-directory: examples/electron
+        run: |
+          yarn bundle
+
+      - name: Run Playwright tests
+        working-directory: examples/electron
+        run: |
+          yarn test:e2e
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: examples/electron/test-results/
+          retention-days: 30
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: examples/electron/test-results/html/
+          retention-days: 30
+
+      - name: Comment test results on PR
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            // Read JUnit XML results
+            const resultsPath = path.join(process.env.GITHUB_WORKSPACE, 'examples/electron/test-results/junit.xml');
+
+            let comment = '## Quallaa Rebrand Test Results\n\n';
+
+            if (fs.existsSync(resultsPath)) {
+              const results = fs.readFileSync(resultsPath, 'utf-8');
+              const testCount = (results.match(/<testcase/g) || []).length;
+              const failCount = (results.match(/<failure/g) || []).length;
+              const passCount = testCount - failCount;
+
+              comment += `✅ **${passCount} tests passed**\n`;
+              if (failCount > 0) {
+                comment += `❌ **${failCount} tests failed**\n`;
+              }
+              comment += `\n📊 Total tests: ${testCount}\n`;
+            } else {
+              comment += '⚠️ Test results not found\n';
+            }
+
+            comment += `\n[View detailed test report](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  test-compliance:
+    name: EPL 2.0 Compliance Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check LICENSE file exists
+        run: |
+          if [ ! -f LICENSE ] && [ ! -f LICENSE.txt ] && [ ! -f LICENSE-EPL.txt ]; then
+            echo "❌ LICENSE file not found"
+            exit 1
+          fi
+          echo "✅ LICENSE file found"
+
+      - name: Check EPL 2.0 headers in Quallaa branding files
+        run: |
+          cd packages/quallaa-branding/src
+          failed=0
+          for file in $(find . -name "*.ts" -o -name "*.tsx"); do
+            if ! grep -q "Eclipse Public License v. 2.0" "$file"; then
+              echo "❌ Missing EPL header in $file"
+              failed=1
+            fi
+          done
+          if [ $failed -eq 1 ]; then
+            exit 1
+          fi
+          echo "✅ All files have EPL 2.0 headers"
+
+      - name: Check package.json license field
+        run: |
+          cd examples/electron
+          if ! grep -q "EPL-2.0" package.json; then
+            echo "❌ package.json missing EPL-2.0 license"
+            exit 1
+          fi
+          echo "✅ package.json has EPL-2.0 license"
+
+  test-branding:
+    name: Branding Consistency Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check no Theia logos in resources
+        run: |
+          cd examples/electron/resources
+          if ls *theia* 2>/dev/null; then
+            echo "❌ Found Theia-branded resources"
+            exit 1
+          fi
+          echo "✅ No Theia logos found"
+
+      - name: Check Quallaa logo exists
+        run: |
+          if [ ! -f examples/electron/resources/quallaa-logo.svg ]; then
+            echo "❌ Quallaa logo not found"
+            exit 1
+          fi
+          echo "✅ Quallaa logo found"
+
+      - name: Check icon.icns exists
+        run: |
+          if [ ! -f examples/electron/resources/icon.icns ]; then
+            echo "❌ icon.icns not found"
+            exit 1
+          fi
+          echo "✅ icon.icns found"
+
+      - name: Verify package.json branding
+        run: |
+          cd examples/electron
+          if ! grep -q '"productName": "Quallaa"' package.json; then
+            echo "❌ productName not set to Quallaa"
+            exit 1
+          fi
+          if ! grep -q '"applicationName": "Quallaa"' package.json; then
+            echo "❌ applicationName not set to Quallaa"
+            exit 1
+          fi
+          if ! grep -q '"preferences-dir": ".quallaa"' package.json; then
+            echo "❌ preferences-dir not set to .quallaa"
+            exit 1
+          fi
+          echo "✅ package.json branding verified"
+
+      - name: Verify electron-builder config
+        run: |
+          cd examples/electron
+          if ! grep -q "appId: com.quallaa.ide" electron-builder.yml; then
+            echo "❌ appId not set correctly"
+            exit 1
+          fi
+          if ! grep -q "productName: Quallaa" electron-builder.yml; then
+            echo "❌ productName not set correctly"
+            exit 1
+          fi
+          echo "✅ electron-builder.yml verified"
