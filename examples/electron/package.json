@@ -11,7 +11,9 @@
       "config": {
         "applicationName": "Quallaa",
         "reloadOnReconnect": true,
-        "electron": {}
+        "electron": {
+          "showWindowEarly": true
+        }
       }
     },
     "backend": {
