@@ -44,6 +44,7 @@ examples/electron/dist/
 
 # Playwright test results
 examples/electron/test-results/
+examples/electron/test/test-results/
 examples/electron/test-results-*/
 playwright-report/
 blob-report/
