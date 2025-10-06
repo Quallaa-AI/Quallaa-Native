@@ -19,12 +19,12 @@ mac:
   icon: resources/icon.icns
   target:
     - dmg
-  hardenedRuntime: false
+  hardenedRuntime: true
   gatekeeperAssess: false
   entitlements: resources/entitlements.mac.plist
   entitlementsInherit: resources/entitlements.mac.plist
-  # Temporarily disable code signing to debug terminal issue
-  identity: null
+  # Code signing will use APPLE_IDENTITY environment variable
+  # identity: ${APPLE_IDENTITY}
 
 dmg:
   title: Quallaa ${version}
@@ -43,8 +43,7 @@ dmg:
       path: /Applications
 
 # Notarization (requires APPLE_ID, APPLE_ID_PASSWORD, APPLE_TEAM_ID env vars)
-# Disabled for unsigned build testing
-# afterSign: scripts/notarize.js
+afterSign: scripts/notarize.js
 
 # Compression
 compression: normal
