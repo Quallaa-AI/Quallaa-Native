@@ -53,7 +53,10 @@ export class QuallaaAboutDialog extends AboutDialog {
                     <a
                         role={'button'}
                         tabIndex={0}
-                        onClick={() => this.doOpenExternalLink(compatibilityUrl)}
+                        href={compatibilityUrl}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        onClick={(e) => { e.preventDefault(); this.doOpenExternalLink(compatibilityUrl); }}
                         onKeyDown={(e: React.KeyboardEvent) => this.doOpenExternalLinkEnter(e, compatibilityUrl)}>
                         {compatibilityLabel}
                     </a>
@@ -66,7 +69,10 @@ export class QuallaaAboutDialog extends AboutDialog {
                     <a
                         role={'button'}
                         tabIndex={0}
-                        onClick={() => this.doOpenExternalLink(theiaUrl)}
+                        href={theiaUrl}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        onClick={(e) => { e.preventDefault(); this.doOpenExternalLink(theiaUrl); }}
                         onKeyDown={(e: React.KeyboardEvent) => this.doOpenExternalLinkEnter(e, theiaUrl)}>
                         Eclipse Theia
                     </a>
@@ -79,7 +85,10 @@ export class QuallaaAboutDialog extends AboutDialog {
                     <a
                         role={'button'}
                         tabIndex={0}
-                        onClick={() => this.doOpenExternalLink(sourceUrl)}
+                        href={sourceUrl}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        onClick={(e) => { e.preventDefault(); this.doOpenExternalLink(sourceUrl); }}
                         onKeyDown={(e: React.KeyboardEvent) => this.doOpenExternalLinkEnter(e, sourceUrl)}>
                         View Source Code
                     </a>

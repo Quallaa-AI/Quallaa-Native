@@ -17,7 +17,7 @@ import * as path from 'path';
  * See https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
-  testDir: './test',
+  testDir: '.',
 
   // Maximum time one test can run
   timeout: 60 * 1000,
@@ -59,7 +59,7 @@ export default defineConfig({
   projects: [
     {
       name: 'e2e',
-      testDir: './test/e2e',
+      testDir: './e2e',
       use: {
         ...devices['Desktop Chrome'],
         // Electron-specific configuration will be added per test
@@ -67,21 +67,21 @@ export default defineConfig({
     },
     {
       name: 'build',
-      testDir: './test/build',
+      testDir: './build',
       use: {
         ...devices['Desktop Chrome'],
       },
     },
     {
       name: 'compliance',
-      testDir: './test/compliance',
+      testDir: './compliance',
       use: {
         ...devices['Desktop Chrome'],
       },
     },
     {
       name: 'performance',
-      testDir: './test/performance',
+      testDir: './performance',
       use: {
         ...devices['Desktop Chrome'],
       },
