@@ -823,8 +823,80 @@ export APPLE_TEAM_ID="XXXXXXXXXX"
 
 ---
 
-**Last Updated**: 2025-10-05
+## Critical Bug Fix: Terminal Functionality (2025-10-06) ✅ RESOLVED
+
+### Issue Discovered
+- **Symptom**: Terminal in packaged Quallaa.app showed only blinking cursor, no shell prompt
+- **Scope**: Terminal worked perfectly in development mode (`yarn start`) but failed in all packaged DMG builds
+- **Error**: `posix_spawnp failed` when attempting to spawn ANY process (even `/bin/echo`)
+- **Impact**: CRITICAL - Terminal is core IDE functionality, project was blocked
+
+### Root Cause Analysis ✅
+Through extensive debugging with diagnostic logging, discovered:
+1. ASAR packaging was preventing node-pty's `posix_spawn()` system calls from working
+2. Even with `asarUnpack` configured to extract native modules (.node files, spawn-helper binary), the issue persisted
+3. The problem was not related to:
+   - Code signing or entitlements
+   - macOS sandboxing
+   - File permissions or PATH configuration
+   - node-pty version or native module compilation
+4. **Root cause**: ASAR archive format fundamentally breaks node-pty's process spawning on macOS
+
+### Solution Implemented ✅
+- **Modified**: `examples/electron/electron-builder.yml`
+  - Changed from `asarUnpack` configuration to `asar: false`
+  - Added comment: "Disable ASAR to fix terminal spawning issues"
+- **Trade-off**: Disabling ASAR increases app size and slightly slows startup, but is necessary for terminal functionality
+- **electron-builder warning**: "asar usage is disabled — this is strongly not recommended" - acknowledged and accepted
+
+### Verification ✅
+- Clean build from scratch: `yarn clean && rm -rf dist/ lib/ src-gen/`
+- Full rebuild: `yarn bundle && yarn package`
+- Fresh DMG installation to /Applications/
+- Terminal successfully spawns with PIDs visible in logs: `PID: 31627`, `PID: 31629`
+- Confirmed no `app.asar` file exists (only `app/` directory)
+
+### Files Modified ✅
+1. **`examples/electron/electron-builder.yml`**:
+   - Added `asar: false` configuration
+   - Removed `asarUnpack` configuration (no longer needed)
+   - Kept code signing disabled for testing (`identity: null`)
+   - Kept notarization disabled for testing
+
+2. **`examples/electron/resources/entitlements.mac.plist`**:
+   - Added spawn-related entitlements (for future code signing):
+     - `com.apple.security.cs.allow-dyld-environment-variables`
+     - `com.apple.security.cs.disable-executable-page-protection`
+
+3. **Diagnostic code removed** (cleanup):
+   - Removed debug logging from `packages/process/src/node/terminal-process.ts`
+   - Removed debug logging from `packages/terminal/src/node/shell-terminal-server.ts`
+
+### Known Issues Related to ASAR
+This is a known limitation documented in various sources:
+- Stack Overflow: "running electron-packager with -no--asar allows the app to spawn processes just fine"
+- node-pty GitHub issues: ASAR compatibility issues with process spawning
+- electron-builder docs: Native modules may have issues inside ASAR archives
+
+### Next Steps
+- [ ] Re-enable code signing (remove `identity: null`) after terminal testing complete
+- [ ] Re-enable notarization (uncomment `afterSign: scripts/notarize.js`)
+- [ ] Test that code-signed build still has working terminals
+- [ ] Update Phase 5 checklist with terminal fix details
+- [ ] Document ASAR limitation in known issues for future reference
+
+### Lessons Learned
+1. ASAR packaging can break native modules in subtle ways beyond file access
+2. System calls like `posix_spawn()` may fail inside ASAR even with unpacking
+3. For Electron apps with native modules doing process spawning, consider disabling ASAR
+4. Always test core functionality in packaged builds, not just development mode
+5. Redirecting packaged app output to file (`./Quallaa.app > log.txt 2>&1`) is essential for debugging
+
+---
+
+**Last Updated**: 2025-10-06
 **Project**: Quallaa Rebranding MVP
 **Platform**: macOS only
 **Timeline**: 2-3 weeks
 **Testing**: Automated E2E suite with 68 tests (94% passing)
+**Status**: Terminal functionality restored, ready for code signing re-enablement
