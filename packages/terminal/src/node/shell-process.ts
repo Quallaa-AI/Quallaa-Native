@@ -84,7 +84,9 @@ export class ShellProcess extends TerminalProcess {
         if (isWindows) {
             return 'cmd.exe';
         } else {
-            return process.env.SHELL!;
+            // In bundled macOS apps, process.env.SHELL may be undefined
+            // Fallback to common shell locations
+            return process.env.SHELL || '/bin/zsh';
         }
     }
 
