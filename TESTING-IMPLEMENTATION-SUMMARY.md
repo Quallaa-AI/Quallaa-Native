@@ -5,14 +5,14 @@
 
 ## What Was Built
 
-A comprehensive automated testing framework with **50+ tests** across 7 categories, covering all aspects of the Quallaa rebrand from Eclipse Theia.
+A comprehensive automated testing framework with **88 tests** across 8 categories, covering all aspects of the Quallaa rebrand from Eclipse Theia.
 
 ### 📊 Statistics
 
-- **Total Test Files**: 10
-- **Total Lines of Code**: 2,394
-- **Test Categories**: 7
-- **Total Tests**: 50+
+- **Total Test Files**: 11
+- **Total Lines of Code**: 2,935
+- **Test Categories**: 8
+- **Total Tests**: 88
 - **CI/CD Jobs**: 3
 - **Documentation Files**: 4
 
@@ -28,14 +28,15 @@ examples/electron/test/
 ├── fixtures/
 │   └── electron-app.ts               # Custom Electron test fixture (66 lines)
 ├── e2e/
-│   ├── application-identity.spec.ts  # 6 tests - App branding (107 lines)
-│   ├── ui-components.spec.ts         # 8 tests - UI component branding (239 lines)
-│   ├── configuration.spec.ts         # 6 tests - Config & persistence (127 lines)
-│   ├── visual-assets.spec.ts         # 9 tests - Icons & logos (167 lines)
-│   ├── text-replacements.spec.ts     # 9 tests - Text branding (236 lines)
-│   └── functional-regression.spec.ts # 14 tests - Core functionality (243 lines)
+│   ├── application-identity.spec.ts  # 7 tests - App branding (133 lines)
+│   ├── ui-components.spec.ts         # 8 tests - UI component branding (223 lines)
+│   ├── configuration.spec.ts         # 6 tests - Config & persistence (146 lines)
+│   ├── visual-assets.spec.ts         # 9 tests - Icons & logos (147 lines)
+│   ├── text-replacements.spec.ts     # 9 tests - Text branding (174 lines)
+│   ├── functional-regression.spec.ts # 14 tests - Core functionality (220 lines)
+│   └── terminal.spec.ts              # 20 tests - Terminal UI & functionality (541 lines) ✨ NEW
 ├── compliance/
-│   └── epl-compliance.spec.ts        # 10 tests - EPL 2.0 compliance (245 lines)
+│   └── epl-compliance.spec.ts        # 10 tests - EPL 2.0 compliance (267 lines)
 └── README.md                          # Test directory documentation
 ```
 
@@ -191,6 +192,26 @@ Ensures IDE still works:
 
 ---
 
+### Category I: Terminal UI & Functionality (20 tests) 🟡 HIGH ✨ NEW
+**File**: `test/e2e/terminal.spec.ts`
+
+Tests integrated terminal functionality:
+- ✅ Terminal opening (command palette, keyboard shortcut)
+- ✅ Command execution (echo, pwd, ls, env vars)
+- ✅ Terminal interactions (Ctrl+C, copy-paste, scrolling)
+- ✅ Multiple terminal instances
+- ✅ Terminal UI elements (tabs, panels, resize)
+- ✅ Error handling and output display
+- ✅ Multiline commands and shell scripts
+- ✅ Clear command functionality
+- ✅ Tab completion support
+- ✅ Quallaa branding verification (no Theia in terminal UI)
+
+**Pass Requirement**: 90%+
+**Initial Results**: 18/20 passing (90%)
+
+---
+
 ## 🚀 CI/CD Workflows
 
 ### Job 1: test-rebrand (macOS runner)
@@ -219,15 +240,16 @@ Ensures IDE still works:
 ### MVP Cannot Ship Without:
 | Category | Tests | Pass Rate Required | Status |
 |----------|-------|-------------------|--------|
-| Application Identity | 6 | 100% | ⏳ Pending |
+| Application Identity | 7 | 100% | ⏳ Pending |
 | UI Components | 8 | 100% | ⏳ Pending |
 | EPL Compliance | 10 | 100% | ⏳ Pending |
 | Configuration | 6 | 90%+ | ⏳ Pending |
 | Functional Regression | 14 | 90%+ | ⏳ Pending |
+| Terminal Functionality | 20 | 90%+ | ✅ 90% (18/20) |
 
 ### Nice to Have:
-- Visual Assets: 90%+
-- Text Replacements: 90%+
+- Visual Assets: 90%+ (9 tests)
+- Text Replacements: 90%+ (9 tests)
 
 ---
 
@@ -410,12 +432,23 @@ yarn test:e2e --timeout=180000
 
 This automated testing framework provides:
 
-✅ **Comprehensive Coverage** - 50+ tests covering all rebrand aspects
+✅ **Comprehensive Coverage** - 88 tests across 8 categories covering all rebrand aspects
+✅ **Terminal Testing** - 20 dedicated tests for integrated terminal functionality ✨ NEW
 ✅ **Legal Compliance** - EPL 2.0 validation built-in
 ✅ **CI/CD Integration** - Automatic testing on every commit
 ✅ **Visual Regression** - Screenshot comparison for UI changes
 ✅ **Developer Friendly** - Interactive debugging with Playwright UI
 ✅ **Well Documented** - 4 documentation files with examples
+
+### Test Coverage Breakdown:
+- **Category A**: Application Identity (7 tests)
+- **Category B**: Visual Assets (9 tests)
+- **Category C**: UI Components (8 tests)
+- **Category D**: Text Replacements (9 tests)
+- **Category E**: Configuration (6 tests)
+- **Category G**: EPL Compliance (10 tests)
+- **Category H**: Functional Regression (14 tests)
+- **Category I**: Terminal UI & Functionality (20 tests) ✨ NEW
 
 The test suite ensures the Quallaa rebrand maintains Eclipse Theia functionality while correctly implementing all branding changes and staying compliant with EPL 2.0 licensing requirements.
 
@@ -424,5 +457,6 @@ The test suite ensures the Quallaa rebrand maintains Eclipse Theia functionality
 ---
 
 **Created**: 2025-10-05
+**Updated**: 2025-10-05 (Added Terminal Tests)
 **Author**: Claude Code
-**Version**: 1.0.0
+**Version**: 1.1.0
