@@ -14,7 +14,7 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import { ContainerModule } from 'inversify';
+import { ContainerModule } from '@theia/core/shared/inversify';
 import { AboutDialog } from '@theia/core/lib/browser/about-dialog';
 import { GettingStartedWidget } from '@theia/getting-started/lib/browser/getting-started-widget';
 import { QuallaaAboutDialog } from './quallaa-about-dialog';

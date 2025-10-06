@@ -14,13 +14,13 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import * as React from 'react';
-import { inject, injectable } from 'inversify';
+import * as React from '@theia/core/shared/react';
+import { inject, injectable } from '@theia/core/shared/inversify';
 import { AboutDialog, AboutDialogProps } from '@theia/core/lib/browser/about-dialog';
 import { WindowService } from '@theia/core/lib/browser/window/window-service';
 import { ApplicationServer } from '@theia/core/lib/common/application-protocol';
 import { nls } from '@theia/core/lib/common/nls';
-import { DEFAULT_SUPPORTED_API_VERSION } from '@theia/application-package/lib/api';
+import { DEFAULT_SUPPORTED_API_VERSION } from '@theia/core/shared/@theia/application-package/lib/api';
 
 @injectable()
 export class QuallaaAboutDialog extends AboutDialog {
@@ -56,7 +56,7 @@ export class QuallaaAboutDialog extends AboutDialog {
                         href={compatibilityUrl}
                         target='_blank'
                         rel='noopener noreferrer'
-                        onClick={(e) => { e.preventDefault(); this.doOpenExternalLink(compatibilityUrl); }}
+                        onClick={e => { e.preventDefault(); this.doOpenExternalLink(compatibilityUrl); }}
                         onKeyDown={(e: React.KeyboardEvent) => this.doOpenExternalLinkEnter(e, compatibilityUrl)}>
                         {compatibilityLabel}
                     </a>
@@ -72,7 +72,7 @@ export class QuallaaAboutDialog extends AboutDialog {
                         href={theiaUrl}
                         target='_blank'
                         rel='noopener noreferrer'
-                        onClick={(e) => { e.preventDefault(); this.doOpenExternalLink(theiaUrl); }}
+                        onClick={e => { e.preventDefault(); this.doOpenExternalLink(theiaUrl); }}
                         onKeyDown={(e: React.KeyboardEvent) => this.doOpenExternalLinkEnter(e, theiaUrl)}>
                         Eclipse Theia
                     </a>
@@ -88,7 +88,7 @@ export class QuallaaAboutDialog extends AboutDialog {
                         href={sourceUrl}
                         target='_blank'
                         rel='noopener noreferrer'
-                        onClick={(e) => { e.preventDefault(); this.doOpenExternalLink(sourceUrl); }}
+                        onClick={e => { e.preventDefault(); this.doOpenExternalLink(sourceUrl); }}
                         onKeyDown={(e: React.KeyboardEvent) => this.doOpenExternalLinkEnter(e, sourceUrl)}>
                         View Source Code
                     </a>
