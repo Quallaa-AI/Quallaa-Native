@@ -1,0 +1,129 @@
+/********************************************************************************
+ * Copyright (C) 2025 Quallaa AI
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v. 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0.
+ *
+ * This Source Code may also be made available under the following Secondary
+ * Licenses when the conditions for such availability set forth in the Eclipse
+ * Public License v. 2.0 are satisfied: GNU General Public License, version 2
+ * with the GNU Classpath Exception which is available at
+ * https://www.gnu.org/software/classpath/license.html.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
+ ********************************************************************************/
+
+/*-----------------------------------------------------------------------------
+| Quallaa Design Tokens
+| Extends Theia's base tokens with Apple-style design system
+|----------------------------------------------------------------------------*/
+
+:root {
+    /* === FONT FAMILIES (System fonts) === */
+    /* Modern system font stack - uses platform-native fonts for optimal rendering */
+    --quallaa-font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+    --quallaa-font-monospace: ui-monospace, "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+    --quallaa-font-serif: ui-serif, "New York", Georgia, serif;
+
+    /* === ANIMATION TOKENS === */
+    /* Duration scale - Apple-inspired */
+    --quallaa-animation-instant: 0.1s;
+    --quallaa-animation-fast: 0.3s;
+    --quallaa-animation-normal: 0.5s;
+    --quallaa-animation-slow: 1s;
+    --quallaa-animation-deliberate: 1.5s;
+
+    /* Easing curves - matches macOS */
+    --quallaa-ease-in-out: cubic-bezier(0.4, 0.0, 0.2, 1);
+    --quallaa-ease-out: cubic-bezier(0.0, 0.0, 0.2, 1);
+    --quallaa-ease-in: cubic-bezier(0.4, 0.0, 1, 1);
+
+    /* Opacity levels */
+    --quallaa-opacity-subtle: 0.2;
+    --quallaa-opacity-medium: 0.3;
+    --quallaa-opacity-strong: 0.5;
+
+    /* === SHIMMER-SPECIFIC TOKENS === */
+    --quallaa-shimmer-duration: var(--quallaa-animation-deliberate);
+    --quallaa-shimmer-opacity: var(--quallaa-opacity-medium);
+    --quallaa-shimmer-easing: var(--quallaa-ease-out);
+    --quallaa-shimmer-color: rgba(255, 255, 255, var(--quallaa-shimmer-opacity));
+    --quallaa-shimmer-size: 150px;
+
+    /* === SPACING SCALE (Apple 8pt system) === */
+    --quallaa-space-1: 4px;   /* half-step */
+    --quallaa-space-2: 8px;   /* base unit */
+    --quallaa-space-3: 12px;  /* half-step */
+    --quallaa-space-4: 16px;
+    --quallaa-space-5: 24px;
+    --quallaa-space-6: 32px;
+    --quallaa-space-7: 40px;
+    --quallaa-space-8: 48px;
+    --quallaa-space-12: 48px; /* legacy alias for space-8 */
+    --quallaa-space-16: 64px;
+
+    /* === BORDER RADIUS (Apple-style) === */
+    /* Nested radius formula: outer_radius = inner_radius + padding */
+    /* Example: Card with 16px padding and 12px radius should have inner elements with 4px radius */
+    --quallaa-radius-sm: 4px;    /* chips, tags */
+    --quallaa-radius-md: 6px;
+    --quallaa-radius-lg: 8px;    /* buttons */
+    --quallaa-radius-xl: 10px;
+    --quallaa-radius-2xl: 12px;  /* cards */
+    --quallaa-radius-3xl: 16px;  /* modals */
+    --quallaa-radius-4xl: 20px;
+    --quallaa-radius-full: 9999px; /* pill shape */
+
+    /* === COLORS (Automatic theme switching) === */
+    /* Uses light-dark() function for automatic light/dark mode switching */
+    /* Respects system prefers-color-scheme preference */
+    --quallaa-color-surface-primary: light-dark(#ffffff, #1e1e1e);
+    --quallaa-color-surface-secondary: light-dark(#f5f5f5, #2a2a2a);
+    --quallaa-color-accent: light-dark(#007AFF, #0A84FF);
+    --quallaa-color-text-primary: light-dark(#000000, #ffffff);
+    --quallaa-color-text-secondary: light-dark(#666666, #a0a0a0);
+    --quallaa-color-border-primary: light-dark(#d1d1d6, #38383a);
+    --quallaa-color-success: light-dark(#34C759, #32D74B);
+    --quallaa-color-warning: light-dark(#FF9500, #FF9F0A);
+    --quallaa-color-danger: light-dark(#FF3B30, #FF453A);
+
+    /* === TYPOGRAPHY SCALE === */
+    --quallaa-text-xs: 11px;
+    --quallaa-text-sm: 13px;
+    --quallaa-text-base: 15px;  /* default body text */
+    --quallaa-text-lg: 17px;
+    --quallaa-text-xl: 20px;
+    --quallaa-text-2xl: 24px;
+
+    /* === SHADOWS (Multi-layer elevation) === */
+    --quallaa-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --quallaa-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.05);
+    --quallaa-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+    --quallaa-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+    --quallaa-shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+    --quallaa-shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+
+    /* === SIZING & TOUCH TARGETS === */
+    --quallaa-size-touch-macos: 28px;  /* minimum clickable area on macOS */
+    --quallaa-size-touch-ios: 44px;    /* minimum touchable area on iOS */
+    --quallaa-size-button-md: 32px;
+    --quallaa-size-input-md: 32px;
+    --quallaa-size-icon-md: 20px;
+    --quallaa-size-icon-lg: 24px;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --quallaa-shimmer-opacity: var(--quallaa-opacity-subtle);
+        --quallaa-shimmer-color: rgba(255, 255, 255, var(--quallaa-shimmer-opacity));
+    }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --quallaa-shimmer-duration: 0s;
+    }
+}

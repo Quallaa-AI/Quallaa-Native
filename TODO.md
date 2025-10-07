@@ -238,6 +238,53 @@
 
 ---
 
+## Phase 5.5: Apple Design System & Custom Themes (Week 2 - Day 6) ✅ COMPLETE
+
+### Design Token System ✅
+- [x] Created comprehensive Apple-inspired design token system ✅
+- [x] Created `packages/core/src/browser/style/quallaa-tokens.css` ✅
+- [x] Added font family tokens (system fonts): `--quallaa-font-system`, `--quallaa-font-monospace`, `--quallaa-font-serif` ✅
+- [x] Added color tokens for light/dark modes (9 colors total) ✅
+- [x] Added typography scale (xs to 2xl: 11px-24px) ✅
+- [x] Added shadow system (6 elevation levels) ✅
+- [x] Added sizing tokens (touch targets, buttons, inputs, icons) ✅
+- [x] Extended spacing scale to 64px (`--quallaa-space-16`) ✅
+- [x] Extended radius scale (2xl, 3xl, 4xl, full/pill) ✅
+- [x] Added geometric formula comments (nested radius rule) ✅
+- [x] Updated `packages/core/src/browser/style/index.css` to use Quallaa font tokens ✅
+- [x] Replaced outdated "Helvetica Neue" with modern system font stack ✅
+
+### Custom Themes (Desktop + Web) ✅
+- [x] **Created Quallaa Dark theme** (`packages/monaco/data/monaco-themes/vscode/dark_quallaa.json`) ✅
+  - [x] Based on VS Code Dark+ for syntax highlighting
+  - [x] Apple accent colors: `#0A84FF` (dark blue)
+  - [x] Dark surfaces: `#1e1e1e`, `#2a2a2a`
+  - [x] High contrast text: `#ffffff`, `#a0a0a0`
+- [x] **Created Quallaa Light theme** (`packages/monaco/data/monaco-themes/vscode/light_quallaa.json`) ✅
+  - [x] Based on VS Code Light+ for syntax highlighting
+  - [x] Apple accent colors: `#007AFF` (light blue)
+  - [x] Light surfaces: `#ffffff`, `#f5f5f5`
+  - [x] High contrast text: `#000000`, `#666666`
+- [x] Registered themes in `packages/core/src/browser/theming.ts` ✅
+- [x] Registered themes in `packages/monaco/src/browser/textmate/monaco-theme-registry.ts` ✅
+- [x] Set Quallaa Dark as default theme in `examples/electron/package.json` ✅
+- [x] Set Quallaa Dark as default theme in `examples/browser/package.json` (for web deployment) ✅
+- [x] Quallaa themes prioritized in theme selector (appear first) ✅
+
+### Logo Fixes ✅
+- [x] Fixed Theia blue circle logo in Getting Started widget ✅
+- [x] Replaced `examples/api-samples/src/browser/icons/theia.png` with Quallaa logo ✅
+- [x] Updated `examples/api-samples/src/browser/style/branding.css` to use Quallaa logo ✅
+
+### Brand Consistency ✅
+- [x] All design tokens map to our Apple-inspired color palette ✅
+- [x] Consistent branding across desktop (Electron) and web (browser) ✅
+- [x] Professional Apple-style appearance: clean, minimal, system-native ✅
+- [x] Users can switch themes via Command Palette → "Preferences: Color Theme" ✅
+- [x] Theme preferences persist across sessions (desktop: local storage, web: browser storage) ✅
+
+---
+
 ## Phase 6: GitHub Actions CI/CD (Week 2 - Days 6-7 - OPTIONAL for MVP)
 
 **NOTE**: This phase can be deferred to post-MVP. Manual builds are sufficient for initial testing.

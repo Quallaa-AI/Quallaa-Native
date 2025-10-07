@@ -32,6 +32,14 @@ export class MonacoThemeRegistry {
     @inject(TextmateRegistryFactory) protected readonly registryFactory: TextmateRegistryFactory;
 
     initializeDefaultThemes(): void {
+        this.register(require('../../../data/monaco-themes/vscode/dark_quallaa.json'), {
+            './dark_vs.json': require('../../../data/monaco-themes/vscode/dark_vs.json'),
+            './dark_plus.json': require('../../../data/monaco-themes/vscode/dark_plus.json')
+        }, 'dark-quallaa', 'vs-dark');
+        this.register(require('../../../data/monaco-themes/vscode/light_quallaa.json'), {
+            './light_vs.json': require('../../../data/monaco-themes/vscode/light_vs.json'),
+            './light_plus.json': require('../../../data/monaco-themes/vscode/light_plus.json'),
+        }, 'light-quallaa', 'vs');
         this.register(require('../../../data/monaco-themes/vscode/dark_theia.json'), {
             './dark_vs.json': require('../../../data/monaco-themes/vscode/dark_vs.json'),
             './dark_plus.json': require('../../../data/monaco-themes/vscode/dark_plus.json')

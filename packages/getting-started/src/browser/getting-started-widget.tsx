@@ -422,7 +422,7 @@ export class GettingStartedWidget extends ReactWidget {
 
     protected renderNews(): React.ReactNode {
         return <div className='gs-section'>
-            <h3 className='gs-section-header'>🚀 AI Support in the Theia IDE is available (Beta Version)! ✨</h3>
+            <h3 className='gs-section-header'>🚀 AI Support in Quallaa is available (Beta Version)! ✨</h3>
             <div className='gs-action-container'>
                 <a
                     role={'button'}
@@ -440,9 +440,9 @@ export class GettingStartedWidget extends ReactWidget {
         return <div className='gs-container gs-aifeature-container'>
             <div className='flex-grid'>
                 <div className='col'>
-                    <h3 className='gs-section-header'> 🚀 AI Support in the Theia IDE is available (Beta Version)! ✨</h3>
+                    <h3 className='gs-section-header'> 🚀 AI Support in Quallaa is available (Beta Version)! ✨</h3>
                     <div className='gs-action-container'>
-                        Theia IDE now contains AI support, which offers early access to cutting-edge AI capabilities within your IDE.
+                        Quallaa now contains AI support, which offers early access to cutting-edge AI capabilities within your IDE.
                         <br />
                         Please note that these features are disabled by default, ensuring that users can opt-in at their discretion.
                         For those who choose to enable AI support, it is important to be aware that these may generate continuous

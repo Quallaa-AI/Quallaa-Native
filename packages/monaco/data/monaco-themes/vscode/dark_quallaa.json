@@ -1,0 +1,31 @@
+{
+  "$schema": "vscode://schemas/color-theme",
+  "name": "Quallaa Dark",
+  "include": "./dark_plus.json",
+  "colors": {
+    "editor.background": "#1e1e1e",
+    "editor.foreground": "#ffffff",
+    "sideBar.background": "#1e1e1e",
+    "sideBar.foreground": "#ffffff",
+    "sideBarSectionHeader.background": "#2a2a2a",
+    "activityBar.background": "#1e1e1e",
+    "activityBar.foreground": "#ffffff",
+    "activityBarBadge.background": "#0A84FF",
+    "statusBar.background": "#1e1e1e",
+    "statusBar.foreground": "#a0a0a0",
+    "titleBar.activeBackground": "#1e1e1e",
+    "titleBar.activeForeground": "#ffffff",
+    "button.background": "#0A84FF",
+    "button.foreground": "#ffffff",
+    "button.hoverBackground": "#007AFF",
+    "input.background": "#2a2a2a",
+    "input.foreground": "#ffffff",
+    "input.border": "#38383a",
+    "focusBorder": "#0A84FF",
+    "list.activeSelectionBackground": "#0A84FF",
+    "list.activeSelectionForeground": "#ffffff",
+    "list.hoverBackground": "#2a2a2a",
+    "panel.background": "#1e1e1e",
+    "panel.border": "#38383a"
+  }
+}

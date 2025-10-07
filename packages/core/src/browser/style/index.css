@@ -16,6 +16,7 @@
 
 @import url("~@lumino/widgets/style/index.css");
 @import url("~font-awesome/css/font-awesome.min.css");
+@import url("./quallaa-tokens.css");
 
 /*-----------------------------------------------------------------------------
 | General
@@ -45,7 +46,7 @@
     var(--theia-ui-font-size2) * var(--theia-ui-font-scale-factor)
   );
   --theia-ui-icon-font-size: 14px; /* Ensures px perfect FontAwesome icons */
-    --theia-ui-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --theia-ui-font-family: var(--quallaa-font-system);
 
     /* Content fonts: Family, size and color (bright to dark)
      Content font variables are used for typography of user-generated content.
@@ -57,9 +58,8 @@
     --theia-code-font-size: 13px;
     --theia-code-line-height: 17px;
     --theia-code-padding: 5px;
-    --theia-code-font-family: Menlo, Monaco, Consolas, "Droid Sans Mono",
-        "Courier New", monospace, "Droid Sans Fallback";
-    --theia-monospace-font-family: monospace;
+    --theia-code-font-family: var(--quallaa-font-monospace);
+    --theia-monospace-font-family: var(--quallaa-font-monospace);
     --theia-ui-padding: 6px;
 
     /* Icons */
@@ -165,7 +165,8 @@ blockquote {
     bottom: 0;
     z-index: 50000;
     background: var(--theia-editor-background);
-    background-size: 60px 60px;
+    background-image: url('./quallaa-logo.svg');
+    background-size: var(--quallaa-shimmer-size);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -173,21 +174,50 @@ blockquote {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+}
+
+.theia-preload::before {
+    /* Shimmer overlay - plays once on load */
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--quallaa-shimmer-size);
+    height: var(--quallaa-shimmer-size);
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--quallaa-shimmer-color) 50%,
+        transparent 100%
+    );
+    animation: quallaa-shimmer
+        var(--quallaa-shimmer-duration)
+        var(--quallaa-shimmer-easing)
+        1;
+    animation-fill-mode: forwards;
 }
 
 .theia-preload::after {
-    animation: 1s theia-preload-rotate infinite;
-  color: #777; /* color works on both light and dark themes */
-  content: "\eb19"; /* codicon-load */
-    font: normal normal normal 72px/1 codicon;
+    /* Hide the default spinning codicon */
+    display: none;
 }
 
-@keyframes theia-preload-rotate {
+@keyframes quallaa-shimmer {
     0% {
-        transform: rotate(0deg);
+        transform: translate(-50%, -50%) translateX(-200%);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
     }
     100% {
-        transform: rotate(360deg);
+        transform: translate(-50%, -50%) translateX(200%);
+        opacity: 0;
     }
 }
 

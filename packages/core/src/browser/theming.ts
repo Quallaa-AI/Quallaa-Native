@@ -198,7 +198,23 @@ export class BuiltinThemeProvider {
         editorTheme: 'hc-theia-light' // loaded in /packages/monaco/src/browser/textmate/monaco-theme-registry.ts
     };
 
+    static readonly quallaaDarkTheme: Theme = {
+        id: 'quallaa-dark',
+        type: 'dark',
+        label: 'Quallaa Dark',
+        editorTheme: 'dark-quallaa' // loaded in /packages/monaco/src/browser/textmate/monaco-theme-registry.ts
+    };
+
+    static readonly quallaaLightTheme: Theme = {
+        id: 'quallaa-light',
+        type: 'light',
+        label: 'Quallaa Light',
+        editorTheme: 'light-quallaa' // loaded in /packages/monaco/src/browser/textmate/monaco-theme-registry.ts
+    };
+
     static readonly themes = [
+        BuiltinThemeProvider.quallaaDarkTheme,
+        BuiltinThemeProvider.quallaaLightTheme,
         BuiltinThemeProvider.darkTheme,
         BuiltinThemeProvider.lightTheme,
         BuiltinThemeProvider.hcTheme,

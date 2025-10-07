@@ -1,0 +1,31 @@
+{
+  "$schema": "vscode://schemas/color-theme",
+  "name": "Quallaa Light",
+  "include": "./light_plus.json",
+  "colors": {
+    "editor.background": "#ffffff",
+    "editor.foreground": "#000000",
+    "sideBar.background": "#f5f5f5",
+    "sideBar.foreground": "#000000",
+    "sideBarSectionHeader.background": "#ffffff",
+    "activityBar.background": "#f5f5f5",
+    "activityBar.foreground": "#000000",
+    "activityBarBadge.background": "#007AFF",
+    "statusBar.background": "#f5f5f5",
+    "statusBar.foreground": "#666666",
+    "titleBar.activeBackground": "#ffffff",
+    "titleBar.activeForeground": "#000000",
+    "button.background": "#007AFF",
+    "button.foreground": "#ffffff",
+    "button.hoverBackground": "#0A84FF",
+    "input.background": "#ffffff",
+    "input.foreground": "#000000",
+    "input.border": "#d1d1d6",
+    "focusBorder": "#007AFF",
+    "list.activeSelectionBackground": "#007AFF",
+    "list.activeSelectionForeground": "#ffffff",
+    "list.hoverBackground": "#f5f5f5",
+    "panel.background": "#f5f5f5",
+    "panel.border": "#d1d1d6"
+  }
+}

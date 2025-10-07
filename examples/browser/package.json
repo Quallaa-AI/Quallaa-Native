@@ -6,7 +6,8 @@
   "theia": {
     "frontend": {
       "config": {
-        "applicationName": "Theia Browser Example",
+        "applicationName": "Quallaa",
+        "defaultTheme": "quallaa-dark",
         "preferences": {
           "files.enableTrash": false,
           "security.workspace.trust.enabled": false
