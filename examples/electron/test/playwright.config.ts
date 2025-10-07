@@ -9,7 +9,6 @@
 // *****************************************************************************
 
 import { defineConfig, devices } from '@playwright/test';
-import * as path from 'path';
 
 /**
  * Playwright configuration for Quallaa Electron app testing

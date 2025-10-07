@@ -150,7 +150,6 @@ test.describe('UI Component Branding', () => {
     // Look for "Report an Issue" link
     const reportIssueLink = page.locator('a:has-text("Report an Issue")');
     if (await reportIssueLink.count() > 0) {
-      const href = await reportIssueLink.getAttribute('href');
       // Should point to Quallaa repository (or be a button that opens external link)
     }
 

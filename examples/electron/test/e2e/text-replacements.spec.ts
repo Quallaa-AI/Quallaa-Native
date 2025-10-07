@@ -171,9 +171,6 @@ test.describe('Text Replacements', () => {
     // For Electron apps on macOS, the menu bar shows the productName
     // We verify this through the package.json config, which is tested elsewhere
 
-    // In the UI, we can check menu item text
-    const bodyText = await page.textContent('body') || '';
-
     // Look for menu-like structures
     // This is dependent on Theia's specific DOM structure
   });

@@ -24,13 +24,42 @@ exports.default = async function notarizing(context) {
     });
   }
 
+  // Check if required credentials are available
+  const hasCredentials = process.env.APPLE_ID &&
+                         process.env.APPLE_ID_PASSWORD &&
+                         process.env.APPLE_TEAM_ID;
+
+  if (!hasCredentials) {
+    console.log('\n⚠️  Skipping notarization: Apple credentials not found');
+    console.log('   Set APPLE_ID, APPLE_ID_PASSWORD, and APPLE_TEAM_ID to enable notarization');
+    console.log('   App will be signed but not notarized\n');
+    return;
+  }
+
+  // Check if notarization is explicitly disabled
+  if (process.env.SKIP_NOTARIZATION === 'true') {
+    console.log('\n⚠️  Skipping notarization: SKIP_NOTARIZATION=true\n');
+    return;
+  }
+
   const appName = context.packager.appInfo.productFilename;
 
-  return await notarize({
-    appBundleId: 'com.quallaa.ide',
-    appPath: `${appOutDir}/${appName}.app`,
-    appleId: process.env.APPLE_ID,
-    appleIdPassword: process.env.APPLE_ID_PASSWORD,
-    teamId: process.env.APPLE_TEAM_ID,
-  });
+  console.log('\n🔐 Starting notarization (this may take 10-30 minutes)...');
+  console.log(`   App: ${appName}.app`);
+  console.log(`   Apple ID: ${process.env.APPLE_ID}\n`);
+
+  try {
+    await notarize({
+      appBundleId: 'com.quallaa.ide',
+      appPath: `${appOutDir}/${appName}.app`,
+      appleId: process.env.APPLE_ID,
+      appleIdPassword: process.env.APPLE_ID_PASSWORD,
+      teamId: process.env.APPLE_TEAM_ID,
+    });
+    console.log('\n✅ Notarization successful\n');
+  } catch (error) {
+    console.error('\n❌ Notarization failed:', error.message);
+    console.warn('⚠️  Continuing build without notarization\n');
+    // Don't throw - allow build to continue
+  }
 };

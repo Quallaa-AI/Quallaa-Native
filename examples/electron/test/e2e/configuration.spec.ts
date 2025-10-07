@@ -11,7 +11,6 @@
 import { test, expect } from '../fixtures/electron-app';
 import * as path from 'path';
 import * as fs from 'fs';
-import * as os from 'os';
 
 /**
  * Category E: Configuration & Persistence Tests
@@ -33,13 +32,6 @@ test.describe('Configuration & Persistence', () => {
   test('should create .quallaa directory in user data dir', async ({ electronApp, userDataDir }) => {
     // Wait for app to initialize and potentially create config directories
     await new Promise(resolve => setTimeout(resolve, 5000));
-
-    // In test environment, configs should be created in userDataDir
-    // Check if any .quallaa-related paths exist
-    const possiblePaths = [
-      path.join(userDataDir, '.quallaa'),
-      path.join(userDataDir, 'quallaa'),
-    ];
 
     // Note: The actual directory creation depends on user interaction
     // This test documents the expected behavior

@@ -11,7 +11,6 @@
 import { test, expect } from '../fixtures/electron-app';
 import * as path from 'path';
 import * as fs from 'fs';
-import * as os from 'os';
 
 /**
  * Category H: Functional Regression Tests
@@ -117,9 +116,6 @@ test.describe('Functional Regression', () => {
     // This depends on focus and Theia's editor implementation
     await page.keyboard.type('// Test content');
     await page.waitForTimeout(500);
-
-    // Verify text appeared (if editor is active)
-    const bodyText = await page.textContent('body') || '';
 
     // This is a basic smoke test
     // Full editor testing would require more specific selectors
