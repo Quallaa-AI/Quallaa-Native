@@ -1,127 +1,253 @@
 <br/>
-<div id="theia-logo" align="center">
+<div id="quallaa-logo" align="center">
     <br />
-    <img src="https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia-logo-gray.svg?sanitize=true" alt="Theia Logo" width="300"/>
-    <h3>Cloud & Desktop IDE Framework</h3>
+    <img src="./logo/QuallaaLogo.svg" alt="Quallaa Logo" width="300"/>
+    <h3>AI Environment Management for Domain Experts</h3>
 </div>
 
 <div id="badges" align="center">
 
-  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-curved)](https://github.com/eclipse-theia/theia/labels/help%20wanted)
-  [![Build Status](https://github.com/eclipse-theia/theia/actions/workflows/ci-cd.yml/badge.svg?branch=master)](https://github.com/eclipse-theia/theia/actions/workflows/ci-cd.yml?query=branch%3Amaster)
-  [![Publish VS Code Built-in Extensions](https://github.com/eclipse-theia/vscode-builtin-extensions/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/eclipse-theia/vscode-builtin-extensions/actions/workflows/build.yml?query=branch%3Amaster)
-  [![Open questions](https://img.shields.io/badge/Open-questions-blue.svg?style=flat-curved)](https://github.com/eclipse-theia/theia/discussions/categories/q-a)
-  [![Open bugs](https://img.shields.io/badge/Open-bugs-red.svg?style=flat-curved)](https://github.com/eclipse-theia/theia/labels/bug)
-  [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/eclipse-theia/theia)
+[![License](https://img.shields.io/badge/License-EPL%202.0-blue.svg)](LICENSE-EPL)
+[![Built on Eclipse Theia](https://img.shields.io/badge/Built%20on-Eclipse%20Theia-blue.svg)](https://github.com/eclipse-theia/theia)
 
-Eclipse Theia is an extensible framework to develop full-fledged multi-language Cloud & Desktop IDEs and tools with state-of-the-art web technologies.
+**Quallaa** is an AI execution environment that gives domain experts access to developer-grade AI capabilities without requiring coding skills.
 
 </div>
 
-- [Website](#website)
-- [Repositories](#repositories)
-- [Releases](#releases)
-- [Scope](#scope)
-- [Roadmap](#roadmap)
-- [Getting Started](#getting-started)
-- [Contributing](#contributing)
-- [Feedback](#feedback)
-- [Documentation](#documentation)
-- [License](#license)
-- [Trademark](#trademark)
+---
 
-<div style='margin:0 auto;width:60%;'>
+## What is Quallaa?
 
-![Theia](https://raw.githubusercontent.com/eclipse-theia/theia/master/doc/images/theia-screenshot.png)
+Most people are stuck with chat interfaces that waste 67% of AI potential through translation bottlenecks. Developers, however, have AI tools that **directly execute**—modifying files, orchestrating infrastructure, and getting real work done.
 
-</div>
+**Quallaa democratizes this power.**
 
-## Website
+We provide pre-configured environments where domain experts (marketers, financial analysts, consultants, etc.) can command AI to execute tasks directly, with real infrastructure:
+- **PostgreSQL databases** for data management
+- **Email provider integrations** (SendGrid, Mailgun, etc.)
+- **API connections** to analytics, CRM, and business tools
+- **File systems and templates** for project organization
+- **Frontier AI models** (Claude, GPT) that orchestrate everything
 
-[Visit the Eclipse Theia website](http://www.theia-ide.org) for more information and [the Theia documentation](http://www.theia-ide.org/docs).
+The core insight: **IDE + Command Line + frontier AI models = the most capable AI execution environment.**
 
-## Repositories
+---
 
-This is the main repository for the Eclipse Theia project, containing the sources of the Theia Platform. Please open generic discussions, bug reports and feature requests about Theia on this repository. The Theia project also includes additional repositories, e.g. for the [artifacts building the Theia IDE](https://github.com/eclipse-theia/theia-blueprint) and the [Theia website](https://github.com/eclipse-theia/theia-website). Please also see the [overview of all Theia project repositories](https://github.com/eclipse-theia).
+## Why Quallaa?
 
-## Releases
+### For Domain Experts
+- ✅ **Direct AI execution** - AI doesn't just describe solutions, it builds them
+- ✅ **Real infrastructure** - Databases, APIs, email providers, not toy examples
+- ✅ **Future-proof** - Anything tokenizable can be orchestrated from this environment
+- ✅ **No custom training needed** - Uses best-in-class frontier models as-is
 
-- [All available releases](https://github.com/eclipse-theia/theia/releases) are available on GitHub including changelogs.
-- [Detailed release announcements](https://theia-ide.org/resources/) are linked on the Theia website.
-- [Community Releases](https://theia-ide.org/releases/) are listed on the Theia website.
-- [Visit the release website](https://theia-ide.org/releases/) for more information.
+### For Teams
+- 🚀 **Solo productivity** - One expert with Quallaa outperforms traditional teams
+- 🔧 **Zero organizational friction** - No committees, no approvals, direct execution
+- 📈 **Unlimited leverage** - Domain expertise + AI = unstoppable combination
 
-## Scope
+---
 
-- Support building browser-based and desktop IDEs and tools
-- Provide a highly flexible architecture for adopters
-- Support VS Code Extension protocol
-- Develop under vendor-neutral open-source governance
+## Project Status
 
-[More details on the project goals](https://theia-ide.org/docs/project_goals/) are available on the Theia website.
+**Current Phase**: MVP - Rebranding Eclipse Theia foundation
 
-## Roadmap
+Quallaa is built on [Eclipse Theia](https://github.com/eclipse-theia/theia), an extensible framework for building full-fledged IDEs. We're establishing the foundation for AI environment management.
 
-See [our roadmap](https://github.com/eclipse-theia/theia/wiki/Eclipse-Theia-Roadmap) for an overview about the current project goals and the upcoming releases.
+### Roadmap
 
-## Getting Started
+**Phase 1 (Current)**: Foundation
+- ✅ Rebrand Eclipse Theia to Quallaa
+- ✅ Desktop (Electron) and web (browser) builds
+- 🚧 AI integration (Claude Code/similar)
+- 🚧 Basic IDE functionality for domain experts
 
-Here you can find guides and examples for common scenarios to adopt Theia:
+**Phase 2 (Upcoming)**: Domain Environments
+- Domain-specific environment templates (Marketing, Finance, Legal, etc.)
+- Progressive disclosure of IDE complexity
+- Pre-configured infrastructure per domain
 
-- [Get an overview of how to get started](https://theia-ide.org/#gettingstarted) on the Theia website
-- [Develop a Theia application - your own IDE/Tool](https://theia-ide.org/docs/composing_applications/)
-- [Learn about Theia's extension mechanisms](https://theia-ide.org/docs/extensions/)
-- [Develop a VS Code like extension](https://theia-ide.org/docs/authoring_vscode_extensions/)
-- [Develop a Theia extension](https://theia-ide.org/docs/authoring_extensions/)
-- [Test a VS Code extension in Theia](https://github.com/eclipse-theia/theia/wiki/Testing-VS-Code-extensions)
-- [Package a desktop Theia application with Electron](https://theia-ide.org/docs/blueprint_documentation/)
+**Phase 3 (Future)**: Advanced Features
+- Multi-environment orchestration
+- Team collaboration
+- Enterprise deployment
 
-## Contributing
+---
 
-Read below to learn how to take part in improving Theia:
+## Quick Start
 
-- Fork the repository and [run the examples from source](doc/Developing.md#quick-start)
-- Get familiar with [the development workflow](doc/Developing.md), [Coding Guidelines](doc/coding-guidelines.md), [Code of Conduct](CODE_OF_CONDUCT.md) and [sign the Eclipse contributor agreement](CONTRIBUTING.md#eclipse-contributor-agreement)
-- Find an issue to work on and submit a pull request
-  - First time contributing to open source? Pick a [good first issue](https://github.com/eclipse-theia/theia/labels/good%20first%20issue) to get you familiar with GitHub contributing process.
-  - First time contributing to Theia? Pick a [beginner friendly issue](https://github.com/eclipse-theia/theia/labels/beginners) to get you familiar with codebase and our contributing process.
-  - Want to become a Committer? Solve an issue showing that you understand Theia objectives and architecture. [Here](https://github.com/eclipse-theia/theia/labels/help%20wanted) is a good list to start. Further, have a look at our [roadmap](https://github.com/eclipse-theia/theia/wiki/Eclipse-Theia-Roadmap) to align your contributions with the current project goals.
-- Could not find an issue? Look for bugs, typos, and missing features.
+### Prerequisites
+- **Node.js** >= 20 and < 24
+- **Python** (for native module compilation)
+- **Yarn** package manager
 
-## Feedback
+### Installation
 
-Read below how to engage with Theia community:
+```bash
+# Clone repository
+git clone https://github.com/your-org/Quallaa-Native.git
+cd Quallaa-Native
 
-- Join the discussion on [GitHub](https://github.com/eclipse-theia/theia/discussions).
-- Ask a question, request a new feature and file a bug with [GitHub issues](https://github.com/eclipse-theia/theia/issues/new/choose).
-- Vote on existing GitHub issues by reacting with a 👍. We regularly check issues with votes!
-- Star the repository to show your support.
-- Follow Theia on [X](https://x.com/theia_ide).
-- Join the [weekly developer call](https://github.com/eclipse-theia/theia/wiki/Dev-Meetings)
+# Install dependencies
+npm install
+
+# Compile TypeScript
+npm run compile
+```
+
+### Running Quallaa
+
+**Desktop (recommended for MVP)**:
+```bash
+cd examples/electron
+npm run start
+```
+
+**Web browser**:
+```bash
+cd examples/browser
+npm run start:browser
+# Open http://localhost:3000
+```
+
+### Building Distribution
+
+**Desktop application** (DMG/EXE/AppImage):
+```bash
+cd examples/electron
+yarn package
+```
+
+**Web deployment**:
+```bash
+cd examples/browser
+npm run build:browser
+# Deploy lib/ directory to web server
+```
+
+---
 
 ## Documentation
 
-- [API Documentation](https://eclipse-theia.github.io/theia/docs/next/index.html)
-- [General Documentation](https://theia-ide.org/docs/)
-- [VS Code API Compatibility Report](https://eclipse-theia.github.io/vscode-theia-comparator/status.html)
-- Useful Links:
-  - [Developing](doc/Developing.md)
-  - [Testing](doc/Testing.md)
-  - [Migration Guide](doc/Migration.md)
-  - [API Integration Testing](doc/api-testing.md)
-  - [Coding Guidelines](doc/coding-guidelines.md)
-  - [Code Organization](doc/code-organization.md)
-  - [Plugin and VSCode API](doc/Plugin-API.md)
+- **[CLAUDE.md](CLAUDE.md)** - Comprehensive guide for AI-assisted development
+- **[TODO.md](TODO.md)** - Active project roadmap and tasks
+- **[doc/Developing.md](doc/Developing.md)** - Development guide (Theia platform)
+- **[doc/Testing.md](doc/Testing.md)** - Testing guide
 
-## SBOM
+---
 
-To enhance supply chain security and offer users clear insight into project  components, Eclipse Theia now generates a Software Bill of Materials (SBOM) for every release. These are published to the Eclipse Foundation SBOM registry, with access instructions and usage details available in this [documentation](https://eclipse-csi.github.io/security-handbook/sbom/registry.html).
+## Architecture
+
+Quallaa inherits Eclipse Theia's powerful architecture:
+
+### Frontend-Backend Split
+- **Backend**: Node.js server (orchestrates databases, APIs, file systems)
+- **Frontend**: Browser/Electron renderer (UI, editor)
+- **Communication**: JSON-RPC over WebSocket
+
+This architecture enables **true environment management**—AI can command the backend to execute against real infrastructure, not just edit text files.
+
+### Extension System
+- Supports VS Code extensions (100,000+ available)
+- Custom Theia extensions for domain-specific capabilities
+- Dependency injection for progressive disclosure and customization
+
+### Philosophy: Environment, Not Workflows
+
+Quallaa provides **execution environments**, not rigid pre-configured workflows:
+- ✅ Real infrastructure (databases, email, APIs)
+- ✅ Frontier models used as-is (no custom training)
+- ✅ IDE as command center (orchestrate anything tokenizable)
+- ❌ "AI agents" that are just decision trees
+- ❌ Rigid workflow automation
+- ❌ Custom-trained models (users can add, but not our focus)
+
+**Example**: A marketing environment doesn't include "AI trained on marketing workflows." It includes:
+- PostgreSQL database (customer/campaign data)
+- Email provider integration
+- Analytics API connections
+- File templates and schemas
+- **AI orchestrates all of this when you describe what you need**
+
+---
+
+## Target Users
+
+**Primary**: SMB domain experts
+- Deep domain expertise, no coding skills
+- Understand what needs to be done, can't execute technically
+- Willing to learn new paradigms for 10x productivity
+- Frustrated with chat-only AI tools that can't actually DO anything
+
+**Not targeting**: Enterprise developers, large IT departments, people wanting rigid "no-code" tools
+
+---
+
+## Contributing
+
+We welcome contributions! However, please note:
+
+1. **This is a work in progress** - MVP rebranding phase
+2. **Theia foundation** - Much of the codebase is Eclipse Theia
+3. **EPL 2.0 License** - All contributions must comply
+
+### Development Workflow
+
+```bash
+# Watch for changes (auto-rebuild)
+npm run watch
+
+# Run tests
+npm run test
+
+# Lint code
+npm run lint:fix
+```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [doc/Developing.md](doc/Developing.md) for details.
+
+---
 
 ## License
 
+Quallaa is licensed under the Eclipse Public License 2.0:
 - [Eclipse Public License 2.0](LICENSE-EPL)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](LICENSE-GPL-2.0-ONLY-CLASSPATH-EXCEPTION)
 
+### Attribution
+
+Quallaa is built on [Eclipse Theia](https://github.com/eclipse-theia/theia). "Theia" is a trademark of the Eclipse Foundation.
+
+We comply with EPL 2.0 requirements:
+- ✅ Source code available in this repository
+- ✅ Attribution to Eclipse Theia in About dialog
+- ✅ LICENSE and NOTICE files included
+- ✅ Original copyright headers preserved
+
+---
+
 ## Trademark
 
-"Theia" is a **trademark of the Eclipse Foundation**. [Learn More](https://www.eclipse.org/theia)
+"Quallaa" is a trademark. "Theia" and "Eclipse" are trademarks of the Eclipse Foundation.
+
+---
+
+## Support & Community
+
+- **Issues**: [GitHub Issues](https://github.com/your-org/Quallaa-Native/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/your-org/Quallaa-Native/discussions)
+- **Email**: support@quallaa.com (coming soon)
+
+---
+
+## Why "Quallaa"?
+
+Quality + Llama (the AI model family) = **Quallaa**
+
+We're building quality AI environments that give you unlimited leverage.
+
+---
+
+<div align="center">
+<sub>Built with ❤️ on Eclipse Theia</sub>
+</div>
