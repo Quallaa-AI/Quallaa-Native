@@ -228,6 +228,10 @@ export class ElectronMainApplication {
                         await fs.mkdir(args.electronUserData, { recursive: true });
                         app.setPath('userData', args.electronUserData);
                     }
+                    // Set application name from config for proper menu bar branding
+                    if (config.applicationName) {
+                        app.setName(config.applicationName);
+                    }
                     this.useNativeWindowFrame = this.getTitleBarStyle(config) === 'native';
                     this._config = config;
                     this.hookApplicationEvents();

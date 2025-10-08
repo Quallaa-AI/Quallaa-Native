@@ -39,6 +39,7 @@ export class ThemeService {
     protected activeTheme: Theme = NO_THEME;
     protected readonly themeChange = new Emitter<ThemeChangeEvent>();
     protected readonly deferredInitializer = new Deferred();
+    protected colorSchemeMediaQuery?: MediaQueryList;
     get initialized(): Promise<void> {
         return this.deferredInitializer.promise;
     }
@@ -52,12 +53,52 @@ export class ThemeService {
         this.preferences.ready.then(() => {
             this.validateActiveTheme();
             this.updateColorThemePreference();
+            this.setupAutoDetection();
             this.preferences.onPreferencesChanged(changes => {
                 if (COLOR_THEME_PREFERENCE_KEY in changes) {
                     this.validateActiveTheme();
                 }
+                if ('window.autoDetectColorScheme' in changes) {
+                    this.setupAutoDetection();
+                }
             });
         });
+    }
+
+    protected setupAutoDetection(): void {
+        const autoDetect = this.preferences.get<boolean>('window.autoDetectColorScheme', true);
+
+        // Clean up existing listener if any
+        if (this.colorSchemeMediaQuery) {
+            this.colorSchemeMediaQuery.removeEventListener('change', this.handleColorSchemeChange);
+            this.colorSchemeMediaQuery = undefined;
+        }
+
+        if (autoDetect && window.matchMedia) {
+            this.colorSchemeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            this.colorSchemeMediaQuery.addEventListener('change', this.handleColorSchemeChange);
+            // Apply current system theme
+            this.applySystemTheme();
+        }
+    }
+
+    protected readonly handleColorSchemeChange = (): void => {
+        if (this.preferences.get<boolean>('window.autoDetectColorScheme', true)) {
+            this.applySystemTheme();
+        }
+    };
+
+    protected applySystemTheme(): void {
+        const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+        const defaultTheme = FrontendApplicationConfigProvider.get().defaultTheme;
+
+        if (typeof defaultTheme === 'object') {
+            const themeId = prefersDark ? defaultTheme.dark : defaultTheme.light;
+            const theme = this.tryGetTheme(themeId);
+            if (theme) {
+                this.setCurrentTheme(themeId, true);
+            }
+        }
     }
 
     register(...themes: Theme[]): Disposable {
@@ -173,28 +214,28 @@ export class BuiltinThemeProvider {
     static readonly darkTheme: Theme = {
         id: 'dark',
         type: 'dark',
-        label: 'Dark (Theia)',
+        label: 'Dark (Classic)',
         editorTheme: 'dark-theia' // loaded in /packages/monaco/src/browser/textmate/monaco-theme-registry.ts
     };
 
     static readonly lightTheme: Theme = {
         id: 'light',
         type: 'light',
-        label: 'Light (Theia)',
+        label: 'Light (Classic)',
         editorTheme: 'light-theia' // loaded in /packages/monaco/src/browser/textmate/monaco-theme-registry.ts
     };
 
     static readonly hcTheme: Theme = {
         id: 'hc-theia',
         type: 'hc',
-        label: 'High Contrast (Theia)',
+        label: 'High Contrast Dark',
         editorTheme: 'hc-theia' // loaded in /packages/monaco/src/browser/textmate/monaco-theme-registry.ts
     };
 
     static readonly hcLightTheme: Theme = {
         id: 'hc-theia-light',
         type: 'hcLight',
-        label: 'High Contrast Light (Theia)',
+        label: 'High Contrast Light',
         editorTheme: 'hc-theia-light' // loaded in /packages/monaco/src/browser/textmate/monaco-theme-registry.ts
     };
 

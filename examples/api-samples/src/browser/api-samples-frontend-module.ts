@@ -19,7 +19,7 @@ import { bindDynamicLabelProvider } from './label/sample-dynamic-label-provider-
 import { bindSampleFilteredCommandContribution } from './contribution-filter/sample-filtered-command-contribution';
 import { bindSampleUnclosableView } from './view/sample-unclosable-view-contribution';
 import { bindSampleOutputChannelWithSeverity } from './output/sample-output-channel-with-severity';
-import { bindSampleMenu } from './menu/sample-menu-contribution';
+// import { bindSampleMenu } from './menu/sample-menu-contribution'; // Disabled for Quallaa
 import { bindSampleFileWatching } from './file-watching/sample-file-watching-contribution';
 import { bindVSXCommand } from './vsx/sample-vsx-command-contribution';
 import { bindSampleToolbarContribution } from './toolbar/sample-toolbar-contribution';
@@ -52,7 +52,7 @@ export default new ContainerModule((
     bindDynamicLabelProvider(bind);
     bindSampleUnclosableView(bind);
     bindSampleOutputChannelWithSeverity(bind);
-    bindSampleMenu(bind);
+    // bindSampleMenu(bind); // Disabled for Quallaa - demo menu not needed
     bindSampleFileWatching(bind);
     bindVSXCommand(bind);
     bindSampleFilteredCommandContribution(bind);

@@ -148,6 +148,11 @@ export const corePreferenceSchema: PreferenceSchema = {
             default: false,
             description: nls.localize('theia/core/secondaryWindow/alwaysOnTop', 'When enabled, the secondary window stays above all other windows, including those of different applications.'),
         },
+        'window.autoDetectColorScheme': {
+            type: 'boolean',
+            default: true,
+            description: nls.localizeByDefault('If enabled, will automatically change to high contrast theme if the OS is using a high contrast theme. Otherwise will automatically switch between Quallaa Light and Quallaa Dark themes based on your system appearance settings.')
+        },
         'http.proxy': {
             type: 'string',
             pattern: '^https?://([^:]*(:[^@]*)?@)?([^:]+|\\[[:0-9a-fA-F]+\\])(:\\d+)?/?$|^$',
@@ -226,8 +231,8 @@ export const corePreferenceSchema: PreferenceSchema = {
         },
         'workbench.colorTheme': {
             type: 'string',
-            enum: ['dark', 'light', 'hc-theia'],
-            enumItemLabels: ['Dark (Theia)', 'Light (Theia)', 'High Contrast (Theia)'],
+            enum: ['quallaa-dark', 'quallaa-light', 'dark', 'light', 'hc-theia'],
+            enumItemLabels: ['Quallaa Dark', 'Quallaa Light', 'Dark (Classic)', 'Light (Classic)', 'High Contrast Dark'],
             default: 'light',
             description: nls.localizeByDefault('Specifies the color theme used in the workbench when {0} is not enabled.', '`#window.autoDetectColorScheme#`')
         },

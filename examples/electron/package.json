@@ -10,10 +10,16 @@
     "frontend": {
       "config": {
         "applicationName": "Quallaa",
-        "defaultTheme": "quallaa-dark",
+        "defaultTheme": {
+          "light": "quallaa-light",
+          "dark": "quallaa-dark"
+        },
         "reloadOnReconnect": true,
         "electron": {
           "showWindowEarly": true
+        },
+        "preferences": {
+          "window.autoDetectColorScheme": true
         }
       }
     },
