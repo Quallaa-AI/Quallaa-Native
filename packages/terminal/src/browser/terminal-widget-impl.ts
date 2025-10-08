@@ -20,7 +20,7 @@ import { inject, injectable, named, postConstruct } from '@theia/core/shared/inv
 import { ContributionProvider, Disposable, Event, Emitter, ILogger, DisposableCollection, Channel, OS, generateUuid } from '@theia/core';
 import {
     Widget, Message, StatefulWidget, isFirefox, MessageLoop, KeyCode, ExtractableWidget, ContextMenuRenderer,
-    DecorationStyle
+    DecorationStyle, LabelProvider
 } from '@theia/core/lib/browser';
 import { isOSX } from '@theia/core/lib/common';
 import { WorkspaceService } from '@theia/workspace/lib/browser';
@@ -113,6 +113,7 @@ export class TerminalWidgetImpl extends TerminalWidget implements StatefulWidget
     @inject(WorkspaceService) protected readonly workspaceService: WorkspaceService;
     @inject(RemoteConnectionProvider) protected readonly connectionProvider: ServiceConnectionProvider;
     @inject(TerminalWidgetOptions) options: TerminalWidgetOptions;
+    protected workspaceFolder: string | undefined;
     @inject(ShellTerminalServerProxy) protected readonly shellTerminalServer: ShellTerminalServerProxy;
     @inject(TerminalWatcher) protected readonly terminalWatcher: TerminalWatcher;
     @inject(ILogger) @named('terminal') protected readonly logger: ILogger;
@@ -127,6 +128,7 @@ export class TerminalWidgetImpl extends TerminalWidget implements StatefulWidget
     @inject(ShellCommandBuilder) protected readonly shellCommandBuilder: ShellCommandBuilder;
     @inject(ContextMenuRenderer) protected readonly contextMenuRenderer: ContextMenuRenderer;
     @inject(MarkdownRendererFactory) protected readonly markdownRendererFactory: MarkdownRendererFactory;
+    @inject(LabelProvider) protected readonly labelProvider: LabelProvider;
 
     protected _markdownRenderer: MarkdownRenderer | undefined;
     protected get markdownRenderer(): MarkdownRenderer {
@@ -171,6 +173,7 @@ export class TerminalWidgetImpl extends TerminalWidget implements StatefulWidget
     @postConstruct()
     protected init(): void {
         this.id = this._terminalDOMId;
+        this.workspaceFolder = this.options.workspaceFolder;
         this.setTitle(this.options.title || TerminalWidgetImpl.LABEL);
         this.setIconClass();
 
@@ -536,7 +539,11 @@ export class TerminalWidgetImpl extends TerminalWidget implements StatefulWidget
         if (this.transient || this.options.isPseudoTerminal) {
             return {};
         }
-        return { terminalId: this.terminalId, titleLabel: this.title.label };
+        return {
+            terminalId: this.terminalId,
+            titleLabel: this.title.label,
+            workspaceFolder: this.workspaceFolder
+        };
     }
 
     restoreState(oldState: object): void {
@@ -546,9 +553,12 @@ export class TerminalWidgetImpl extends TerminalWidget implements StatefulWidget
             return;
         }
         if (this.restored === false) {
-            const state = oldState as { terminalId: number, titleLabel: string };
+            const state = oldState as { terminalId: number, titleLabel: string, workspaceFolder?: string };
             /* This is a workaround to issue #879 */
             this.restored = true;
+            if (state.workspaceFolder) {
+                this.workspaceFolder = state.workspaceFolder;
+            }
             this.title.label = state.titleLabel;
             this.start(state.terminalId);
         }
@@ -928,8 +938,17 @@ export class TerminalWidgetImpl extends TerminalWidget implements StatefulWidget
     }
 
     setTitle(title: string): void {
-        this.title.caption = title;
-        this.title.label = title;
+        let displayTitle = title;
+
+        // In multi-root workspaces, append the workspace folder name to the title
+        if (this.workspaceFolder) {
+            const folderUri = new URI(this.workspaceFolder);
+            const folderName = this.labelProvider.getName(folderUri);
+            displayTitle = `${title} (${folderName})`;
+        }
+
+        this.title.caption = displayTitle;
+        this.title.label = displayTitle;
     }
 
     waitOnExit(waitOnExit?: boolean | string): void {

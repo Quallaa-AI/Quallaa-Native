@@ -216,6 +216,14 @@ export interface TerminalWidgetOptions {
     readonly cwd?: string | URI;
 
     /**
+     * The workspace folder this terminal is associated with (for multi-root workspaces).
+     * This is used to display the workspace folder in the terminal title and to
+     * determine the default cwd when the terminal is created.
+     * Stored as a string to avoid circular reference issues during serialization.
+     */
+    readonly workspaceFolder?: string;
+
+    /**
      * Environment variables for terminal.
      */
     readonly env?: { [key: string]: string | null };

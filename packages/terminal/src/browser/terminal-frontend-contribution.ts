@@ -956,13 +956,16 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
         }
     }
 
-    protected async selectTerminalCwd(): Promise<string | undefined> {
+    protected async selectTerminalCwd(): Promise<{ cwd: string, workspaceFolder: string } | undefined> {
         return new Promise(async resolve => {
             const roots = this.workspaceService.tryGetRoots();
             if (roots.length === 0) {
                 resolve(undefined);
             } else if (roots.length === 1) {
-                resolve(roots[0].resource.toString());
+                resolve({
+                    cwd: roots[0].resource.toString(),
+                    workspaceFolder: roots[0].resource.toString()
+                });
             } else {
                 const items = roots.map(({ resource }) => ({
                     label: this.labelProvider.getName(resource),
@@ -972,7 +975,14 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
                 const selectedItem = await this.quickInputService?.showQuickPick(items, {
                     placeholder: nls.localizeByDefault('Select current working directory for new terminal')
                 });
-                resolve(selectedItem?.resource?.toString());
+                if (selectedItem) {
+                    resolve({
+                        cwd: selectedItem.resource.toString(),
+                        workspaceFolder: selectedItem.resource.toString()
+                    });
+                } else {
+                    resolve(undefined);
+                }
             }
         });
     }
@@ -1013,11 +1023,11 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
 
         if (profile instanceof ShellTerminalProfile) {
             if (this.workspaceService.workspace) {
-                const cwd = await this.selectTerminalCwd();
-                if (!cwd) {
+                const selection = await this.selectTerminalCwd();
+                if (!selection) {
                     return;
                 }
-                profile = profile.modify({ cwd });
+                profile = profile.modify({ cwd: selection.cwd, workspaceFolder: selection.workspaceFolder });
             }
         }
 
@@ -1037,7 +1047,18 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
     }
 
     protected async openActiveWorkspaceTerminal(options?: ApplicationShell.WidgetOptions): Promise<void> {
-        const termWidget = await this.newTerminal({});
+        let terminalOptions: TerminalWidgetOptions = {};
+
+        // In multi-root workspaces, prompt for workspace folder selection
+        if (this.workspaceService.workspace) {
+            const selection = await this.selectTerminalCwd();
+            if (!selection) {
+                return;
+            }
+            terminalOptions = { cwd: selection.cwd, workspaceFolder: selection.workspaceFolder };
+        }
+
+        const termWidget = await this.newTerminal(terminalOptions);
         termWidget.start();
         this.open(termWidget, { widgetOptions: options });
     }

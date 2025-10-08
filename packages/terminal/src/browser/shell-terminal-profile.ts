@@ -39,7 +39,7 @@ export class ShellTerminalProfile implements TerminalProfile {
      * @param options the options to override
      * @returns a modified copy of this profile
      */
-    modify(options: { cwd?: string | URI }): TerminalProfile {
+    modify(options: { cwd?: string | URI, workspaceFolder?: string }): TerminalProfile {
         return new ShellTerminalProfile(this.terminalService, { ...this.options, ...options });
     }
 }
