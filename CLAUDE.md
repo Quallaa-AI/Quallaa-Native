@@ -151,9 +151,10 @@ Many users will never edit code directly, but they'll have the **capability** - 
 
 ## Key Project Files
 
-- **`TODO.md`** - Detailed 9-phase project plan for the rebrand (2-3 weeks)
-- **`MARKETING-ENVIRONMENT-MVP.md`** - Complete implementation plan for first domain environment (6 weeks, 10 phases)
-- **`Rebranding Eclipse Theia to Quallaa: Fast-Track MVP Guide.md`** - Strategic guide and business context
+- **`docs/planning/todo.md`** - Detailed 9-phase project plan for the rebrand (2-3 weeks)
+- **`docs/planning/marketing-environment-mvp.md`** - Complete implementation plan for first domain environment (6 weeks, 10 phases)
+- **`docs/planning/rebrand-guide.md`** - Strategic guide and business context
+- **`docs/deployment/`** - Deployment guides (quick start, Theia Cloud)
 - **`examples/electron/`** - Desktop application build target (macOS, Windows, Linux)
 - **`examples/browser/`** - Web application build target
 - **`.vscode/launch.json`** - Pre-configured debug configurations

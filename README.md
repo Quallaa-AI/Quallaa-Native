@@ -129,10 +129,15 @@ npm run build:browser
 
 ## Documentation
 
+### Project Documentation
 - **[CLAUDE.md](CLAUDE.md)** - Comprehensive guide for AI-assisted development
-- **[TODO.md](TODO.md)** - Active project roadmap and tasks
+- **[Planning Docs](docs/planning/)** - Project roadmap, TODO, rebrand guide, MVP plans
+- **[Deployment Guides](docs/deployment/)** - Quick start and Theia Cloud deployment
+
+### Development Guides
 - **[doc/Developing.md](doc/Developing.md)** - Development guide (Theia platform)
 - **[doc/Testing.md](doc/Testing.md)** - Testing guide
+- **[doc/code-organization.md](doc/code-organization.md)** - Code structure and organization
 
 ---
 
