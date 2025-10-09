@@ -125,18 +125,23 @@ jobs:
 
       - name: Check EPL 2.0 headers in Quallaa branding files
         run: |
-          cd packages/quallaa-branding/src
-          failed=0
-          for file in $(find . -name "*.ts" -o -name "*.tsx"); do
-            if ! grep -q "Eclipse Public License v. 2.0" "$file"; then
-              echo "❌ Missing EPL header in $file"
-              failed=1
+          # Only check if the branding package exists
+          if [ -d packages/quallaa-branding/src ]; then
+            cd packages/quallaa-branding/src
+            failed=0
+            for file in $(find . -name "*.ts" -o -name "*.tsx"); do
+              if ! grep -q "Eclipse Public License v. 2.0" "$file"; then
+                echo "❌ Missing EPL header in $file"
+                failed=1
+              fi
+            done
+            if [ $failed -eq 1 ]; then
+              exit 1
             fi
-          done
-          if [ $failed -eq 1 ]; then
-            exit 1
+            echo "✅ All files have EPL 2.0 headers"
+          else
+            echo "ℹ️  Skipping branding package check (directory doesn't exist yet)"
           fi
-          echo "✅ All files have EPL 2.0 headers"
 
       - name: Check package.json license field
         run: |

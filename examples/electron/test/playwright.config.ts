@@ -19,11 +19,11 @@ export default defineConfig({
   testDir: '.',
 
   // Maximum time one test can run
-  timeout: 60 * 1000,
+  timeout: process.env.CI ? 90 * 1000 : 60 * 1000, // Longer timeout for CI
 
   // Expect timeout for assertions
   expect: {
-    timeout: 10000
+    timeout: process.env.CI ? 15000 : 10000 // Longer timeout for CI
   },
 
   // Run tests in files in parallel

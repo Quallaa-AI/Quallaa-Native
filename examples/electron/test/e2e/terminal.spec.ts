@@ -25,17 +25,17 @@ test.describe('Terminal UI and Functionality', () => {
 
   test('should open terminal via command palette', async ({ page }) => {
     await page.waitForLoadState('domcontentloaded');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(5000); // Increased for CI
 
     // Open Command Palette
     await page.keyboard.press('Meta+Shift+P');
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(1500); // Increased for CI
 
     // Type partial command and wait for autocomplete
     await page.keyboard.type('Create New Terminal');
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(1500); // Increased for CI
     await page.keyboard.press('Enter');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(4000); // Increased for CI
 
     // Verify terminal is visible by checking for textarea
     const terminalTextarea = page.locator('textarea.xterm-helper-textarea');
@@ -47,7 +47,7 @@ test.describe('Terminal UI and Functionality', () => {
     if (count === 0) {
       // Try the keyboard shortcut as fallback to verify terminal works
       await page.keyboard.press('Control+`');
-      await page.waitForTimeout(2000);
+      await page.waitForTimeout(3000); // Increased for CI
       const fallbackCount = await terminalTextarea.count();
       expect(fallbackCount).toBeGreaterThan(0);
     } else {
@@ -128,38 +128,38 @@ test.describe('Terminal UI and Functionality', () => {
 
   test('should create multiple terminal instances', async ({ page }) => {
     await page.waitForLoadState('domcontentloaded');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(5000); // Increased for CI
 
     // Open first terminal
     await page.keyboard.press('Control+`');
-    await page.waitForTimeout(2000);
+    await page.waitForTimeout(3000); // Increased for CI
 
     // Execute a command in first terminal to mark it
     const terminalTextarea = page.locator('textarea.xterm-helper-textarea').first();
     if (await terminalTextarea.count() > 0) {
       await terminalTextarea.click();
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(1000); // Increased for CI
       await page.keyboard.type('echo "Terminal 1"');
       await page.keyboard.press('Enter');
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(2000); // Increased for CI
     }
 
     // Try to create second terminal via command palette
     await page.keyboard.press('Meta+Shift+P');
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(1500); // Increased for CI
     await page.keyboard.type('Create New Terminal');
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000); // Increased for CI
     await page.keyboard.press('Enter');
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(4000); // Increased for CI
 
     // Check if we can execute different command (indicates terminal switched or new one created)
     const secondTextarea = page.locator('textarea.xterm-helper-textarea').first();
     if (await secondTextarea.count() > 0) {
       await secondTextarea.click();
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(1000); // Increased for CI
       await page.keyboard.type('echo "Terminal 2"');
       await page.keyboard.press('Enter');
-      await page.waitForTimeout(1500);
+      await page.waitForTimeout(2000); // Increased for CI
 
       // Check body text has both outputs (indicating multiple terminals or terminal works)
       const bodyText = await page.textContent('body') || '';
