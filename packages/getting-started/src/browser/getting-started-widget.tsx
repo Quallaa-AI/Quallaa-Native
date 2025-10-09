@@ -144,7 +144,7 @@ export class GettingStartedWidget extends ReactWidget {
         return <div className='gs-container'>
             <div className='gs-content-container'>
                 {this.aiIsIncluded &&
-                    <div className='gs-float shadow-pulse'>
+                    <div className='gs-float'>
                         {this.renderAIBanner()}
                     </div>
                 }

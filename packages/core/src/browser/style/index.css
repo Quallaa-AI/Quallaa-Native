@@ -165,11 +165,6 @@ blockquote {
     bottom: 0;
     z-index: 50000;
     background: var(--theia-editor-background);
-    background-image: url('./quallaa-logo.svg');
-    background-size: var(--quallaa-shimmer-size);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
     transition: opacity 0.8s;
     display: flex;
     justify-content: center;
@@ -178,7 +173,7 @@ blockquote {
 }
 
 .theia-preload::before {
-    /* Shimmer overlay - plays once on load */
+    /* Logo with semitransparency */
     content: '';
     position: absolute;
     top: 50%;
@@ -186,17 +181,11 @@ blockquote {
     transform: translate(-50%, -50%);
     width: var(--quallaa-shimmer-size);
     height: var(--quallaa-shimmer-size);
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        var(--quallaa-shimmer-color) 50%,
-        transparent 100%
-    );
-    animation: quallaa-shimmer
-        var(--quallaa-shimmer-duration)
-        var(--quallaa-shimmer-easing)
-        1;
-    animation-fill-mode: forwards;
+    background-image: url('./quallaa-logo.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.4;
 }
 
 .theia-preload::after {
