@@ -13,10 +13,24 @@ This repository is **Eclipse Theia** being transformed into **Quallaa**, an AI E
 The core insight: **IDE + Command Line + frontier AI models = the most capable AI execution environment.** While most people are stuck with chat interfaces that waste 67% of AI potential through translation bottlenecks, developers have AI tools that directly execute, modify files, and orchestrate infrastructure.
 
 Quallaa democratizes this power for non-developer domain experts (marketers, financial analysts, consultants, etc.) by providing:
+- **Domain-specific application layer** - Users see "Home, Campaigns, Audience" tabs, not file explorers
 - **Pre-configured environments** with real infrastructure (databases, APIs, email providers, analytics tools)
+- **Wizard-driven setup** - Non-technical users guided through API keys, service configuration
 - **Direct AI execution** - AI doesn't just describe solutions, it executes them in the IDE environment
-- **Future-proof architecture** - Anything tokenizable can be orchestrated from a code editor
+- **Progressive disclosure** - IDE tools hidden by default but fully accessible when needed
+- **Future-proof architecture** - Anything tokenizable can be orchestrated from the code editor foundation
 - **Frontier model integration** - Use Claude, GPT, and other best-in-class models as-is, out-of-the-box
+
+**Key Architecture Pattern:**
+```
+┌────────────────────────────────────────────┐
+│  Domain Navigation (What users see first)  │
+│  [Home] [Campaigns] [Audience] [Analytics] │  ← Marketing Environment
+├────────────────────────────────────────────┤
+│  IDE Foundation (Available but hidden)     │
+│  Explorer | Terminal | Source Control      │  ← Full power underneath
+└────────────────────────────────────────────┘
+```
 
 ### Why Eclipse Theia?
 
@@ -76,9 +90,69 @@ Quallaa provides **execution environments**, not pre-configured AI agents or rig
 
 Many users will never edit code directly, but they'll have the **capability** - that's the future-proof "AI-native" approach.
 
+### The Three-Way Relationship: Files, UI, AI
+
+**Core Architectural Principle:** Files are the source of truth. Visual UI and AI both work with the same files and backend services.
+
+```
+┌─────────────────────────────────────────────────────┐
+│  User Interaction Layer                             │
+│                                                      │
+│  ┌─────────────────┐        ┌──────────────────┐   │
+│  │  Visual UI      │        │  Claude Code AI  │   │
+│  │  - Drag & drop  │        │  - Natural lang  │   │
+│  │  - Form inputs  │        │  - Commands      │   │
+│  │  - Wizards      │        │  - Automation    │   │
+│  └────────┬────────┘        └────────┬─────────┘   │
+│           │                          │              │
+│           ├──────────────────────────┤              │
+│           │                          │              │
+│           ▼                          ▼              │
+│  ┌──────────────────────────────────────────────┐  │
+│  │  Files & Backend Services                    │  │
+│  │  - .email.tsx files                          │  │
+│  │  - campaign definitions (JSON/SQL)           │  │
+│  │  - PostgreSQL database                       │  │
+│  │  - Resend API service                        │  │
+│  └──────────────────────────────────────────────┘  │
+│                                                     │
+│  Both UI and AI read/write the same data          │
+└─────────────────────────────────────────────────────┘
+```
+
+**Example Workflow:**
+
+1. **Non-technical user (Visual UI):**
+   - Opens Campaign Manager widget
+   - Clicks "New Email Template"
+   - Visual editor: Drags Button component, types text
+   - Clicks Save
+   - **Result**: Creates `campaigns/welcome/day-1.email.tsx` file
+
+2. **Claude Code (AI):**
+   - User: "Add a discount code to the welcome email"
+   - AI: Reads `campaigns/welcome/day-1.email.tsx`
+   - AI: Modifies TSX, adds discount code props
+   - AI: Writes file back
+   - **Result**: Same file updated, visible in visual editor immediately
+
+3. **Power user (Code mode):**
+   - Opens `campaigns/welcome/day-1.email.tsx` in Monaco editor
+   - Directly edits TypeScript/React code
+   - Saves
+   - **Result**: Changes reflected in visual editor preview
+
+**Why This Matters:**
+- No "export" step - files are always in sync
+- AI doesn't need separate API - works with same files as UI
+- Version control (git) works naturally
+- Users can switch between visual/code/AI seamlessly
+- Future-proof: Any new AI model can work with existing files
+
 ## Key Project Files
 
 - **`TODO.md`** - Detailed 9-phase project plan for the rebrand (2-3 weeks)
+- **`MARKETING-ENVIRONMENT-MVP.md`** - Complete implementation plan for first domain environment (6 weeks, 10 phases)
 - **`Rebranding Eclipse Theia to Quallaa: Fast-Track MVP Guide.md`** - Strategic guide and business context
 - **`examples/electron/`** - Desktop application build target (macOS, Windows, Linux)
 - **`examples/browser/`** - Web application build target
@@ -308,6 +382,40 @@ node --inspect-brk=0.0.0.0:9229 examples/electron/lib/backend/main.js
 
 **For Quallaa**: Extension system enables domain-specific environment templates. Marketing environment = custom extensions for CRM functionality, email integration, analytics.
 
+### Shell Layout Customization
+
+**Critical for Quallaa:** We don't just add widgets to the standard IDE shell - we provide completely custom shell layouts per environment type.
+
+**How Theia Shell Works:**
+- `ApplicationShell` manages layout areas (top, left, right, main, bottom)
+- Widgets register with specific areas
+- Default layout shows file explorer on left, editor in main area
+
+**Quallaa Custom Shell Pattern:**
+```typescript
+// Detect project type on workspace open
+if (projectType === 'marketing') {
+  // Hide default sidebar widgets
+  // Create custom top navigation widget
+  // Register domain-specific main area widgets
+  // Keep terminal/problems panel accessible but minimized
+}
+```
+
+**Example - Marketing Shell Layout:**
+- **Top panel**: Custom navigation widget (Home, Campaigns, Audience, Analytics)
+- **Main area**: Campaign manager / Email editor / Audience builder (widget swapping)
+- **Left sidebar**: Minimized or hidden (Explorer still accessible via Cmd+Shift+E)
+- **Bottom panel**: Terminal available via Cmd+` (for power users / Claude Code)
+
+**Implementation Strategy:**
+1. Workspace opens → Read `.quallaa/project-type.json`
+2. If marketing project → Load `MarketingShellLayoutContribution`
+3. Contribution modifies shell, registers domain widgets, hides IDE chrome
+4. Keyboard shortcuts still work for hidden features (progressive disclosure)
+
+Study packages for reference: `packages/core/src/browser/shell/` for shell architecture.
+
 ### VS Code Compatibility
 - Theia supports VS Code extensions via plugin system
 - Extensions loaded from `plugins/` directory
@@ -417,15 +525,56 @@ These are NOT in MVP scope, but inform architecture decisions:
 - May involve: simplified UI modes, domain-specific overlays, gradual feature revelation
 - Must maintain full IDE capability underneath (future-proofing)
 
-### Domain-Specific Environments (Phase 2)
-- Marketing environment example:
-  - Postgres database (pre-configured schemas)
-  - Email provider integration (SendGrid, Mailgun)
-  - Analytics API connections (Google Analytics, Mixpanel)
-  - File templates and project structures
-  - NOT custom AI training - use frontier models as-is
-- Finance, legal, consulting environments follow similar patterns
-- Implemented as Theia extensions + backend services
+### Domain-Specific Environments (In Development - See MARKETING-ENVIRONMENT-MVP.md)
+
+**What is a Domain Environment?**
+
+A domain environment is a complete, pre-configured project template with:
+1. **Custom Shell Layout** - Domain-specific navigation (Home, Campaigns, Audience) replaces traditional IDE chrome
+2. **Backend Infrastructure** - PostgreSQL database, API integrations (Resend, analytics) managed by Theia backend
+3. **Project Template** - Scaffolded directory structure, schemas, sample data
+4. **Configuration Wizards** - Step-by-step setup for API keys, database connection (non-technical friendly)
+5. **Domain Widgets** - Visual editors, dashboards, managers tailored to the domain
+6. **AI Integration** - Claude Code can call backend services to execute domain operations
+
+**Marketing Environment Architecture:**
+```
+User creates "New Marketing Environment" →
+
+  Wizard guides through:
+  - Resend API key setup (with screenshots, validation)
+  - Database configuration (local Docker or cloud)
+  - Sample campaign import (optional)
+
+  Creates project:
+  my-marketing-project/
+  ├── .quallaa/
+  │   ├── project-type.json        # Identifies as marketing project
+  │   ├── services.json             # API keys (encrypted)
+  │   └── database/schema.sql       # Pre-configured tables
+  ├── campaigns/
+  ├── emails/templates/
+  └── segments/
+
+  Opens with custom UI:
+  - Top: [Home] [Campaigns] [Audience] [Analytics] tabs
+  - Main: Campaign manager, email editor, segment builder
+  - Hidden: File explorer, terminal (Cmd+B to show)
+
+  AI can execute:
+  - "Create welcome campaign for trial users" → Calls backend service
+  - "Send test email to me" → Calls Resend API
+  - "Show contacts inactive 30 days" → Queries PostgreSQL
+```
+
+**Key Principle:** Users see a marketing automation platform, not an IDE. But full IDE capability exists underneath for progressive disclosure.
+
+**Other Environment Types (Future):**
+- Finance: Spreadsheet-like interface + reporting + data pipelines
+- Legal: Document management + contract templates + clause library
+- Consulting: Project tracking + deliverable templates + client portal
+
+Each environment follows same pattern: domain UI layer + backend services + Theia foundation.
 
 ### Environment Management (Phase 3)
 - Multi-environment orchestration
