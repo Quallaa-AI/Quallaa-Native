@@ -16,9 +16,14 @@
 
 import { ContainerModule } from '@theia/core/shared/inversify';
 import { bindContributionProvider, CommandContribution } from '@theia/core';
+import { WidgetFactory } from '@theia/core/lib/browser';
 import { DomainRegistry, DomainContribution } from '../common/domain-protocol';
 import { DomainRegistryImpl } from './domain-registry';
 import { DomainTestCommandContribution } from './domain-test-contribution';
+import { DomainTemplateBrowser } from './widgets/domain-template-browser';
+import { DomainTemplateBrowserContribution, DomainTemplateBrowserFactory } from './domain-template-browser-contribution';
+import { DomainProjectService } from './domain-project-service';
+import { DomainTemplateBrowserTestContribution } from './domain-template-test-contribution';
 
 /**
  * Domain Core Frontend Module
@@ -38,6 +43,21 @@ export default new ContainerModule(bind => {
     // Bind test command for domain registry validation
     bind(DomainTestCommandContribution).toSelf().inSingletonScope();
     bind(CommandContribution).toService(DomainTestCommandContribution);
+
+    // Bind domain project service
+    bind(DomainProjectService).toSelf().inSingletonScope();
+
+    // Bind domain template browser widget
+    bind(DomainTemplateBrowser).toSelf().inSingletonScope();
+    bind(WidgetFactory).to(DomainTemplateBrowserFactory).inSingletonScope();
+
+    // Bind command to open template browser
+    bind(DomainTemplateBrowserContribution).toSelf().inSingletonScope();
+    bind(CommandContribution).toService(DomainTemplateBrowserContribution);
+
+    // Bind test command for template browser
+    bind(DomainTemplateBrowserTestContribution).toSelf().inSingletonScope();
+    bind(CommandContribution).toService(DomainTemplateBrowserTestContribution);
 
     console.log('[Quallaa] Domain core module loaded');
 });

@@ -1,0 +1,97 @@
+/* *****************************************************************************
+ * Copyright (C) 2025 Quallaa and others.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v. 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0.
+ *
+ * This Source Code may also be made available under the following Secondary
+ * Licenses when the conditions for such availability set forth in the Eclipse
+ * Public License v. 2.0 are satisfied: GNU General Public License, version 2
+ * with the GNU Classpath Exception which is available at
+ * https://www.gnu.org/software/classpath/license.html.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
+ ******************************************************************************/
+
+.create-project-dialog {
+    padding: 1rem;
+    min-width: 500px;
+}
+
+.create-project-dialog .dialog-section {
+    margin-bottom: 1.5rem;
+}
+
+.create-project-dialog label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--theia-foreground);
+}
+
+.create-project-dialog .theia-input {
+    width: 100%;
+    padding: 0.5rem;
+    background: var(--theia-input-background);
+    color: var(--theia-input-foreground);
+    border: 1px solid var(--theia-input-border);
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.create-project-dialog .theia-input:focus {
+    outline: 1px solid var(--theia-focusBorder);
+    outline-offset: -1px;
+}
+
+.create-project-dialog .input-with-button {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.create-project-dialog .input-with-button .theia-input {
+    flex: 1;
+}
+
+.create-project-dialog .theia-button {
+    padding: 0.5rem 1rem;
+    background: var(--theia-button-background);
+    color: var(--theia-button-foreground);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    white-space: nowrap;
+}
+
+.create-project-dialog .theia-button:hover {
+    background: var(--theia-button-hoverBackground);
+}
+
+.create-project-dialog .dialog-info {
+    padding: 1rem;
+    background: var(--theia-editor-background);
+    border: 1px solid var(--theia-panel-border);
+    border-radius: 4px;
+    margin-top: 1rem;
+}
+
+.create-project-dialog .dialog-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--theia-descriptionForeground);
+}
+
+.create-project-dialog .dialog-info code {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--theia-textCodeBlock-background);
+    color: var(--theia-textLink-foreground);
+    border-radius: 3px;
+    font-family: var(--monaco-monospace-font);
+    font-size: 0.9em;
+}

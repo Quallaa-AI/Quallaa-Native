@@ -22,3 +22,8 @@
 
 export * from './domain-registry';
 export * from './domain-test-contribution';
+export * from './domain-template-browser-contribution';
+export * from './domain-template-test-contribution';
+export * from './widgets/domain-template-browser';
+export * from './domain-project-service';
+export * from './dialogs/create-project-dialog';

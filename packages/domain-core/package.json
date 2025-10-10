@@ -5,6 +5,7 @@
   "main": "lib/common/index.js",
   "typings": "lib/common/index.d.ts",
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@theia/core": "1.65.0"
   },
   "publishConfig": {
@@ -33,9 +34,10 @@
     "src"
   ],
   "scripts": {
-    "build": "theiaext build",
+    "build": "theiaext build && npm run copy:css",
     "clean": "theiaext clean",
-    "compile": "theiaext compile",
+    "compile": "theiaext compile && npm run copy:css",
+    "copy:css": "cp -r src/browser/widgets/*.css lib/browser/widgets/ 2>/dev/null || true && cp -r src/browser/dialogs/*.css lib/browser/dialogs/ 2>/dev/null || true",
     "lint": "theiaext lint",
     "test": "theiaext test",
     "watch": "theiaext watch"

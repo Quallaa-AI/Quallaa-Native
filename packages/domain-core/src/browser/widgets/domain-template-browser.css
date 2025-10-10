@@ -1,0 +1,250 @@
+/* *****************************************************************************
+ * Copyright (C) 2025 Quallaa and others.
+ *
+ * Domain Template Browser - Minimal Styling
+ * Uses Theia's existing variables and patterns
+ * Will be enhanced with full design system in Phase 2
+ * ************************************************************************** */
+
+.domain-template-browser {
+    padding: 2rem;
+    height: 100%;
+    overflow-y: auto;
+    background: var(--theia-editor-background);
+    color: var(--theia-foreground);
+}
+
+/* Header Section */
+.domain-template-browser .browser-header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--theia-panel-border);
+    padding-bottom: 1rem;
+}
+
+.domain-template-browser .browser-header h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: var(--theia-foreground);
+}
+
+.domain-template-browser .browser-header p {
+    font-size: 0.95rem;
+    margin: 0;
+    color: var(--theia-descriptionForeground);
+}
+
+/* Empty State */
+.domain-template-browser .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.domain-template-browser .empty-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1rem;
+    color: var(--theia-descriptionForeground);
+    opacity: 0.5;
+}
+
+.domain-template-browser .empty-state h3 {
+    font-size: 1.25rem;
+    margin: 0 0 0.5rem 0;
+    color: var(--theia-foreground);
+}
+
+.domain-template-browser .empty-state p {
+    color: var(--theia-descriptionForeground);
+    margin: 0;
+}
+
+/* Template Grid */
+.domain-template-browser .template-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Template Card */
+.domain-template-browser .template-card {
+    background: var(--theia-sideBar-background);
+    border: 1px solid var(--theia-panel-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.domain-template-browser .template-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: var(--theia-focusBorder);
+}
+
+/* Card Header */
+.domain-template-browser .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.domain-template-browser .icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    background: var(--theia-button-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.domain-template-browser .icon-wrapper svg {
+    width: 24px;
+    height: 24px;
+    color: var(--theia-button-foreground);
+}
+
+.domain-template-browser .header-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.domain-template-browser .card-header h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    color: var(--theia-foreground);
+}
+
+.domain-template-browser .template-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.125rem 0.5rem;
+    background: var(--theia-badge-background);
+    color: var(--theia-badge-foreground);
+    border-radius: 12px;
+}
+
+/* Card Description */
+.domain-template-browser .card-description {
+    color: var(--theia-descriptionForeground);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+    font-size: 0.9rem;
+}
+
+/* Capabilities Section */
+.domain-template-browser .capabilities-section {
+    margin-bottom: 1.25rem;
+}
+
+.domain-template-browser .capabilities-section h4 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 0.5rem 0;
+    color: var(--theia-descriptionForeground);
+}
+
+.domain-template-browser .capabilities-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.domain-template-browser .capability-badge {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    background: var(--theia-input-background);
+    color: var(--theia-foreground);
+    border: 1px solid var(--theia-input-border);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Services Section */
+.domain-template-browser .services-section {
+    margin-bottom: 1.25rem;
+}
+
+.domain-template-browser .services-section h4 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 0.5rem 0;
+    color: var(--theia-descriptionForeground);
+}
+
+.domain-template-browser .services-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.domain-template-browser .service-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.domain-template-browser .service-type {
+    color: var(--theia-descriptionForeground);
+    font-weight: 500;
+}
+
+.domain-template-browser .service-provider {
+    color: var(--theia-foreground);
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 0.8rem;
+}
+
+.domain-template-browser .required-badge {
+    margin-left: auto;
+    font-size: 0.7rem;
+    padding: 0.125rem 0.375rem;
+    background: var(--theia-notificationsErrorIcon-foreground);
+    color: white;
+    border-radius: 3px;
+    font-weight: 600;
+}
+
+.domain-template-browser .more-services {
+    font-size: 0.85rem;
+    color: var(--theia-descriptionForeground);
+    font-style: italic;
+}
+
+/* Card Footer */
+.domain-template-browser .card-footer {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--theia-panel-border);
+}
+
+.domain-template-browser .create-button {
+    width: 100%;
+    padding: 0.625rem 1.25rem;
+    background: var(--theia-button-background);
+    color: var(--theia-button-foreground);
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.domain-template-browser .create-button:hover {
+    background: var(--theia-button-hoverBackground);
+}
+
+.domain-template-browser .create-button:active {
+    transform: scale(0.98);
+}
