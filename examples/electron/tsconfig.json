@@ -96,6 +96,9 @@
       "path": "../../packages/dev-container"
     },
     {
+      "path": "../../packages/domain-core"
+    },
+    {
       "path": "../../packages/editor"
     },
     {
@@ -118,6 +121,9 @@
     },
     {
       "path": "../../packages/markers"
+    },
+    {
+      "path": "../../packages/marketing-domain"
     },
     {
       "path": "../../packages/memory-inspector"

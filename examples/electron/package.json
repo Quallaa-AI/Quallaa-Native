@@ -78,6 +78,8 @@
     "@theia/navigator": "1.65.0",
     "@theia/outline-view": "1.65.0",
     "@theia/output": "1.65.0",
+    "@quallaa/domain-core": "1.0.0",
+    "@quallaa/marketing-domain": "1.0.0",
     "@theia/plugin-dev": "1.65.0",
     "@theia/plugin-ext": "1.65.0",
     "@theia/plugin-ext-headless": "1.65.0",

@@ -4,33 +4,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Context
 
-This repository is **Eclipse Theia** being transformed into **Quallaa**, an AI Environment Management system for domain experts.
+This repository includes **Eclipse Theia** as the IDE foundation for **Quallaa**, an AI Environment Management system for domain experts.
 
 ### What is Quallaa?
 
-**Quallaa is an AI execution environment that gives domain experts access to developer-grade AI capabilities.**
+# Quallaa: An AI Execution Environment for Domain Experts
 
-The core insight: **IDE + Command Line + frontier AI models = the most capable AI execution environment.** While most people are stuck with chat interfaces that waste 67% of AI potential through translation bottlenecks, developers have AI tools that directly execute, modify files, and orchestrate infrastructure.
+**The Core Idea:** AI that doesn't just *describe* solutions—it actually *executes* them. We offer a distinct approach to AI-native: managed application layers on top of development environments. It is on these digital beaches and in these binary jungles that our customers have access to the smartest and most capable AI systems. We are masters of progressive disclosure and we always begin with simple physical metaphors.  
 
-Quallaa democratizes this power for non-developer domain experts (marketers, financial analysts, consultants, etc.) by providing:
-- **Domain-specific application layer** - Users see "Home, Campaigns, Audience" tabs, not file explorers
-- **Pre-configured environments** with real infrastructure (databases, APIs, email providers, analytics tools)
-- **Wizard-driven setup** - Non-technical users guided through API keys, service configuration
-- **Direct AI execution** - AI doesn't just describe solutions, it executes them in the IDE environment
-- **Progressive disclosure** - IDE tools hidden by default but fully accessible when needed
-- **Future-proof architecture** - Anything tokenizable can be orchestrated from the code editor foundation
-- **Frontier model integration** - Use Claude, GPT, and other best-in-class models as-is, out-of-the-box
+## The Problem We're Solving
 
-**Key Architecture Pattern:**
-```
-┌────────────────────────────────────────────┐
-│  Domain Navigation (What users see first)  │
-│  [Home] [Campaigns] [Audience] [Analytics] │  ← Marketing Environment
-├────────────────────────────────────────────┤
-│  IDE Foundation (Available but hidden)     │
-│  Explorer | Terminal | Source Control      │  ← Full power underneath
-└────────────────────────────────────────────┘
-```
+You know what you need. You can explain it clearly. But you're stuck:
+- **ChatGPT/Claude** can tell you *how* to build it, but can't actually do it
+- **No-code tools** work until you hit their limitations
+- **Traditional platforms** (HubSpot, Marketo) make you wait for features or hire developers
+- **IT departments** have a 6-week backlog for your simple change
+
+## How We're Different
+
+**Think of it this way:**
+- **Chat AI** = A cookbook that describes recipes
+- **Quallaa** = A fully-stocked kitchen where AI actually cooks the meal
+
+We provide **domain-specific UI on top of developer-grade infrastructure.** Both the visual interface and AI work with the exact same files, so they stay perfectly in sync.
 
 ### Why Eclipse Theia?
 
@@ -90,70 +86,149 @@ Quallaa provides **execution environments**, not pre-configured AI agents or rig
 
 Many users will never edit code directly, but they'll have the **capability** - that's the future-proof "AI-native" approach.
 
-### The Three-Way Relationship: Files, UI, AI
+### Critical Architectural Principle: Domains Are AI-Modifiable Scaffolding
 
-**Core Architectural Principle:** Files are the source of truth. Visual UI and AI both work with the same files and backend services.
+**IMPORTANT: The marketing domain (and all domains) are NOT finished products.** They are starting templates that users customize through AI commands to build exactly what they need.
+
+**Template → Instance → Customization Pattern:**
+
+When a user creates a marketing project, they're not installing a fixed application. They're creating a **working copy of the domain source code** that AI can modify:
+
+1. **User creates "New Marketing Project"**
+   - Template source code is copied to user's project (`.quallaa/domain/`)
+   - User gets: Campaign builder, email editor, database schema, API integrations
+
+2. **User issues command: "I need to track webinar campaigns with registration counts"**
+   - AI modifies the user's domain instance:
+     - Updates database schema (adds `webinar_campaigns` table)
+     - Creates new `WebinarCampaignBuilder.tsx` widget
+     - Modifies TypeScript interfaces to include webinar fields
+     - Updates domain registration to expose new capability
+
+3. **User's domain evolves uniquely**
+   - No longer matches the base template
+   - Becomes the user's custom marketing automation system
+   - Full programming capability accessed via natural language
+
+**Why This Matters for Development:**
+
+- Domain abstraction must support **dynamic capabilities** (not fixed at design time)
+- Must distinguish between **template** (base marketing domain) and **instance** (user's customized version)
+- AI needs **source path metadata** (where can it edit: widgets/, services/, schema/)
+- Track **customization history** (what has AI modified, why)
+- Domain providers declare **modifiability** (can AI edit this domain?)
+
+**This is fundamentally different from "no-code" tools:**
+- No-code: Fixed data models, hit ceiling quickly
+- Quallaa: AI modifies the domain itself, unlimited extensibility
+- Users focus on outcomes ("I need webinar tracking"), AI handles implementation
+
+**This is also different from typical IDE usage:**
+- Typical IDE: Developer manually writes code
+- Quallaa: Domain expert describes needs, AI modifies domain code
+- The IDE foundation enables AI to orchestrate real infrastructure (databases, APIs, services)
+
+See `docs/architecture/domain-abstraction-principles.md` for complete architectural details.
+
+### The Three-Way Relationship: Infrastructure, UI, AI
+
+**Core Architectural Principle:** Infrastructure is the source of truth. Visual UI and AI both work with the same databases, files, APIs, and services.
 
 ```
-┌─────────────────────────────────────────────────────┐
-│  User Interaction Layer                             │
-│                                                      │
-│  ┌─────────────────┐        ┌──────────────────┐   │
-│  │  Visual UI      │        │  Claude Code AI  │   │
-│  │  - Drag & drop  │        │  - Natural lang  │   │
-│  │  - Form inputs  │        │  - Commands      │   │
-│  │  - Wizards      │        │  - Automation    │   │
-│  └────────┬────────┘        └────────┬─────────┘   │
-│           │                          │              │
-│           ├──────────────────────────┤              │
-│           │                          │              │
-│           ▼                          ▼              │
-│  ┌──────────────────────────────────────────────┐  │
-│  │  Files & Backend Services                    │  │
-│  │  - .email.tsx files                          │  │
-│  │  - campaign definitions (JSON/SQL)           │  │
-│  │  - PostgreSQL database                       │  │
-│  │  - Resend API service                        │  │
-│  └──────────────────────────────────────────────┘  │
-│                                                     │
-│  Both UI and AI read/write the same data          │
-└─────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│  User Interaction Layer                                  │
+│                                                           │
+│  ┌─────────────────┐        ┌──────────────────┐        │
+│  │  Visual UI      │        │  Claude Code AI  │        │
+│  │  - Drag & drop  │        │  - Natural lang  │        │
+│  │  - Form inputs  │        │  - Commands      │        │
+│  │  - Wizards      │        │  - Automation    │        │
+│  └────────┬────────┘        └────────┬─────────┘        │
+│           │                          │                   │
+│           ├──────────────────────────┤                   │
+│           │                          │                   │
+│           ▼                          ▼                   │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │  Domain Infrastructure (Source of Truth)        │    │
+│  │                                                  │    │
+│  │  Databases:                                      │    │
+│  │  - PostgreSQL (customers, campaigns, segments)  │    │
+│  │  - Redis (cache, sessions)                      │    │
+│  │                                                  │    │
+│  │  APIs/Services:                                  │    │
+│  │  - Resend API (email sending)                   │    │
+│  │  - Google Analytics (tracking)                  │    │
+│  │  - Stripe (payments)                            │    │
+│  │                                                  │    │
+│  │  File Systems:                                   │    │
+│  │  - Email templates (.email.tsx)                 │    │
+│  │  - Configuration files (.quallaa/)              │    │
+│  │  - Domain source code (widgets/, services/)     │    │
+│  │                                                  │    │
+│  │  Runtime:                                        │    │
+│  │  - Background jobs, webhooks, queues            │    │
+│  └─────────────────────────────────────────────────┘    │
+│                                                          │
+│  Both UI and AI orchestrate the same infrastructure     │
+└──────────────────────────────────────────────────────────┘
 ```
 
-**Example Workflow:**
+**Example Workflows:**
 
-1. **Non-technical user (Visual UI):**
-   - Opens Campaign Manager widget
-   - Clicks "New Email Template"
-   - Visual editor: Drags Button component, types text
-   - Clicks Save
-   - **Result**: Creates `campaigns/welcome/day-1.email.tsx` file
+**Workflow 1: Database Operations**
+1. **Visual UI:** User drags customer into "Trial Users" segment in Audience Manager
+   - **Infrastructure:** Writes to PostgreSQL: `INSERT INTO segments (id, name, rules) VALUES (...)`
 
-2. **Claude Code (AI):**
-   - User: "Add a discount code to the welcome email"
-   - AI: Reads `campaigns/welcome/day-1.email.tsx`
-   - AI: Modifies TSX, adds discount code props
-   - AI: Writes file back
-   - **Result**: Same file updated, visible in visual editor immediately
+2. **AI:** User commands "Show me customers who haven't opened emails in 30 days"
+   - **Infrastructure:** AI executes PostgreSQL query: `SELECT * FROM customers WHERE ...`
+   - **Result:** Visual UI displays query results in data grid
 
-3. **Power user (Code mode):**
-   - Opens `campaigns/welcome/day-1.email.tsx` in Monaco editor
-   - Directly edits TypeScript/React code
-   - Saves
-   - **Result**: Changes reflected in visual editor preview
+3. **Code mode:** Power user writes SQL directly in query panel
+   - **Infrastructure:** Same PostgreSQL database
+   - **Result:** Query results appear, can be exported or used in segments
+
+**Workflow 2: API Integration**
+1. **Visual UI:** User clicks "Send Test Campaign" button
+   - **Infrastructure:** Backend calls Resend API to send emails
+   - **Result:** Campaign status updated in database, UI refreshes
+
+2. **AI:** User commands "Send welcome campaign to trial users segment"
+   - **Infrastructure:** AI queries database for segment, calls Resend API for each customer
+   - **Result:** Batch email sent, analytics recorded
+
+**Workflow 3: File + Database Hybrid**
+1. **Visual UI:** User edits email template in visual editor
+   - **Infrastructure:** Saves to file: `templates/welcome.email.tsx`
+
+2. **AI:** User commands "Create campaign using welcome template for segment X"
+   - **Infrastructure:**
+     - Reads file: `templates/welcome.email.tsx`
+     - Queries database for segment members
+     - Inserts campaign record into PostgreSQL
+     - Schedules background job for sending
+   - **Result:** New campaign appears in UI, ready to send
 
 **Why This Matters:**
-- No "export" step - files are always in sync
-- AI doesn't need separate API - works with same files as UI
-- Version control (git) works naturally
-- Users can switch between visual/code/AI seamlessly
-- Future-proof: Any new AI model can work with existing files
+- **No artificial boundaries** - AI orchestrates databases, APIs, files, background jobs
+- **CRM-like functionality** without building a separate CRM - it's just PostgreSQL + widgets
+- **Version control works** - Git tracks file changes, database migrations tracked separately
+- **Users switch modes seamlessly** - Visual → AI → Code, all working with same infrastructure
+- **Future-proof** - Any new AI model can execute against real infrastructure, not just edit text
+- **Unlimited extensibility** - AI can add new database tables, API integrations, file types
 
 ## Key Project Files
 
+### Architecture & Vision
+- **`docs/architecture/domain-abstraction-principles.md`** - Core principles for AI-modifiable domain system
+- **`docs/planning/Application Layer Architecture...md`** - Research report on Theia architecture patterns
+- **`docs/Quallaa-Product-Overview.md`** - Product strategy and market positioning
+
+### Implementation Plans
 - **`docs/planning/todo.md`** - Detailed 9-phase project plan for the rebrand (2-3 weeks)
 - **`docs/planning/marketing-environment-mvp.md`** - Complete implementation plan for first domain environment (6 weeks, 10 phases)
 - **`docs/planning/rebrand-guide.md`** - Strategic guide and business context
+
+### Build & Deployment
 - **`docs/deployment/`** - Deployment guides (quick start, Theia Cloud)
 - **`examples/electron/`** - Desktop application build target (macOS, Windows, Linux)
 - **`examples/browser/`** - Web application build target

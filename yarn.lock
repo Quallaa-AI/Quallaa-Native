@@ -1012,7 +1012,7 @@
   optionalDependencies:
     global-agent "^3.0.0"
 
-"@electron/node-gyp@git+https://github.com/electron/node-gyp.git#06b29aafb7708acef8b3669835c8a7857ebc92d2":
+"@electron/node-gyp@https://github.com/electron/node-gyp#06b29aafb7708acef8b3669835c8a7857ebc92d2":
   version "10.2.0-electron.1"
   resolved "git+ssh://git@github.com/electron/node-gyp.git#06b29aafb7708acef8b3669835c8a7857ebc92d2"
   integrity sha512-CrYo6TntjpoMO1SHjl5Pa/JoUsECNqNdB7Kx49WLQpWzPw53eEITJ2Hs9fh/ryUYDn4pxZz11StaBYBrLFJdqg==
@@ -1062,7 +1062,7 @@
   resolved "https://registry.npmjs.org/@electron/rebuild/-/rebuild-3.7.2.tgz"
   integrity sha512-19/KbIR/DAxbsCkiaGMXIdPnMCJLkcf8AvGnduJtWBs/CBwiAjY1apCqOLVxrXg+rtXFCngbXhBanWjxLUt1Mg==
   dependencies:
-    "@electron/node-gyp" "git+https://github.com/electron/node-gyp.git#06b29aafb7708acef8b3669835c8a7857ebc92d2"
+    "@electron/node-gyp" "https://github.com/electron/node-gyp#06b29aafb7708acef8b3669835c8a7857ebc92d2"
     "@malept/cross-spawn-promise" "^2.0.0"
     chalk "^4.0.0"
     debug "^4.1.1"
@@ -1082,7 +1082,7 @@
   resolved "https://registry.npmjs.org/@electron/rebuild/-/rebuild-3.7.0.tgz"
   integrity sha512-VW++CNSlZwMYP7MyXEbrKjpzEwhB5kDNbzGtiPEjwYysqyTCF+YbNJ210Dj3AjWsGSV4iEEwNkmJN9yGZmVvmw==
   dependencies:
-    "@electron/node-gyp" "git+https://github.com/electron/node-gyp.git#06b29aafb7708acef8b3669835c8a7857ebc92d2"
+    "@electron/node-gyp" "https://github.com/electron/node-gyp#06b29aafb7708acef8b3669835c8a7857ebc92d2"
     "@malept/cross-spawn-promise" "^2.0.0"
     chalk "^4.0.0"
     debug "^4.1.1"
@@ -1969,10 +1969,25 @@
     unbzip2-stream "^1.4.3"
     yargs "^17.7.2"
 
+"@quallaa/domain-core@1.0.0", "@quallaa/domain-core@file:/Users/jefftoffoli/Documents/GitHub/Quallaa-Native/packages/domain-core":
+  version "1.0.0"
+  resolved "file:packages/domain-core"
+  dependencies:
+    "@theia/core" "1.65.0"
+
+"@quallaa/marketing-domain@1.0.0", "@quallaa/marketing-domain@file:/Users/jefftoffoli/Documents/GitHub/Quallaa-Native/packages/marketing-domain":
+  version "1.0.0"
+  resolved "file:packages/marketing-domain"
+  dependencies:
+    "@quallaa/domain-core" "1.0.0"
+    "@theia/core" "1.65.0"
+
 "@quallaa/quallaa@file:/Users/jefftoffoli/Documents/GitHub/Quallaa-Native/examples/electron":
   version "1.65.0"
   resolved "file:examples/electron"
   dependencies:
+    "@quallaa/domain-core" "1.0.0"
+    "@quallaa/marketing-domain" "1.0.0"
     "@theia/ai-anthropic" "1.65.0"
     "@theia/ai-chat" "1.65.0"
     "@theia/ai-chat-ui" "1.65.0"
