@@ -15,7 +15,7 @@
 // *****************************************************************************
 
 import { ContainerModule } from '@theia/core/shared/inversify';
-import { bindContributionProvider, CommandContribution } from '@theia/core';
+import { bindContributionProvider, CommandContribution, MenuContribution } from '@theia/core';
 import { WidgetFactory } from '@theia/core/lib/browser';
 import { DomainRegistry, DomainContribution } from '../common/domain-protocol';
 import { DomainRegistryImpl } from './domain-registry';
@@ -24,6 +24,8 @@ import { DomainTemplateBrowser } from './widgets/domain-template-browser';
 import { DomainTemplateBrowserContribution, DomainTemplateBrowserFactory } from './domain-template-browser-contribution';
 import { DomainProjectService } from './domain-project-service';
 import { DomainTemplateBrowserTestContribution } from './domain-template-test-contribution';
+import { DomainWorkspaceManager } from './domain-workspace-manager';
+import { DomainCommandContribution, DomainMenuContribution } from './domain-commands';
 
 /**
  * Domain Core Frontend Module
@@ -39,6 +41,17 @@ export default new ContainerModule(bind => {
     // Set up contribution provider for domain contributions
     // This allows any package to register a domain by binding DomainContribution
     bindContributionProvider(bind, DomainContribution);
+
+    // Bind domain workspace manager (detects project type and activates domains)
+    bind(DomainWorkspaceManager).toSelf().inSingletonScope();
+
+    // Bind domain commands (Show/Hide IDE Panels)
+    bind(DomainCommandContribution).toSelf().inSingletonScope();
+    bind(CommandContribution).toService(DomainCommandContribution);
+
+    // Bind domain menu contributions
+    bind(DomainMenuContribution).toSelf().inSingletonScope();
+    bind(MenuContribution).toService(DomainMenuContribution);
 
     // Bind test command for domain registry validation
     bind(DomainTestCommandContribution).toSelf().inSingletonScope();
