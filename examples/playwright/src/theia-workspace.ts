@@ -58,13 +58,15 @@ export class TheiaWorkspace {
     /**
      * Returns the absolute path to the workspace location
      * as it would be returned by URI.path.
+     * URL-encodes special characters for safe use in URL fragments.
      */
     get pathAsPathComponent(): string {
         let path = this.path;
         if (!path.startsWith(OSUtil.fileSeparator)) {
             path = OSUtil.fileSeparator + path;
         }
-        return path.replace(/\\/g, '/');
+        // URL-encode special characters that can appear in paths
+        return path.replace(/\\/g, '/').replace(/:/g, '%3A');
     }
 
     /**
