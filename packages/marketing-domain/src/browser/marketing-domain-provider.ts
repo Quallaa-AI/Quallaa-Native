@@ -20,7 +20,9 @@ import {
     DomainCapability,
     DomainServiceConfig,
     DomainSourcePaths,
-    DomainCustomization
+    DomainCustomization,
+    DomainWidgetContribution,
+    DomainShellLayout
 } from '@quallaa/domain-core';
 
 /**
@@ -198,5 +200,78 @@ export class MarketingDomainProvider implements DomainProvider {
      */
     getCustomizations(): DomainCustomization[] {
         return [];
+    }
+
+    // =========================================================================
+    // Phase 2: Shell Layout Methods
+    // =========================================================================
+
+    /**
+     * Get widgets that this domain provides.
+     *
+     * These widgets will be shown when the domain is activated.
+     *
+     * @returns Array of widget contributions
+     */
+    getWidgets(): DomainWidgetContribution[] {
+        return [
+            {
+                id: 'marketing-navigation',
+                area: 'top',
+                rank: 0,
+                autoReveal: true
+            },
+            {
+                id: 'marketing-dashboard',
+                area: 'main',
+                rank: 0,
+                autoReveal: true
+            }
+        ];
+    }
+
+    /**
+     * Get shell layout configuration for marketing domain.
+     *
+     * Hides standard IDE panels and shows marketing-specific UI.
+     *
+     * @returns Shell layout configuration
+     */
+    getShellLayout(): DomainShellLayout {
+        return {
+            // Hide standard IDE panels to show domain UI
+            hidePanels: ['left', 'bottom'],
+
+            // Show marketing navigation in top panel
+            topWidget: 'marketing-navigation',
+
+            // Main area layout
+            mainLayout: {
+                domainWidget: 'marketing-dashboard',
+                // Chat widget integration (Phase 2+)
+                chatWidget: undefined,
+                ratio: 0.7
+            }
+        };
+    }
+
+    /**
+     * Called when domain is activated (workspace opened).
+     *
+     * Future: Initialize database connections, load saved state, etc.
+     */
+    async onActivate(): Promise<void> {
+        console.log('[MarketingDomain] Activated');
+        // TODO: Initialize services, load state
+    }
+
+    /**
+     * Called when domain is deactivated (workspace closed).
+     *
+     * Future: Save state, close connections, cleanup resources.
+     */
+    async onDeactivate(): Promise<void> {
+        console.log('[MarketingDomain] Deactivated');
+        // TODO: Save state, cleanup
     }
 }

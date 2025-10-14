@@ -169,14 +169,16 @@ export class DomainWorkspaceManager {
     protected async activateDomain(domain: DomainProvider): Promise<void> {
         console.log(`[DomainWorkspaceManager] Activating domain: ${domain.id}`);
 
-        // TODO: Call domain lifecycle hook (when we add it to protocol)
-        // await domain.onActivate?.();
+        // Call domain lifecycle hook (if defined)
+        if (domain.onActivate) {
+            await domain.onActivate();
+        }
 
         // Apply shell layout
         await this.applyDomainLayout(domain);
 
-        // TODO: Show domain widgets (when we add getWidgets() to protocol)
-        // await this.showDomainWidgets(domain);
+        // Show domain widgets
+        await this.showDomainWidgets(domain);
 
         this.activeDomain = domain;
 
@@ -193,17 +195,13 @@ export class DomainWorkspaceManager {
 
         console.log(`[DomainWorkspaceManager] Deactivating domain: ${this.activeDomain.id}`);
 
-        // TODO: Call domain lifecycle hook
-        // await this.activeDomain.onDeactivate?.();
+        // Call domain lifecycle hook (if defined)
+        if (this.activeDomain.onDeactivate) {
+            await this.activeDomain.onDeactivate();
+        }
 
-        // TODO: Close domain widgets
-        // const widgets = this.activeDomain.getWidgets();
-        // for (const widget of widgets) {
-        //     const w = this.shell.getWidgetById(widget.id);
-        //     if (w) {
-        //         w.close();
-        //     }
-        // }
+        // Close domain widgets
+        await this.hideDomainWidgets(this.activeDomain);
 
         this.activeDomain = undefined;
 
@@ -214,28 +212,44 @@ export class DomainWorkspaceManager {
      * Apply domain-specific shell layout.
      *
      * This hides/shows panels according to domain preferences.
-     * For now, just hides left and bottom panels for any domain.
-     *
-     * TODO: Read layout configuration from domain provider
      *
      * @param domain Domain whose layout to apply
      */
     protected async applyDomainLayout(domain: DomainProvider): Promise<void> {
         console.log(`[DomainWorkspaceManager] Applying domain layout for: ${domain.id}`);
 
-        // Hide IDE panels (domain-specific UI will be shown instead)
-        // Left panel = Explorer, Search, Source Control
-        this.shell.leftPanelHandler.collapse();
+        // Get layout configuration from domain (if defined)
+        const layout = domain.getShellLayout?.();
 
-        // Bottom panel = Terminal, Problems, Output, Debug
-        this.shell.bottomPanel.hide();
-
-        // Right panel (if exists) - typically empty in default Theia
-        if (this.shell.rightPanelHandler) {
-            this.shell.rightPanelHandler.collapse();
+        if (!layout) {
+            console.log('[DomainWorkspaceManager] No layout configuration, using defaults');
+            // Default: hide left and bottom panels
+            this.shell.leftPanelHandler.collapse();
+            this.shell.bottomPanel.hide();
+            return;
         }
 
-        console.log('[DomainWorkspaceManager] Domain layout applied (panels hidden)');
+        // Hide panels as specified by domain
+        if (layout.hidePanels) {
+            for (const panel of layout.hidePanels) {
+                switch (panel) {
+                    case 'left':
+                        this.shell.leftPanelHandler.collapse();
+                        break;
+                    case 'bottom':
+                        this.shell.bottomPanel.hide();
+                        break;
+                    case 'right':
+                        if (this.shell.rightPanelHandler) {
+                            this.shell.rightPanelHandler.collapse();
+                        }
+                        break;
+                }
+            }
+            console.log(`[DomainWorkspaceManager] Hid panels: ${layout.hidePanels.join(', ')}`);
+        }
+
+        console.log('[DomainWorkspaceManager] Domain layout applied');
     }
 
     /**
@@ -252,6 +266,107 @@ export class DomainWorkspaceManager {
         this.shell.bottomPanel.show();
 
         console.log('[DomainWorkspaceManager] Standard IDE mode activated');
+    }
+
+    /**
+     * Show domain widgets in the shell.
+     *
+     * Reveals widgets specified by domain's getWidgets() method.
+     *
+     * @param domain Domain whose widgets to show
+     */
+    protected async showDomainWidgets(domain: DomainProvider): Promise<void> {
+        const widgets = domain.getWidgets?.();
+
+        if (!widgets || widgets.length === 0) {
+            console.log('[DomainWorkspaceManager] No widgets to show');
+            return;
+        }
+
+        console.log(`[DomainWorkspaceManager] Showing ${widgets.length} domain widgets`);
+
+        for (const widgetContrib of widgets) {
+            try {
+                // For top panel widgets, add them directly
+                if (widgetContrib.area === 'top') {
+                    await this.addTopPanelWidget(widgetContrib.id);
+                } else {
+                    // For other areas, use revealWidget if autoReveal is true
+                    if (widgetContrib.autoReveal !== false) {
+                        await this.shell.revealWidget(widgetContrib.id);
+                    }
+                }
+
+                console.log(`[DomainWorkspaceManager] Revealed widget: ${widgetContrib.id}`);
+            } catch (error) {
+                console.warn(`[DomainWorkspaceManager] Failed to reveal widget ${widgetContrib.id}:`, error);
+            }
+        }
+    }
+
+    /**
+     * Hide domain widgets from the shell.
+     *
+     * Closes widgets specified by domain's getWidgets() method.
+     *
+     * @param domain Domain whose widgets to hide
+     */
+    protected async hideDomainWidgets(domain: DomainProvider): Promise<void> {
+        const widgets = domain.getWidgets?.();
+
+        if (!widgets || widgets.length === 0) {
+            return;
+        }
+
+        console.log(`[DomainWorkspaceManager] Hiding ${widgets.length} domain widgets`);
+
+        for (const widgetContrib of widgets) {
+            try {
+                // For top panel widgets, remove them
+                if (widgetContrib.area === 'top') {
+                    this.removeTopPanelWidget(widgetContrib.id);
+                } else {
+                    // For other areas, close the widget
+                    const widget = this.shell.getWidgetById(widgetContrib.id);
+                    if (widget) {
+                        widget.close();
+                        console.log(`[DomainWorkspaceManager] Closed widget: ${widgetContrib.id}`);
+                    }
+                }
+            } catch (error) {
+                console.warn(`[DomainWorkspaceManager] Failed to close widget ${widgetContrib.id}:`, error);
+            }
+        }
+    }
+
+    /**
+     * Add a widget to the top panel.
+     *
+     * @param widgetId Widget ID to add
+     */
+    protected async addTopPanelWidget(widgetId: string): Promise<void> {
+        try {
+            const widget = await this.shell.revealWidget(widgetId);
+            if (widget && !this.shell.topPanel.widgets.includes(widget)) {
+                this.shell.topPanel.addWidget(widget);
+                console.log(`[DomainWorkspaceManager] Added widget to top panel: ${widgetId}`);
+            }
+        } catch (error) {
+            console.warn(`[DomainWorkspaceManager] Failed to add top panel widget ${widgetId}:`, error);
+        }
+    }
+
+    /**
+     * Remove a widget from the top panel.
+     *
+     * @param widgetId Widget ID to remove
+     */
+    protected removeTopPanelWidget(widgetId: string): void {
+        const widget = this.shell.getWidgetById(widgetId);
+        if (widget && this.shell.topPanel.widgets.includes(widget)) {
+            widget.close();
+            console.log(`[DomainWorkspaceManager] Removed widget from top panel: ${widgetId}`);
+        }
     }
 
     /**

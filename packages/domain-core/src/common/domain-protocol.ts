@@ -172,6 +172,42 @@ export interface DomainProvider {
      * @param customization Details of what was modified
      */
     recordCustomization?(customization: DomainCustomization): void;
+
+    // =========================================================================
+    // Shell Layout Methods (Phase 2)
+    // =========================================================================
+
+    /**
+     * Get widgets that this domain provides.
+     *
+     * Optional method. If not implemented, domain has no custom widgets.
+     *
+     * @returns Array of widget contributions
+     */
+    getWidgets?(): DomainWidgetContribution[];
+
+    /**
+     * Get shell layout configuration for this domain.
+     *
+     * Optional method. If not implemented, uses default layout (no changes).
+     *
+     * @returns Shell layout configuration
+     */
+    getShellLayout?(): DomainShellLayout;
+
+    /**
+     * Called when domain is activated (workspace opened).
+     *
+     * Optional lifecycle hook. Domain can initialize state, load data, etc.
+     */
+    onActivate?(): Promise<void>;
+
+    /**
+     * Called when domain is deactivated (workspace closed or switched).
+     *
+     * Optional lifecycle hook. Domain can save state, cleanup resources, etc.
+     */
+    onDeactivate?(): Promise<void>;
 }
 
 /**
@@ -415,3 +451,78 @@ export const DomainProvider = Symbol('DomainProvider');
  * Symbol for DomainRegistry dependency injection.
  */
 export const DomainRegistry = Symbol('DomainRegistry');
+
+// =============================================================================
+// Shell Layout Interfaces (Phase 2)
+// =============================================================================
+
+/**
+ * Widget contribution from a domain.
+ *
+ * Defines a widget that the domain wants to register in the shell.
+ */
+export interface DomainWidgetContribution {
+    /**
+     * Unique widget ID (must match the widget factory ID).
+     * @example 'marketing-navigation', 'marketing-dashboard'
+     */
+    id: string;
+
+    /**
+     * Where should this widget be placed in the shell?
+     */
+    area: 'top' | 'left' | 'right' | 'main' | 'bottom';
+
+    /**
+     * Display rank (lower numbers appear first).
+     * Optional, defaults to 0.
+     */
+    rank?: number;
+
+    /**
+     * Should this widget be shown automatically when domain activates?
+     * Optional, defaults to true.
+     */
+    autoReveal?: boolean;
+}
+
+/**
+ * Shell layout configuration for a domain.
+ *
+ * Describes how the shell should be arranged when this domain is active.
+ */
+export interface DomainShellLayout {
+    /**
+     * Panels to hide when domain is active.
+     * Hides standard IDE panels (Explorer, Terminal, etc.) to show domain UI instead.
+     */
+    hidePanels?: Array<'left' | 'right' | 'bottom'>;
+
+    /**
+     * Widget to show in top panel (domain navigation).
+     * This replaces or augments the standard menu bar.
+     */
+    topWidget?: string;
+
+    /**
+     * Main area layout configuration.
+     * Defines what shows in the central editor area.
+     */
+    mainLayout?: {
+        /**
+         * Primary domain widget ID (dashboard, manager, etc.).
+         */
+        domainWidget: string;
+
+        /**
+         * Optional chat widget ID (for Claude Code side-by-side).
+         */
+        chatWidget?: string;
+
+        /**
+         * Split ratio (0.0 to 1.0) for domain vs chat.
+         * @example 0.6 = 60% domain, 40% chat
+         */
+        ratio?: number;
+    };
+}
