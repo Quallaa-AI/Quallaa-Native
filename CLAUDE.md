@@ -50,7 +50,8 @@ Theia provides the perfect foundation because:
 **Phase 2 (Future)**: Domain-specific environment templates
 - Marketing environment: Postgres database + email provider + analytics tools + CRM-like functionality
 - Finance environment: Data analysis tools + reporting + integrations
-- Progressive disclosure of IDE complexity based on user expertise
+- Knowledge base system (Obsidian-style markdown docs)
+- Progressive disclosure: Domain UI by default, IDE by choice
 
 **Phase 3 (Future)**: Advanced environment management
 - Multi-environment orchestration
@@ -259,7 +260,7 @@ Theia uses **InversifyJS** for dependency injection. This is critical for custom
 - Use `@injectable()`, `@inject()`, `@postConstruct()` decorators
 - Rebind widgets/dialogs in frontend modules for customization
 
-**For Quallaa**: This allows progressive disclosure - rebind complex IDE widgets with simplified interfaces for domain experts.
+**For Quallaa**: This allows clean UI customization - rebind IDE components with domain-specific interfaces without modifying core Theia code.
 
 ## Essential Commands
 
@@ -597,9 +598,45 @@ cd examples/browser && npm run build:browser
 These are NOT in MVP scope, but inform architecture decisions:
 
 ### Progressive Disclosure (Phase 2)
-- Approach TBD - no assumptions yet
-- May involve: simplified UI modes, domain-specific overlays, gradual feature revelation
-- Must maintain full IDE capability underneath (future-proofing)
+
+**Core Principle:** User chooses domain template and sees domain-specific interface (like Mailchimp/HubSpot), not traditional IDE.
+
+**Default Experience:**
+- Domain-specific navigation tabs (Home, Campaigns, Audience, Analytics, **Docs**)
+- Claude Code chat panel (side-by-side, always visible)
+- IDE features hidden by default (accessible via toggle or keyboard shortcuts)
+- Knowledge base tab for context management (Obsidian-style markdown)
+
+**No expertise detection, no gamification, no adaptive UI based on behavior.**
+
+**Knowledge Base (Critical Differentiator):**
+- Obsidian-style markdown editor integrated as domain tab
+- Users document strategy, rules, workflows
+- AI reads docs for context when executing commands
+- Wiki-style `[[links]]` between notes (future enhancement)
+- Bridge between business thinking and technical execution
+
+**Example - Marketing Domain:**
+```
+┌─────────────────────────────────────────────────────────────┐
+│ Home | Campaigns | Audience | Analytics | Docs              │
+├──────────────────────────────┬──────────────────────────────┤
+│  Campaign Dashboard          │  Claude Code                 │
+│  - Active campaigns          │  "Create welcome campaign    │
+│  - Segment overview          │   for trial users"           │
+│  - Recent sends              │                              │
+│                              │  [Type a message...]         │
+│                              │                              │
+└──────────────────────────────┴──────────────────────────────┘
+
+(IDE panels hidden by default - "View → Show IDE Panels" to reveal)
+```
+
+**Implementation Strategy:**
+- Custom shell layout hides IDE panels by default
+- Domain-specific navigation replaces traditional IDE chrome
+- "Show IDE Panels" command for power users
+- Full IDE capability always accessible (Cmd+Shift+E for Explorer, etc.)
 
 ### Domain-Specific Environments (In Development - See MARKETING-ENVIRONMENT-MVP.md)
 

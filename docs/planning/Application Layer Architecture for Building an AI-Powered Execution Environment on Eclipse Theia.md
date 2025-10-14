@@ -992,103 +992,98 @@ export class StateSnapshotManager {
 
 ## 6. Progressive Disclosure UI Architecture
 
+**Updated Approach (2025-10-14):** No expertise detection, no gamification, no adaptive UI based on behavior.
+
+**Core Principle:** User chooses project template and sees domain-specific interface by default. IDE features accessible via explicit toggle.
+
 ### View State Management
 
-**Adaptive Interface Based on User Level:**
+**Domain-Specific Shell Layout (Marketing Example):**
 
 ```typescript
 @injectable()
-export class ProgressiveUIManager {
-  @inject(PreferenceService)
-  protected preferences: PreferenceService;
-  
-  @inject(UserProfileService)
-  protected userProfile: UserProfileService;
-  
-  private uiMode: 'beginner' | 'intermediate' | 'advanced' = 'beginner';
-  
-  @postConstruct()
-  protected init(): void {
-    // Infer user level from usage patterns
-    this.uiMode = this.inferUserLevel();
-    this.applyUIMode(this.uiMode);
-  }
-  
-  private inferUserLevel(): UIMode {
-    const profile = this.userProfile.getProfile();
-    
-    // Check usage patterns
-    if (profile.commandPaletteUsage > 50) return 'advanced';
-    if (profile.shortcutsUsed > 20) return 'intermediate';
-    
-    // Check feature usage
-    if (profile.hasUsedCodeView) return 'intermediate';
-    if (profile.hasUsedTerminal) return 'advanced';
-    
-    return 'beginner';
-  }
-  
-  private applyUIMode(mode: UIMode): void {
-    switch (mode) {
-      case 'beginner':
-        this.hidePanel('terminal');
-        this.hidePanel('debug');
-        this.hideView('file-explorer'); // Marketing users don't need files
-        this.showView('campaign-gallery'); // Domain-specific
-        break;
-        
-      case 'intermediate':
-        this.showPanel('terminal', { defaultCollapsed: true });
-        this.showView('file-explorer', { simplified: true });
-        break;
-        
-      case 'advanced':
-        this.showAllPanels();
-        this.enableAdvancedFeatures();
-        break;
-    }
-  }
-}
-```
+export class MarketingShellLayout implements ApplicationShellLayoutMigration {
 
-**Domain-Specific View Layouts:**
+  async onWillInflateLayout(layout: ApplicationShellLayoutVersion): Promise<void> {
+    // Hide IDE panels by default
+    layout.leftPanel = { visible: false };   // Explorer, Search, Source Control
+    layout.rightPanel = { visible: false };
+    layout.bottomPanel = { visible: false }; // Terminal, Problems, Debug
 
-```typescript
-// Marketing domain workbench layout
-export class MarketingWorkbenchLayout implements WorkbenchLayout {
-  getDefaultLayout(): LayoutConfiguration {
-    return {
-      leftSidebar: {
-        widgets: [
-          'campaign-explorer',     // Instead of file explorer
-          'audience-manager',
-          'template-library'
-        ],
-        defaultOpen: 'campaign-explorer'
-      },
-      mainArea: {
-        defaultEditor: 'visual-campaign-builder',
-        splitMode: 'single' // No code editor splits for beginners
-      },
-      rightSidebar: {
-        widgets: [
-          'ai-assistant',
-          'analytics-preview'
-        ],
-        defaultOpen: 'ai-assistant'
-      },
-      bottomPanel: {
-        widgets: [
-          'campaign-preview',
-          'validation-results'
-        ],
-        defaultOpen: 'campaign-preview',
-        hide: ['terminal', 'debug-console'] // Technical panels hidden
-      }
+    // Show domain navigation
+    layout.topPanel = {
+      visible: true,
+      widgets: ['marketing-navigation'] // Home | Campaigns | Audience | Analytics | Docs
+    };
+
+    // Main area: Domain content + Claude Code chat (side-by-side)
+    layout.mainPanel = {
+      widgets: [
+        { id: 'marketing-dashboard', area: 'main', ratio: 0.6 },
+        { id: 'claude-code-chat', area: 'right', ratio: 0.4 }
+      ]
     };
   }
 }
+
+// Command to reveal IDE panels for power users
+@injectable()
+export class ShowIDEPanelsCommand implements Command {
+  static readonly ID = 'quallaa.show-ide-panels';
+  static readonly LABEL = 'Show IDE Panels';
+
+  execute(): void {
+    this.shell.leftPanel.show();   // Reveal Explorer, etc.
+    this.shell.bottomPanel.show(); // Reveal Terminal, etc.
+  }
+}
 ```
+
+**Knowledge Base Widget (Critical Differentiator):**
+
+```typescript
+@injectable()
+export class KnowledgeBaseWidget extends ReactWidget {
+  @inject(FileService)
+  protected fileService: FileService;
+
+  @inject(AIContextService)
+  protected aiContext: AIContextService;
+
+  // Markdown editor for strategy documentation
+  protected render(): React.ReactNode {
+    return (
+      <div className="knowledge-base">
+        <div className="kb-sidebar">
+          <RecentNotes notes={this.getRecentNotes()} />
+          <QuickLinks />
+        </div>
+        <div className="kb-editor">
+          <MonacoEditor
+            language="markdown"
+            value={this.currentNote}
+            options={{ wordWrap: 'on', lineNumbers: 'off' }}
+            onChange={this.handleNoteChange}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // AI reads markdown docs for context
+  async provideAIContext(): Promise<string> {
+    const allNotes = await this.getAllMarkdownFiles();
+    return allNotes.map(note => note.content).join('\n\n');
+  }
+}
+```
+
+**Why Knowledge Base Matters:**
+- Users document business strategy, rules, workflows in plain language
+- AI reads these docs when executing commands
+- Bridges domain expertise with technical execution
+- No HubSpot/Mailchimp competitor has this
+- Obsidian-style experience (familiar to knowledge workers)
 
 ### Command Palette for Discovery
 
@@ -1433,11 +1428,12 @@ Deploy Open VSX Registry for internal domain packages:
 
 ### Phase 3: Advanced Features (Months 5-7)
 
-**Progressive Disclosure:**
-- User level inference system
-- Adaptive UI based on experience
-- Interactive onboarding tutorial
-- Command palette with AI suggestions
+**Domain UI & Knowledge Base:**
+- Custom shell layouts (hide IDE by default)
+- Domain-specific navigation tabs
+- Knowledge base widget (Obsidian-style markdown)
+- "Show IDE Panels" command for power users
+- Claude Code chat integration (always visible)
 
 **Execution Environment:**
 - Campaign preview with hot reload
@@ -1552,16 +1548,22 @@ Deploy Open VSX Registry for internal domain packages:
 
 **Inspiration:** StackBlitz + CodeSandbox + Replit patterns
 
-### Progressive Disclosure: Adaptive UI + Command Palette
+### Progressive Disclosure: Domain UI by Default, IDE by Choice
 
-**Pattern:** User level inference with adaptive interface:
-- Three levels: beginner, intermediate, advanced
-- Domain-specific layouts replacing developer UI
-- Command palette for power users
-- Interactive tutorials for onboarding
-- Natural language AI commands
+**Pattern:** No expertise detection, no gamification, no adaptive behavior
 
-**Inspiration:** Webflow's progressive complexity + VS Code's command palette + Notion's scroll disclosure
+**Approach:**
+- User picks project template → Sees domain-specific interface (like Mailchimp/HubSpot)
+- Claude Code chat panel always visible (side-by-side)
+- IDE panels hidden by default, accessible via "View → Show IDE Panels"
+- Knowledge base (Docs tab) for context management
+- Keyboard shortcuts work regardless of UI state (Cmd+Shift+E for Explorer, etc.)
+
+**Why Different from Research Report:**
+- Original research assumed VS Code extension model (install, use)
+- Quallaa provides domain-first experience, not IDE-first
+- Knowledge base differentiates from SaaS competitors
+- AI reads docs for context (not just code)
 
 ---
 
@@ -1578,8 +1580,9 @@ Deploy Open VSX Registry for internal domain packages:
 
 1. **Instant Gratification:** Users productive in minutes, not hours
 2. **AI Integration:** Natural language feels magical, not gimmicky
-3. **Progressive Disclosure:** Never overwhelming, always discoverable
-4. **Visual Quality:** Professional, polished, marketing-tool grade
+3. **Domain-First UX:** Looks like familiar SaaS tool, not IDE
+4. **Knowledge Base:** Context management differentiates from competitors
+5. **Visual Quality:** Professional, polished, domain-tool grade
 
 ### Platform Qualities
 

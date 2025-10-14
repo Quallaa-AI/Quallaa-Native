@@ -10,25 +10,27 @@ Create a **marketing command center** that gives non-technical marketing manager
 - **Real infrastructure** (PostgreSQL, Resend API) managed automatically, not just file editing
 - **Wizard-driven setup** for non-technical users getting API keys for the first time
 - **Files as source of truth** - both visual UI and Claude Code work with same data
-- **Progressive disclosure** - Hide IDE complexity by default, reveal when needed
+- **Knowledge base integration** - Obsidian-style docs for context management
+- **Domain UI by default** - IDE features accessible but not prominent
 
 ---
 
 ## Architecture Overview
 
 ```
-┌─────────────────────────────────────────────────┐
-│  Domain Navigation (Top Layer)                  │
-│  [Home] [Campaigns] [Audience] [Analytics] ...  │
-├─────────────────────────────────────────────────┤
-│                                                 │
-│  Domain-Specific Widgets (Main Area)           │
-│  - Campaign Manager                             │
-│  - Email Editor (Visual/Code toggle)            │
-│  - Audience Segment Manager                     │
-│  - Analytics Dashboard                          │
-│                                                 │
-├─────────────────────────────────────────────────┤
+┌─────────────────────────────────────────────────────────────┐
+│  Domain Navigation (Top Layer)                              │
+│  [Home] [Campaigns] [Audience] [Analytics] [Docs] ...      │
+├───────────────────────────────────┬─────────────────────────┤
+│                                   │                         │
+│  Domain-Specific Widgets          │  Claude Code Chat       │
+│  - Campaign Manager                │  (Always visible)       │
+│  - Email Editor                    │  "Create campaign for   │
+│  - Audience Segment Manager        │   trial users..."       │
+│  - Analytics Dashboard             │                         │
+│  - Knowledge Base (Docs tab)       │  [Type message...]      │
+│                                    │                         │
+├───────────────────────────────────┴─────────────────────────┤
 │  IDE Tools (Bottom - Hidden by default)        │
 │  Terminal | Problems | Output | Debug Console   │
 └─────────────────────────────────────────────────┘
@@ -134,16 +136,18 @@ my-marketing-project/
 1. [ ] Study Theia shell/layout contribution system
 2. [ ] Create custom shell layout for marketing projects
 3. [ ] Build top navigation widget:
-   - Home, Campaigns, Audience, Analytics tabs
+   - Home, Campaigns, Audience, Analytics, **Docs** tabs
    - Conditional rendering based on project type
 4. [ ] Implement navigation state management
-5. [ ] Hide/minimize IDE sidebar by default
-6. [ ] Keep terminal accessible but not prominent
+5. [ ] Hide IDE panels by default (Explorer, Search, Source Control)
+6. [ ] Claude Code chat panel visible by default (side-by-side)
+7. [ ] Keep terminal accessible but hidden (Cmd+` to reveal)
 
 **Deliverables:**
-- Marketing projects show domain navigation
+- Marketing projects show domain navigation + chat
 - Clicking tabs switches main area view
-- Regular IDE features accessible via keyboard shortcuts
+- IDE features accessible via keyboard shortcuts
+- "View → Show IDE Panels" command to reveal traditional IDE
 
 ---
 
@@ -316,22 +320,30 @@ my-marketing-project/
 
 ---
 
-### **Phase 10: Progressive Disclosure (Week 6)**
+### **Phase 10: Knowledge Base & IDE Toggle (Week 6)**
 
-**Goal:** Advanced features accessible but not prominent
+**Goal:** Context management system + IDE access for power users
 
 **Tasks:**
-1. [ ] "Show IDE Tools" toggle
-2. [ ] Advanced mode indicator
-3. [ ] Keyboard shortcuts documented
-4. [ ] Raw SQL query editor (for power users)
-5. [ ] Direct file access to email templates
-6. [ ] Git integration visible when needed
+1. [ ] Knowledge Base widget (Docs tab)
+   - Markdown editor (Monaco in markdown mode)
+   - File list for workspace .md files
+   - Search across all markdown files
+   - Basic wiki-style navigation
+2. [ ] "Show IDE Panels" command
+   - Menu item: View → Show IDE Panels
+   - Keyboard shortcut (Cmd+Shift+I or similar)
+   - Reveals Explorer, Terminal, Source Control
+3. [ ] Documentation
+   - Guide: "Using the Knowledge Base for AI Context"
+   - Keyboard shortcuts reference
+   - Power user features guide
 
 **Deliverables:**
-- Beginners see simple UI
-- Power users can access full IDE capabilities
-- Smooth transition between modes
+- Users can document strategy in markdown docs
+- AI reads docs for context (integrated with Claude Code)
+- IDE features accessible via explicit toggle
+- No expertise detection, no gamification, no adaptive behavior
 
 ---
 
