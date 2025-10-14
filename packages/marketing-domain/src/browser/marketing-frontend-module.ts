@@ -16,13 +16,16 @@
 
 import { ContainerModule } from '@theia/core/shared/inversify';
 import { DomainContribution, DomainRegistry } from '@quallaa/domain-core';
+import { WidgetFactory } from '@theia/core/lib/browser';
 import { MarketingDomainProvider } from './marketing-domain-provider';
+import { MarketingNavigationWidget } from './widgets/marketing-navigation-widget';
+import { MarketingDashboardWidget } from './widgets/marketing-dashboard-widget';
 
 /**
  * Marketing Domain Frontend Module
  *
  * Registers the marketing domain with the domain registry using
- * the contribution pattern.
+ * the contribution pattern. Also registers widget factories.
  */
 export default new ContainerModule(bind => {
     // Bind the marketing domain provider as a singleton
@@ -37,5 +40,23 @@ export default new ContainerModule(bind => {
         }
     })).inSingletonScope();
 
-    console.log('[Quallaa] Marketing domain module loaded');
+    // =========================================================================
+    // Widget Factories (Phase 2)
+    // =========================================================================
+
+    // Navigation Widget Factory
+    bind(MarketingNavigationWidget).toSelf();
+    bind(WidgetFactory).toDynamicValue(ctx => ({
+        id: MarketingNavigationWidget.ID,
+        createWidget: () => ctx.container.get<MarketingNavigationWidget>(MarketingNavigationWidget)
+    })).inSingletonScope();
+
+    // Dashboard Widget Factory
+    bind(MarketingDashboardWidget).toSelf();
+    bind(WidgetFactory).toDynamicValue(ctx => ({
+        id: MarketingDashboardWidget.ID,
+        createWidget: () => ctx.container.get<MarketingDashboardWidget>(MarketingDashboardWidget)
+    })).inSingletonScope();
+
+    console.log('[Quallaa] Marketing domain module loaded with widget factories');
 });
