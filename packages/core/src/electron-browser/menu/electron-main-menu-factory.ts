@@ -281,7 +281,7 @@ export class ElectronMainMenuFactory extends BrowserMainMenuFactory {
 
     protected createOSXMenu(): MenuDto {
         return {
-            label: 'Theia',
+            label: 'Quallaa',
             submenu: [
                 {
                     role: 'about'

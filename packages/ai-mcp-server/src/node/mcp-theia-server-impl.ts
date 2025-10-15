@@ -61,7 +61,7 @@ export class MCPTheiaServerImpl implements MCPTheiaServer, BackendApplicationCon
         }
 
         this.server = new McpServer({
-            name: 'Theia MCP Server',
+            name: 'Quallaa MCP Server',
             version: '1.0.0'
         }, {
             capabilities: {

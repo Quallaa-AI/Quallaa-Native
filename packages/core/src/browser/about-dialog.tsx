@@ -68,6 +68,8 @@ export class AboutDialog extends ReactDialog<void> {
     protected renderHeader(): React.ReactNode {
         const applicationInfo = this.applicationInfo;
         const compatibilityUrl = 'https://eclipse-theia.github.io/vscode-theia-comparator/status.html';
+        const theiaUrl = 'https://theia-ide.org';
+        const sourceCodeUrl = 'https://github.com/jefftoffoli/Quallaa-Native';
 
         const detailsLabel = nls.localizeByDefault('Details');
         const versionLabel = nls.localizeByDefault('Version');
@@ -86,6 +88,31 @@ export class AboutDialog extends ReactDialog<void> {
                         onClick={() => this.doOpenExternalLink(compatibilityUrl)}
                         onKeyDown={(e: React.KeyboardEvent) => this.doOpenExternalLinkEnter(e, compatibilityUrl)}>
                         {compatibilityLabel}
+                    </a>
+                </p>
+            </div>
+            <h3>Attribution</h3>
+            <div className='about-details'>
+                <p>
+                    Built on{' '}
+                    <a
+                        href={theiaUrl}
+                        role={'button'}
+                        tabIndex={0}
+                        onClick={() => this.doOpenExternalLink(theiaUrl)}
+                        onKeyDown={(e: React.KeyboardEvent) => this.doOpenExternalLinkEnter(e, theiaUrl)}>
+                        Eclipse Theia
+                    </a>
+                </p>
+                <p>Licensed under the Eclipse Public License 2.0 (EPL-2.0)</p>
+                <p>
+                    <a
+                        href={sourceCodeUrl}
+                        role={'button'}
+                        tabIndex={0}
+                        onClick={() => this.doOpenExternalLink(sourceCodeUrl)}
+                        onKeyDown={(e: React.KeyboardEvent) => this.doOpenExternalLinkEnter(e, sourceCodeUrl)}>
+                        View Source Code
                     </a>
                 </p>
             </div>

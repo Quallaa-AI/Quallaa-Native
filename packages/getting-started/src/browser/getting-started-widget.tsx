@@ -469,8 +469,8 @@ export class GettingStartedWidget extends ReactWidget {
                         </a>.
                         &nbsp;Thank you for being part of our community!
                         <br />
-                        The AI features are built on the framework Theia AI. If you want to build a custom AI-powered tool or IDE, Theia AI has been published as stable release.
-                        Check out <a
+                        <br />
+                        Quallaa is built on Eclipse Theia. The AI features use the Theia AI framework. If you want to build a custom AI-powered tool or IDE, check out <a
                             role={'button'}
                             tabIndex={0}
                             onClick={() => this.doOpenExternalLink(this.theiaAIDocUrl)}

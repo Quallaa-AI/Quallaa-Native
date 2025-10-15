@@ -151,7 +151,7 @@ export const corePreferenceSchema: PreferenceSchema = {
         'window.autoDetectColorScheme': {
             type: 'boolean',
             default: true,
-            description: nls.localizeByDefault('If enabled, will automatically change to high contrast theme if the OS is using a high contrast theme. Otherwise will automatically switch between Quallaa Light and Quallaa Dark themes based on your system appearance settings.')
+            description: nls.localizeByDefault('If enabled, will automatically change to high contrast theme if the OS is using a high contrast theme. The high contrast theme to use is specified by {0} and {1}.', '`#workbench.preferredHighContrastColorTheme#`', '`#workbench.preferredHighContrastLightColorTheme#`')
         },
         'http.proxy': {
             type: 'string',
@@ -239,7 +239,7 @@ export const corePreferenceSchema: PreferenceSchema = {
         'workbench.iconTheme': {
             type: ['string'],
             enum: ['none', 'theia-file-icons'],
-            enumItemLabels: [nls.localizeByDefault('None'), 'File Icons (Theia)'],
+            enumItemLabels: [nls.localizeByDefault('None'), 'File Icons (Quallaa)'],
             default: 'none',
             description: nls.localizeByDefault("Specifies the file icon theme used in the workbench or 'null' to not show any file icons.")
         },

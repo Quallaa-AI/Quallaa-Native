@@ -55,7 +55,7 @@ export class WorkspaceFileService {
     getWorkspaceFileTypes(): WorkspaceFileType[] {
         return [
             {
-                name: 'Theia',
+                name: 'Quallaa',
                 extension: THEIA_EXT
             },
             {
