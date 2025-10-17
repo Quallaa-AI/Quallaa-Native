@@ -64,17 +64,14 @@ export class IdeChatWelcomeMessageProvider implements ChatWelcomeMessageProvider
         return <div className={'theia-WelcomeMessage'}>
             <TheiaIdeAiLogo width={200} height={200} className="theia-WelcomeMessage-Logo" />
             <div className="theia-WelcomeMessage-Content">
-                <h1>Ask the Quallaa AI</h1>
+                <h1>Command with Quallaa</h1>
                 <p>
-                    To talk to a specialized agent, simply start your message with <em>@</em> followed by the agent's name:{' '}
-                    <em>@Coder</em>, <em>@Architect</em>, <em>@Universal</em>, and more.
+                    Describe what you want to accomplish and Quallaa will help you build it.
+                    Create, modify, and manage anything in your environment through conversation.
                 </p>
                 <p>
                     Attach context:  use variables, like <em>#file</em>, <em>#_f</em> (current file), <em>#selectedText</em>{' '}
                     or click <span className="codicon codicon-add" />.
-                </p>
-                <p>
-                    Lean more in the <a target='_blank' href="https://theia-ide.org/docs/user_ai/#chat">documentation</a>.
                 </p>
             </div>
         </div>;
