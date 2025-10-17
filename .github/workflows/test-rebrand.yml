@@ -1,4 +1,4 @@
-name: Quallaa Rebrand Tests
+name: Quallaa Tests
 
 on:
   push:
@@ -11,8 +11,8 @@ on:
       - master
 
 jobs:
-  test-rebrand:
-    name: Test Quallaa Rebrand
+  test-quallaa:
+    name: Test Quallaa
     runs-on: macos-latest
 
     steps:
@@ -81,7 +81,7 @@ jobs:
             // Read JUnit XML results
             const resultsPath = path.join(process.env.GITHUB_WORKSPACE, 'examples/electron/test-results/junit.xml');
 
-            let comment = '## Quallaa Rebrand Test Results\n\n';
+            let comment = '## Quallaa Test Results\n\n';
 
             if (fs.existsSync(resultsPath)) {
               const results = fs.readFileSync(resultsPath, 'utf-8');
@@ -123,9 +123,9 @@ jobs:
           fi
           echo "✅ LICENSE file found"
 
-      - name: Check EPL 2.0 headers in Quallaa branding files
+      - name: Check EPL 2.0 headers in Quallaa customization files
         run: |
-          # Only check if the branding package exists
+          # Only check if the customization package exists
           if [ -d packages/quallaa-branding/src ]; then
             cd packages/quallaa-branding/src
             failed=0
@@ -140,7 +140,7 @@ jobs:
             fi
             echo "✅ All files have EPL 2.0 headers"
           else
-            echo "ℹ️  Skipping branding package check (directory doesn't exist yet)"
+            echo "ℹ️  Skipping customization package check (directory doesn't exist yet)"
           fi
 
       - name: Check package.json license field
@@ -152,8 +152,8 @@ jobs:
           fi
           echo "✅ package.json has EPL-2.0 license"
 
-  test-branding:
-    name: Branding Consistency Check
+  test-customization:
+    name: Customization Consistency Check
     runs-on: ubuntu-latest
 
     steps:
@@ -164,10 +164,10 @@ jobs:
         run: |
           cd examples/electron/resources
           if ls *theia* 2>/dev/null; then
-            echo "❌ Found Theia-branded resources"
+            echo "❌ Found Theia-specific resources"
             exit 1
           fi
-          echo "✅ No Theia logos found"
+          echo "✅ No Theia-specific resources found"
 
       - name: Check Quallaa logo exists
         run: |
@@ -185,7 +185,7 @@ jobs:
           fi
           echo "✅ icon.icns found"
 
-      - name: Verify package.json branding
+      - name: Verify package.json configuration
         run: |
           cd examples/electron
           if ! grep -q '"productName": "Quallaa"' package.json; then
@@ -200,7 +200,7 @@ jobs:
             echo "❌ preferences-dir not set to .quallaa"
             exit 1
           fi
-          echo "✅ package.json branding verified"
+          echo "✅ package.json configuration verified"
 
       - name: Verify electron-builder config
         run: |

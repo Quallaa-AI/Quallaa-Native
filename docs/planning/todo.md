@@ -1,6 +1,6 @@
-# Quallaa Rebranding Project Plan - Desktop + Web Hybrid Strategy
+# Quallaa Development Plan - Desktop + Web Hybrid Strategy
 
-**Goal**: Rebrand Eclipse Theia to Quallaa for desktop (macOS/Windows/Linux) and web distribution
+**Goal**: Build Quallaa on Eclipse Theia platform for desktop (macOS/Windows/Linux) and web distribution
 **Timeline**: 3-4 weeks for hybrid MVP
 **Current Status**: Phase 1 & 2 complete, packaging successful, ready for Phase 3
 **Platforms**:
@@ -52,9 +52,9 @@
 
 ---
 
-## Phase 2: Core Branding Changes (Week 1 - Days 3-5)
+## Phase 2: Core Configuration Changes (Week 1 - Days 3-5)
 
-### Branding Decisions Required (Complete BEFORE making changes)
+### Configuration Decisions Required (Complete BEFORE making changes)
 - [x] **DECISION**: Confirm final application name: "Quallaa" ✅
 - [x] **DECISION**: Choose company identifier for `build.appId` (e.g., `com.quallaa.ide`) - PENDING USER INPUT
 - [x] **DECISION**: Choose package namespace: Keep `@theia/*` for MVP ✅
@@ -106,9 +106,9 @@
 
 ## Phase 3: UI Component Customization (Week 1 - Days 6-7) ✅ COMPLETE
 
-### Branding Extension Package Created ✅
+### Quallaa Extension Package Created ✅
 - [x] **CHOSE OPTION A** - Override via extension (more maintainable for long-term product)
-- [x] Created `packages/quallaa-branding/` extension package
+- [x] Created `packages/quallaa-branding/` extension package (customizations)
 - [x] Added package.json with @quallaa/branding namespace
 - [x] Added tsconfig.json with proper references to @theia/core and @theia/getting-started
 - [x] Created dependency injection module: `quallaa-branding-frontend-module.ts`
@@ -117,12 +117,12 @@
 ### About Dialog Customization ✅
 - [x] Located About Dialog component: `packages/core/src/browser/about-dialog.tsx`
 - [x] Created custom `QuallaaAboutDialog` extending `AboutDialog`
-- [x] Added Quallaa branding in header
+- [x] Added Quallaa identity in header
 - [x] Added "Built on Eclipse Theia" attribution with link to https://theia-ide.org
 - [x] Added link to Quallaa source code repository (EPL compliance)
 - [x] Added copyright: "© 2025 Quallaa AI. Licensed under EPL 2.0"
 - [x] Rebound AboutDialog to QuallaaAboutDialog in DI container
-- [ ] Test About Dialog: Open app, trigger "About" from menu, verify branding (pending build)
+- [ ] Test About Dialog: Open app, trigger "About" from menu, verify content (pending build)
 
 ### Getting Started Widget Customization ✅
 - [x] Located Getting Started Widget: `packages/getting-started/src/browser/getting-started-widget.tsx`
@@ -144,11 +144,11 @@
 
 ### Architecture Notes ✅
 **Key decision: Used Option A (extension-based override) because:**
-- This rebrand IS the MVP and product foundation (not a throwaway prototype)
+- This is the product foundation (not a throwaway prototype)
 - Clean separation between Theia core and Quallaa customizations
 - Easier to pull upstream Theia updates without merge conflicts
-- Better EPL 2.0 compliance (clear distinction between EPL code and proprietary branding)
-- More maintainable long-term - all branding logic in one isolated package
+- Better EPL 2.0 compliance (clear distinction between EPL code and proprietary customizations)
+- More maintainable long-term - all customization logic in one isolated package
 
 ---
 
@@ -451,14 +451,14 @@ yarn test:e2e:update-snapshots
   - [ ] Open large folder (1000+ files)
   - [ ] Document baseline performance metrics
 
-### Automated Branding Verification ✅ COMPLETE
+### Automated Configuration Verification ✅ COMPLETE
 - [x] Application name shows "Quallaa" - verified by tests ✅
 - [x] Icon file exists and valid - verified by tests ✅
 - [x] No "Theia IDE" in main UI - verified by tests ✅
 - [x] Attribution present in About dialog - verified by tests ✅
 - [x] EPL 2.0 compliance - verified by tests ✅
 
-### Remaining Manual Branding Checks
+### Remaining Manual Checks
 - [ ] Visual inspection in production DMG:
   - [ ] Finder (Applications folder)
   - [ ] Dock
@@ -483,9 +483,9 @@ yarn test:e2e:update-snapshots
 ## Phase 9: Launch Preparation (Week 3 - End)
 
 ### Pre-Launch Checklist
-- [ ] All core branding changes complete
-- [ ] About dialog shows Quallaa branding + Eclipse Theia attribution
-- [ ] Welcome screen shows Quallaa branding
+- [ ] All core configuration changes complete
+- [ ] About dialog shows Quallaa identity + Eclipse Theia attribution
+- [ ] Welcome screen shows Quallaa content
 - [ ] macOS build packages successfully
 - [ ] Code signing works (no Gatekeeper warnings)
 - [ ] DMG installer tested on clean macOS system
@@ -568,7 +568,7 @@ yarn test:e2e:update-snapshots
 
 **Goal**: Deploy browser-based version of Quallaa for SaaS offering
 
-### Branding - examples/browser/package.json
+### Configuration - examples/browser/package.json
 - [ ] Change `"name"` field from `"@theia/example-browser"` to `"@quallaa/quallaa-web"`
 - [ ] Update `theia.frontend.config.applicationName` to `"Quallaa"`
 - [ ] Add user preferences directory config: `"preferences-dir": ".quallaa"`
@@ -681,7 +681,7 @@ yarn test:e2e:update-snapshots
 - [ ] Target: < 3 seconds initial load time
 
 ### Hybrid Strategy Integration
-- [ ] Ensure branding consistency between desktop and web
+- [ ] Ensure configuration consistency between desktop and web
 - [ ] Create unified documentation (covers both deployment modes)
 - [ ] Plan data sync between desktop and web (future feature)
 - [ ] Cross-promote: mention web version in desktop app, vice versa
@@ -739,7 +739,7 @@ docker run -p 3000:3000 -e NODE_ENV=production quallaa-web
 ### Must Have (MVP Cannot Ship Without These)
 - [ ] Application name is "Quallaa" everywhere users see it
 - [ ] macOS icon displays correctly in all contexts
-- [ ] About dialog shows Quallaa branding + "Built on Eclipse Theia" attribution
+- [ ] About dialog shows Quallaa identity + "Built on Eclipse Theia" attribution
 - [ ] DMG installer works on clean macOS system without Gatekeeper warnings
 - [ ] Basic IDE functionality works: open folder, edit files, save
 - [ ] Settings persist in `~/.quallaa/` directory
@@ -765,7 +765,7 @@ docker run -p 3000:3000 -e NODE_ENV=production quallaa-web
 
 ## Timeline Summary - Desktop + Web Hybrid
 
-**Week 1: Foundation & Core Branding (Desktop Focus)**
+**Week 1: Foundation & Core Configuration (Desktop Focus)**
 - Days 1-2: Setup, legal compliance, environment ✅ COMPLETE
 - Days 3-5: Package.json changes, assets, electron-builder config ✅ COMPLETE
 - Days 6-7: About Dialog, Getting Started widget, config directory
@@ -781,7 +781,7 @@ docker run -p 3000:3000 -e NODE_ENV=production quallaa-web
 - Days 6-7: Desktop MVP launch preparation
 
 **Week 4: Web Deployment (Can Run in Parallel)**
-- Days 1-2: Rebrand browser example, web-specific config
+- Days 1-2: Configure browser example, web-specific config
 - Days 3-4: Choose deployment platform, set up infrastructure
 - Days 5-6: Deploy to staging, test in production-like environment
 - Day 7: Web MVP launch or continue testing
@@ -849,11 +849,11 @@ export APPLE_TEAM_ID="XXXXXXXXXX"
 - **EPL 2.0 compliance validation** built into tests
 - **Visual regression testing** with screenshot baselines
 - **CI/CD integration** via GitHub Actions (.github/workflows/test-rebrand.yml)
-- **3 CI jobs**: test-rebrand (macOS E2E), test-compliance (license checks), test-branding (asset validation)
+- **3 CI jobs**: test-quallaa (macOS E2E), test-compliance (license checks), test-customization (asset validation)
 - **Documentation**: 4 comprehensive docs (TEST-PLAN.md, TESTING-QUICKSTART.md, TESTING-IMPLEMENTATION-SUMMARY.md, test/README.md)
 
 ### ESLint Configuration ✅
-- Added `.eslintrc.js` to quallaa-branding package
+- Added `.eslintrc.js` to quallaa-branding package (customizations)
 - Fixed all import statements to use @theia/core shared dependencies
 - All 87 packages now pass linting
 
@@ -948,8 +948,8 @@ This is a known limitation documented in various sources:
 
 ---
 
-**Last Updated**: 2025-10-06
-**Project**: Quallaa Rebranding MVP
+**Last Updated**: 2025-10-17
+**Project**: Quallaa Development (built on Eclipse Theia)
 **Platform**: macOS only
 **Timeline**: 2-3 weeks
 **Testing**: Automated E2E suite with 68 tests (94% passing)

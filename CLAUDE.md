@@ -41,11 +41,11 @@ Theia provides the perfect foundation because:
 
 ### Product Roadmap
 
-**Phase 1 (Current MVP)**: Rebrand Theia to establish Quallaa foundation
-- Visual rebrand (name, icons, branding)
+**Phase 1 (Current)**: Foundation Development
+- Building on Eclipse Theia platform (tightly coupled architecture)
 - Build targets: Desktop (Electron) AND web (browser)
 - AI integration (Claude Code or similar)
-- Basic IDE functionality for domain experts who understand "command center" concept
+- Core IDE functionality with Quallaa customizations
 
 **Phase 2 (Future)**: Domain-specific environment templates
 - Marketing environment: Postgres database + email provider + analytics tools + CRM-like functionality
@@ -225,9 +225,8 @@ See `docs/architecture/domain-abstraction-principles.md` for complete architectu
 - **`docs/Quallaa-Product-Overview.md`** - Product strategy and market positioning
 
 ### Implementation Plans
-- **`docs/planning/todo.md`** - Detailed 9-phase project plan for the rebrand (2-3 weeks)
+- **`docs/planning/todo.md`** - Detailed project plan and task tracking
 - **`docs/planning/marketing-environment-mvp.md`** - Complete implementation plan for first domain environment (6 weeks, 10 phases)
-- **`docs/planning/rebrand-guide.md`** - Strategic guide and business context
 
 ### Build & Deployment
 - **`docs/deployment/`** - Deployment guides (quick start, Theia Cloud)
@@ -331,11 +330,11 @@ cd examples/browser
 npm run build:browser    # Creates production bundle in lib/
 ```
 
-## MVP Rebranding Architecture
+## Quallaa Customization Architecture
 
-### Files Requiring Modification
+### Key Configuration Files
 
-**Core branding (examples/electron/ and examples/browser/)**:
+**Application configuration (examples/electron/ and examples/browser/)**:
 - `package.json` - Application name, productName, appId, preferences directory
 - `electron-builder.yml` (electron only) - Build config, code signing, platform settings
 - `resources/icon.icns` (macOS) - Application icon (512x512@2x minimum)
@@ -361,14 +360,14 @@ npm run build:browser    # Creates production bundle in lib/
 - Link to source code repository (EPL requires source availability)
 - Preserve all original copyright headers in modified files
 
-### Recommended Rebrand Approach
+### Customization Approach
 
-1. **Modify examples/electron/ and examples/browser/ package.json first** - Sets application name, config
-2. **Create/update electron-builder.yml** - Desktop build settings
-3. **Replace visual assets** - Icons for macOS, Windows, Linux
-4. **Override UI components** - About Dialog, Getting Started Widget
-5. **Global text replacement** - "Theia IDE" → "Quallaa" in user-visible strings only
-6. **Keep `@theia/*` package namespace** - Avoid massive refactor for MVP
+1. **Configure application settings** - Modify package.json files in examples/electron/ and examples/browser/
+2. **Set up build configuration** - Update electron-builder.yml for desktop builds
+3. **Customize visual assets** - Provide Quallaa icons for macOS, Windows, Linux
+4. **Extend UI components** - Override About Dialog, Getting Started Widget through Theia's extension system
+5. **Update user-facing strings** - "Theia IDE" → "Quallaa" in visible UI only
+6. **Keep `@theia/*` package namespace** - Maintain compatibility with upstream Theia
 
 ## Code Signing & Distribution
 
@@ -532,12 +531,12 @@ Study packages for reference: `packages/core/src/browser/shell/` for shell archi
 
 ## Project-Specific Workflows
 
-### Typical Rebrand Development Session
+### Typical Development Session
 ```bash
 # 1. Start from root
 npm install && npm run compile
 
-# 2. Make branding changes in examples/electron/ or examples/browser/
+# 2. Make changes in examples/electron/ or examples/browser/
 
 # 3. Watch for changes (choose one)
 cd examples/electron && npm run watch
@@ -557,7 +556,7 @@ cd examples/electron && npm run clean && yarn package
 cd examples/browser && npm run build:browser
 ```
 
-### Testing Rebrand Changes
+### Testing Changes
 ```bash
 # Quick test (development build)
 cd examples/electron && npm run start

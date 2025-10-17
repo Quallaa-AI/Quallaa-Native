@@ -2,8 +2,7 @@
 
 ## Planning Documents
 
-- **[Rebrand Guide](planning/rebrand-guide.md)** - Fast-track MVP guide for rebranding Eclipse Theia to Quallaa
-- **[TODO](planning/todo.md)** - Detailed 9-phase project plan for the rebrand (2-3 weeks)
+- **[TODO](planning/todo.md)** - Detailed project plan and task tracking
 - **[Marketing Environment MVP](planning/marketing-environment-mvp.md)** - Complete 6-week, 10-phase implementation plan for the first domain environment
 
 ## Deployment Guides

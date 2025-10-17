@@ -50,17 +50,17 @@ The core insight: **IDE + Command Line + frontier AI models = the most capable A
 
 ## Project Status
 
-**Current Phase**: MVP - Rebranding Eclipse Theia foundation
+**Current Phase**: Foundation Development
 
-Quallaa is built on [Eclipse Theia](https://github.com/eclipse-theia/theia), an extensible framework for building full-fledged IDEs. We're establishing the foundation for AI environment management.
+Quallaa is built on [Eclipse Theia](https://github.com/eclipse-theia/theia), an extensible framework for building full-fledged IDEs. Our architecture is currently tightly coupled to Theia as we establish the foundation for AI environment management.
 
 ### Roadmap
 
 **Phase 1 (Current)**: Foundation
-- ✅ Rebrand Eclipse Theia to Quallaa
+- ✅ Building on Eclipse Theia platform
 - ✅ Desktop (Electron) and web (browser) builds
 - 🚧 AI integration (Claude Code/similar)
-- 🚧 Basic IDE functionality for domain experts
+- 🚧 Core IDE functionality with Quallaa customizations
 
 **Phase 2 (Upcoming)**: Domain Environments
 - Domain-specific environment templates (Marketing, Finance, Legal, etc.)
@@ -131,7 +131,7 @@ npm run build:browser
 
 ### Project Documentation
 - **[CLAUDE.md](CLAUDE.md)** - Comprehensive guide for AI-assisted development
-- **[Planning Docs](docs/planning/)** - Project roadmap, TODO, rebrand guide, MVP plans
+- **[Planning Docs](docs/planning/)** - Project roadmap, TODO, implementation plans
 - **[Deployment Guides](docs/deployment/)** - Quick start and Theia Cloud deployment
 
 ### Development Guides
@@ -192,8 +192,8 @@ Quallaa provides **execution environments**, not rigid pre-configured workflows:
 
 We welcome contributions! However, please note:
 
-1. **This is a work in progress** - MVP rebranding phase
-2. **Theia foundation** - Much of the codebase is Eclipse Theia
+1. **This is a work in progress** - Early development phase
+2. **Built on Theia** - Much of the codebase is Eclipse Theia
 3. **EPL 2.0 License** - All contributions must comply
 
 ### Development Workflow
