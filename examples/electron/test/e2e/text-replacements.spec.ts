@@ -20,7 +20,7 @@ import * as path from 'path';
  */
 test.describe('Text Replacements', () => {
 
-  test('AI Chat - should show "Ask the Quallaa AI"', async ({ page }) => {
+  test('AI Chat - should show "Command Quallaa AI"', async ({ page }) => {
     await page.waitForLoadState('domcontentloaded');
     await page.waitForTimeout(3000);
 
@@ -40,7 +40,7 @@ test.describe('Text Replacements', () => {
       // Check welcome message
       const bodyText = await page.textContent('body') || '';
 
-      // Should say "Ask the Quallaa AI" not "Ask the Theia IDE AI"
+      // Should say "Command Quallaa AI" not "Ask the Theia IDE AI"
       if (bodyText.toLowerCase().includes('ask the')) {
         expect(bodyText).toContain('Quallaa AI');
         expect(bodyText).not.toContain('Theia IDE AI');
@@ -48,7 +48,7 @@ test.describe('Text Replacements', () => {
     }
   });
 
-  test('Debug client name - should be "Quallaa"', async ({}) => {
+  test('Debug client name - should be "Quallaa"', async ({ }) => {
     // Verify debug-session.tsx has correct clientName
     const debugSessionPath = path.join(
       __dirname,
@@ -63,7 +63,7 @@ test.describe('Text Replacements', () => {
     }
   });
 
-  test('IDE chat welcome message - should reference Quallaa', async ({}) => {
+  test('IDE chat welcome message - should reference Quallaa', async ({ }) => {
     const welcomeMessagePath = path.join(
       __dirname,
       '../../../../packages/ai-ide/src/browser/ide-chat-welcome-message-provider.tsx'
@@ -72,8 +72,8 @@ test.describe('Text Replacements', () => {
     if (fs.existsSync(welcomeMessagePath)) {
       const content = fs.readFileSync(welcomeMessagePath, 'utf-8');
 
-      // Check for "Ask the Quallaa AI"
-      expect(content).toContain('Ask the Quallaa AI');
+      // Check for "Command Quallaa AI"
+      expect(content).toContain('Command Quallaa AI');
       expect(content).not.toMatch(/Ask the Theia IDE AI/);
     }
   });
@@ -193,7 +193,7 @@ test.describe('Text Replacements', () => {
     }
   });
 
-  test('Package namespace - internal references OK', async ({}) => {
+  test('Package namespace - internal references OK', async ({ }) => {
     // Internal package references like @theia/* are acceptable for MVP
     // User-visible strings are what matter
 

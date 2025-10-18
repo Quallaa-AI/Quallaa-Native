@@ -158,7 +158,7 @@
 - [x] **IMPORTANT**: Create backup branch before mass find/replace ✅ (`backup/before-phase4-text-replacements`)
 - [x] Search all user-visible strings for "Theia IDE": `grep -r "Theia IDE" packages/` ✅
 - [x] Replace "Theia IDE" → "Quallaa" in user-visible strings: ✅
-  - [x] AI chat welcome message: "Ask the Quallaa AI" (was "Ask the Theia IDE AI")
+  - [x] AI chat welcome message: "Command Quallaa AI" (was "Ask the Theia IDE AI")
   - [x] Debug session client name: "Quallaa" (was "Theia IDE")
 - [x] Search for "Theia Blueprint": `grep -r "Theia Blueprint" packages/` ✅ (none found, as expected)
 - [x] **Intentionally preserved** "Theia IDE" in:

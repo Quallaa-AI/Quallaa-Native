@@ -79,7 +79,7 @@ test/
 - ✅ About Dialog links to Quallaa source code
 - ✅ Getting Started Widget shows Quallaa welcome message
 - ✅ Getting Started Widget has Quallaa-specific links
-- ✅ AI Chat displays "Ask the Quallaa AI"
+- ✅ AI Chat displays "Command Quallaa AI"
 - ✅ Screenshot regression tests for all components
 
 **Critical for MVP**: YES
@@ -92,7 +92,7 @@ test/
 **Purpose**: Verify user-visible text has been updated
 
 **Tests**:
-- ✅ AI Chat welcome: "Ask the Quallaa AI" (not "Theia IDE AI")
+- ✅ AI Chat welcome: "Command Quallaa AI"
 - ✅ Debug client name: "Quallaa"
 - ✅ Window title contains "Quallaa" not "Theia"
 - ✅ No "Theia IDE" in error messages

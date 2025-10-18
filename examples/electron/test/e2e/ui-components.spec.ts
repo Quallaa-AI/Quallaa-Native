@@ -171,7 +171,7 @@ test.describe('UI Component Branding', () => {
     });
   });
 
-  test('AI Chat - should display "Ask the Quallaa AI" welcome message', async ({ page }) => {
+  test('AI Chat - should display "Command Quallaa AI" welcome message', async ({ page }) => {
     await page.waitForLoadState('domcontentloaded');
     await page.waitForTimeout(3000);
 
@@ -188,10 +188,10 @@ test.describe('UI Component Branding', () => {
     const bodyText = await page.textContent('body') || '';
 
     // Based on ide-chat-welcome-message-provider.tsx:
-    // "Ask the Quallaa AI"
+    // "Command Quallaa AI"
     if (bodyText.includes('AI')) {
       // AI features are enabled, check for correct branding
-      // Should say "Ask the Quallaa AI" not "Ask the Theia IDE AI"
+      // Should say "Command Quallaa AI" not "Ask the Theia IDE AI"
       if (bodyText.toLowerCase().includes('ask the')) {
         expect(bodyText).toContain('Quallaa AI');
       }

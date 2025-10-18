@@ -111,7 +111,7 @@ Tests custom UI branding:
 - ✅ Getting Started shows Quallaa welcome
 - ✅ Getting Started has Quallaa-specific links
 - ✅ Getting Started screenshot regression
-- ✅ AI Chat shows "Ask the Quallaa AI"
+- ✅ AI Chat shows "Command Quallaa AI"
 
 **Pass Requirement**: 100%
 
