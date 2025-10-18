@@ -53,6 +53,7 @@
     "@theia/core": "1.65.0",
     "@theia/debug": "1.65.0",
     "@theia/dev-container": "1.65.0",
+    "@theia/docs-view": "1.65.0",
     "@theia/editor": "1.65.0",
     "@theia/editor-preview": "1.65.0",
     "@theia/file-search": "1.65.0",
