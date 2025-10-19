@@ -16,7 +16,7 @@
 
 import { injectable } from '@theia/core/shared/inversify';
 import { AbstractViewContribution } from '@theia/core/lib/browser/shell/view-contribution';
-import { FrontendApplication, FrontendApplicationContribution, KeybindingRegistry } from '@theia/core/lib/browser';
+import { KeybindingRegistry } from '@theia/core/lib/browser';
 import { Command, CommandRegistry, MenuModelRegistry } from '@theia/core/lib/common';
 import { DocsTreeWidget } from './docs-tree-widget';
 import { DOCS_VIEW_CONTAINER_ID, DOCS_TOGGLE_COMMAND_ID, DOCS_REFRESH_COMMAND_ID } from '../common';
@@ -40,8 +40,7 @@ export namespace DocsCommands {
  * Contribution for the Docs view, handling view registration and commands.
  */
 @injectable()
-export class DocsContribution extends AbstractViewContribution<DocsTreeWidget>
-    implements FrontendApplicationContribution {
+export class DocsContribution extends AbstractViewContribution<DocsTreeWidget> {
 
     constructor() {
         super({
@@ -55,13 +54,6 @@ export class DocsContribution extends AbstractViewContribution<DocsTreeWidget>
             toggleCommandId: DOCS_TOGGLE_COMMAND_ID,
             toggleKeybinding: 'ctrlcmd+shift+d'
         });
-    }
-
-    /**
-     * Initialize and open the docs view when the application starts.
-     */
-    async initializeLayout(app: FrontendApplication): Promise<void> {
-        await this.openView({ activate: false });
     }
 
     /**
