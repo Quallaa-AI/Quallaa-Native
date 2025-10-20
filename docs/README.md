@@ -27,6 +27,15 @@
 
 ---
 
+## Research
+
+**[research/2025-01-theia-shell-customization-research.md](research/2025-01-theia-shell-customization-research.md)** - Theia ApplicationShell API validation
+- How to customize Theia's layout using ApplicationShell APIs
+- Validates approach for Obsidian-style interface
+- Critical findings and workarounds
+
+---
+
 ## Archive
 
 **[archive/2025-10-domain-ideas/](archive/2025-10-domain-ideas/)** - Domain abstraction system, marketing automation

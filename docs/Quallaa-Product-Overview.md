@@ -60,6 +60,8 @@ Eclipse Theia provides the perfect foundation:
 - Right panel: AI chat
 - Minimal IDE chrome
 
+**Reference:** `docs/research/2025-01-theia-shell-customization-research.md` - Research validating ApplicationShell API approach for layout customization
+
 ---
 
 ## Future Ideas (Archive)
