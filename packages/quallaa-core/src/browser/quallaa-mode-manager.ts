@@ -20,6 +20,7 @@ import { FrontendApplication } from '@theia/core/lib/browser/frontend-applicatio
 import { ApplicationShell } from '@theia/core/lib/browser/shell/application-shell';
 import { StorageService } from '@theia/core/lib/browser/storage-service';
 import { CommandRegistry } from '@theia/core/lib/common/command';
+import { KeybindingRegistry } from '@theia/core/lib/browser/keybinding';
 import { QuallaaCommands } from './quallaa-contribution';
 
 /**
@@ -45,18 +46,32 @@ export class QuallaaModuleManager implements FrontendApplicationContribution {
     @inject(CommandRegistry)
     protected readonly commands: CommandRegistry;
 
+    @inject(KeybindingRegistry)
+    protected readonly keybindings: KeybindingRegistry;
+
     /**
      * Called when application is ready to start.
-     * Registers the toggle command manually to avoid async dependency issues.
+     * Registers command and keybinding manually to avoid async dependency issues.
      */
     onStart(app: FrontendApplication): void {
-        console.log('[QuallaaModuleManager] Registering toggle command');
+        console.log('[QuallaaModuleManager] Registering toggle command and keybinding');
+
+        // Register command
         this.commands.registerCommand(QuallaaCommands.TOGGLE_DEVELOPER_MODE, {
             execute: async () => {
                 console.log('[QuallaaModuleManager] Toggle command executed');
                 await this.toggleMode();
             }
         });
+
+        // Register keybinding (Cmd+K D / Ctrl+K D)
+        this.keybindings.registerKeybinding({
+            command: QuallaaCommands.TOGGLE_DEVELOPER_MODE.id,
+            keybinding: 'ctrlcmd+k d',
+            context: 'true'
+        });
+
+        console.log('[QuallaaModuleManager] Command and keybinding registered successfully');
     }
 
     /**

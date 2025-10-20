@@ -15,9 +15,8 @@
 // *****************************************************************************
 
 import { ContainerModule } from '@theia/core/shared/inversify';
-import { FrontendApplicationContribution, KeybindingContribution } from '@theia/core/lib/browser';
+import { FrontendApplicationContribution } from '@theia/core/lib/browser';
 import { QuallaaModuleManager } from './quallaa-mode-manager';
-import { QuallaaKeybindingContribution } from './quallaa-contribution';
 
 /**
  * Quallaa Core frontend module.
@@ -30,12 +29,9 @@ export default new ContainerModule(bind => {
     bind(QuallaaModuleManager).toSelf().inSingletonScope();
     bind(FrontendApplicationContribution).toService(QuallaaModuleManager);
 
-    // Command contribution (toggle command)
-    // NOTE: We don't bind this as CommandContribution directly because it would
-    // create async dependency issues. Instead, QuallaaModuleManager will register
-    // the command manually in its onStart hook.
-
-    // Keybinding contribution (Cmd+Shift+D / Ctrl+Shift+D)
-    bind(QuallaaKeybindingContribution).toSelf().inSingletonScope();
-    bind(KeybindingContribution).toService(QuallaaKeybindingContribution);
+    // Command and keybinding contributions
+    // NOTE: We don't bind these as CommandContribution or KeybindingContribution
+    // because they would create async dependency issues that break the entire
+    // keybinding system. Instead, QuallaaModuleManager registers them manually
+    // in its onStart hook using CommandRegistry and KeybindingRegistry directly.
 });
