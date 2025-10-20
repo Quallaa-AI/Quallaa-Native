@@ -14,19 +14,19 @@ Each decision includes:
 
 ---
 
-## [2025-01-19] Shell Customization Approach
+## [2025-01-19] Shell Customization Approach: Dual-Mode Interface
 
 **Context:**
-Need to toggle between "simple mode" (minimal UI for markdown editing) and "developer mode" (full IDE). Three main options considered:
+Need to create a dual-mode experience: "default mode" (minimal UI for markdown editing + AI chat - 90% usage) and "developer mode" (full IDE exposed). Three main options considered:
 1. Use ApplicationShell panel APIs (collapse/expand)
 2. Create custom ApplicationShell subclass
 3. Build separate app that embeds Theia components
 
 **Decision:**
-Use ApplicationShell panel APIs (Option 1) - programmatically control panel visibility using:
-- `shell.collapsePanel('left' | 'right' | 'bottom')`
-- `shell.expandPanel('left' | 'right' | 'bottom')`
-- `shell.topPanel.hide()` / `shell.topPanel.show()`
+Use ApplicationShell panel APIs (Option 1) - programmatically control panel visibility to create dual-mode experience:
+- Default mode: Hide IDE panels, show KB + AI chat
+- Developer mode: Show full IDE (or users can use external IDE)
+- APIs: `shell.collapsePanel()`, `shell.expandPanel()`, `shell.topPanel.hide()`
 - Implement via `FrontendApplicationContribution` lifecycle hooks
 
 **Rationale:**
@@ -35,6 +35,7 @@ Use ApplicationShell panel APIs (Option 1) - programmatically control panel visi
 - Easier to maintain across Theia version updates
 - Proven pattern in Theia architecture (panel handlers designed for this)
 - Clean separation of concerns (our code is a contribution, not a modification)
+- **Preserves full IDE functionality** - we're hiding complexity, not removing it
 
 **Consequences:**
 - ✅ Clean, maintainable implementation
@@ -70,11 +71,12 @@ Use ApplicationShell panel APIs (Option 1) - programmatically control panel visi
 Users need a place to store context/notes that AI can reference. Full Obsidian clone with graph views, backlinks, and [[wiki-style links]] would be significant scope creep. Need to ship fast.
 
 **Decision:**
-Ship markdown editor + docs tree view only for MVP. Features included:
+Ship markdown editor + docs tree view as the DEFAULT MODE interface. Features included:
 - Markdown-only file tree (already implemented in `/packages/docs-view/`)
 - Monaco editor for .md files (standard Theia editor)
 - Markdown preview (existing Theia preview package)
 - AI chat can reference these docs
+- **Full IDE remains accessible** via developer mode or external IDE
 
 Features deferred to Phase 2+:
 - No [[wiki links]] or backlinks
@@ -83,7 +85,9 @@ Features deferred to Phase 2+:
 - No templates or quick capture
 
 **Rationale:**
-- Core value proposition is "AI + editable context", not knowledge management graph
+- Core value proposition is "AI execution environment with simple default interface"
+- This is the DEFAULT MODE (90% usage), not the only mode
+- Full IDE functionality retained for developer mode
 - Can add wiki features later if users actually demand them
 - Theia already has production-ready markdown preview
 - Docs tree widget already built and tested
@@ -92,10 +96,11 @@ Features deferred to Phase 2+:
 **Consequences:**
 - ✅ Ships in weeks instead of months
 - ✅ Lower complexity = fewer bugs
-- ✅ Can validate core value prop (AI + context) quickly
+- ✅ Can validate core value prop (AI execution + simple interface) quickly
 - ✅ Easy to add wiki features later (non-breaking)
+- ✅ Full IDE available for power users
 - ❌ Users coming from Obsidian may miss [[links]]
-- ❌ Need to educate users this is "context for AI" not "second brain"
+- ❌ Need to educate users this is "execution environment" not just "second brain"
 - ❌ May need to add wiki links in Phase 2 if users demand it
 
 **Status:** ✅ Active

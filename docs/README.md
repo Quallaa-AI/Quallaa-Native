@@ -8,7 +8,9 @@
 
 **[Quallaa-Product-Overview.md](Quallaa-Product-Overview.md)** - Current goal, technical architecture, and future vision
 
-**Current Goal:** Build an Obsidian + AI chat experience on Eclipse Theia
+**Current Goal:** Build a dual-mode knowledge base + natural language development environment
+- **Default mode** (90% usage): Clean KB/note-taking + AI chat (hides IDE complexity)
+- **Developer mode**: Full IDE exposed when needed
 
 ---
 

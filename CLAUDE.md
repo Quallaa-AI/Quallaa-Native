@@ -6,7 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is **Quallaa**, built on the Eclipse Theia platform.
 
-**Current Goal:** Build an Obsidian + AI chat experience on Theia.
+**What is Quallaa?** A knowledge base + natural language development environment.
+
+**Current Goal:** Build a dual-mode interface:
+- **Default mode** (90% usage): Clean KB/note-taking + AI chat interface (Obsidian-like, hides IDE complexity)
+- **Developer mode**: Full IDE exposed when needed (or developers can use their preferred external IDE)
+
+**Key Principle:** The full IDE functionality is retained and accessible. We're not stripping features—we're creating a simple default experience that progressively discloses complexity.
 
 **For project vision and strategy**, see: `docs/Quallaa-Product-Overview.md`
 
@@ -365,13 +371,23 @@ cd examples/browser && npm run build:browser
 
 ## Current Development Goal
 
-**Goal:** Build an Obsidian + AI chat experience
+**Goal:** Build a dual-mode knowledge base + development environment
+
+**Default Mode (90% usage):**
+- Clean markdown editor interface (Obsidian-like)
+- AI chat panel side-by-side
+- Distraction-free layout - hides IDE complexity
+- AI can read/edit files and execute against real infrastructure
+
+**Developer Mode:**
+- Full IDE exposed when needed (toggle or external IDE)
+- Complete Theia functionality accessible
+- Progressive disclosure of complexity
 
 **Success Criteria:**
-- Clean markdown editor interface
-- AI chat panel side-by-side
-- Distraction-free layout
-- AI can read/edit files when user asks
+- Simple, streamlined default experience
+- Full IDE available but not overwhelming
+- AI can execute (not just chat) - file system, databases, APIs
 - No blank screen errors
 - Proper architecture (no hacks or workarounds)
 
