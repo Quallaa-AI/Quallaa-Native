@@ -2,246 +2,44 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project Context
+## Project Overview
 
-This repository includes **Eclipse Theia** as the IDE foundation for **Quallaa**, an AI Environment Management system for domain experts.
+This is **Quallaa**, built on the Eclipse Theia platform.
 
-### What is Quallaa?
+**Current Goal:** Build an Obsidian + AI chat experience on Theia.
 
-# Quallaa: An AI Execution Environment for Domain Experts
+**For project vision and strategy**, see: `docs/Quallaa-Product-Overview.md`
 
-**The Core Idea:** AI that doesn't just *describe* solutions—it actually *executes* them. We offer a distinct approach to AI-native: managed application layers on top of development environments. It is on these digital beaches and in these binary jungles that our customers have access to the smartest and most capable AI systems. We are masters of progressive disclosure and we always begin with simple physical metaphors.  
+**For architecture decisions**, see: `docs/DECISIONS.md`
 
-## The Problem We're Solving
+**This document** focuses on: How to work with the Theia codebase (build, debug, customize, deploy).
 
-You know what you need. You can explain it clearly. But you're stuck:
-- **ChatGPT/Claude** can tell you *how* to build it, but can't actually do it
-- **No-code tools** work until you hit their limitations
-- **Traditional platforms** (HubSpot, Marketo) make you wait for features or hire developers
-- **IT departments** have a 6-week backlog for your simple change
+---
 
-## How We're Different
+## What is Theia?
 
-**Think of it this way:**
-- **Chat AI** = A cookbook that describes recipes
-- **Quallaa** = A fully-stocked kitchen where AI actually cooks the meal
+Eclipse Theia is an open-source IDE platform (not an IDE product). Key characteristics:
 
-We provide **domain-specific UI on top of developer-grade infrastructure.** Both the visual interface and AI work with the exact same files, so they stay perfectly in sync.
+- **Frontend-backend architecture** - Node.js backend + browser/Electron frontend
+- **Extension system** - Supports VS Code extensions
+- **Cross-platform** - Desktop (Electron) AND web (browser) deployment
+- **Dependency injection** - InversifyJS for customization
+- **Production-ready** - Used by Arduino IDE, Gitpod, and other commercial products
 
-### Why Eclipse Theia?
+**Important**: This repository is the **Theia Platform monorepo**, NOT the Theia IDE template.
 
-Theia provides the perfect foundation because:
-1. **Extension ecosystem** - Supports VS Code extensions, enabling integration with any tool/service
-2. **Frontend-backend architecture** - Can orchestrate infrastructure (databases, APIs) from backend, not just edit text
-3. **Cross-platform** - Desktop (Electron) AND web deployment for maximum accessibility
-4. **Open source** - Full control over customization and progressive disclosure UX
-5. **Production-ready** - Used by major companies; not a toy or prototype
-
-**Important**: This is the Theia Platform monorepo, NOT the Theia IDE template.
-
-### Product Roadmap
-
-**Phase 1 (Current)**: Foundation Development
-- Building on Eclipse Theia platform (tightly coupled architecture)
-- Build targets: Desktop (Electron) AND web (browser)
-- AI integration (Claude Code or similar)
-- Core IDE functionality with Quallaa customizations
-
-**Phase 2 (Future)**: Domain-specific environment templates
-- Marketing environment: Postgres database + email provider + analytics tools + CRM-like functionality
-- Finance environment: Data analysis tools + reporting + integrations
-- Knowledge base system (Obsidian-style markdown docs)
-- Progressive disclosure: Domain UI by default, IDE by choice
-
-**Phase 3 (Future)**: Advanced environment management
-- Multi-environment orchestration
-- Team collaboration features
-- Enterprise deployment options
-
-### Target Users
-
-**Primary**: SMB domain experts ("Explorers" - 51% of SMBs experimenting with AI but stuck)
-- Have deep domain expertise but no coding skills
-- Understand what needs to be done, just can't execute technically
-- Willing to learn new paradigms if it gives them 10x productivity
-- Currently frustrated with chat-only AI tools that can't actually DO anything
-
-**Not targeting**: Enterprise developers, large IT departments, people who want rigid "no-code" tools
-
-### Philosophy: Environment, Not Workflows
-
-Quallaa provides **execution environments**, not pre-configured AI agents or rigid workflows:
-- ✅ Real infrastructure: Postgres databases, email providers, API integrations
-- ✅ Frontier models used as-is: Claude, GPT, etc. (no custom training needed)
-- ✅ IDE as command center: Orchestrate anything tokenizable
-- ❌ Custom-trained AI models (users can add if needed, but not our focus)
-- ❌ "AI agents" that are just classification algorithms and decision trees
-- ❌ Rigid workflow automation (we provide capability, users define workflows)
-
-**Example**: A marketing environment doesn't include "AI trained on marketing workflows." It includes:
-- PostgreSQL database (for customer/campaign data)
-- Email provider integration (SendGrid, Mailgun, etc.)
-- Analytics API connections (Google Analytics, Mixpanel)
-- File templates and schemas
-- AI can orchestrate all of this directly when user describes needs
-
-Many users will never edit code directly, but they'll have the **capability** - that's the future-proof "AI-native" approach.
-
-### Critical Architectural Principle: Domains Are AI-Modifiable Scaffolding
-
-**IMPORTANT: The marketing domain (and all domains) are NOT finished products.** They are starting templates that users customize through AI commands to build exactly what they need.
-
-**Template → Instance → Customization Pattern:**
-
-When a user creates a marketing project, they're not installing a fixed application. They're creating a **working copy of the domain source code** that AI can modify:
-
-1. **User creates "New Marketing Project"**
-   - Template source code is copied to user's project (`.quallaa/domain/`)
-   - User gets: Campaign builder, email editor, database schema, API integrations
-
-2. **User issues command: "I need to track webinar campaigns with registration counts"**
-   - AI modifies the user's domain instance:
-     - Updates database schema (adds `webinar_campaigns` table)
-     - Creates new `WebinarCampaignBuilder.tsx` widget
-     - Modifies TypeScript interfaces to include webinar fields
-     - Updates domain registration to expose new capability
-
-3. **User's domain evolves uniquely**
-   - No longer matches the base template
-   - Becomes the user's custom marketing automation system
-   - Full programming capability accessed via natural language
-
-**Why This Matters for Development:**
-
-- Domain abstraction must support **dynamic capabilities** (not fixed at design time)
-- Must distinguish between **template** (base marketing domain) and **instance** (user's customized version)
-- AI needs **source path metadata** (where can it edit: widgets/, services/, schema/)
-- Track **customization history** (what has AI modified, why)
-- Domain providers declare **modifiability** (can AI edit this domain?)
-
-**This is fundamentally different from "no-code" tools:**
-- No-code: Fixed data models, hit ceiling quickly
-- Quallaa: AI modifies the domain itself, unlimited extensibility
-- Users focus on outcomes ("I need webinar tracking"), AI handles implementation
-
-**This is also different from typical IDE usage:**
-- Typical IDE: Developer manually writes code
-- Quallaa: Domain expert describes needs, AI modifies domain code
-- The IDE foundation enables AI to orchestrate real infrastructure (databases, APIs, services)
-
-See `docs/architecture/domain-abstraction-principles.md` for complete architectural details.
-
-### The Three-Way Relationship: Infrastructure, UI, AI
-
-**Core Architectural Principle:** Infrastructure is the source of truth. Visual UI and AI both work with the same databases, files, APIs, and services.
-
-```
-┌──────────────────────────────────────────────────────────┐
-│  User Interaction Layer                                  │
-│                                                           │
-│  ┌─────────────────┐        ┌──────────────────┐        │
-│  │  Visual UI      │        │  Claude Code AI  │        │
-│  │  - Drag & drop  │        │  - Natural lang  │        │
-│  │  - Form inputs  │        │  - Commands      │        │
-│  │  - Wizards      │        │  - Automation    │        │
-│  └────────┬────────┘        └────────┬─────────┘        │
-│           │                          │                   │
-│           ├──────────────────────────┤                   │
-│           │                          │                   │
-│           ▼                          ▼                   │
-│  ┌─────────────────────────────────────────────────┐    │
-│  │  Domain Infrastructure (Source of Truth)        │    │
-│  │                                                  │    │
-│  │  Databases:                                      │    │
-│  │  - PostgreSQL (customers, campaigns, segments)  │    │
-│  │  - Redis (cache, sessions)                      │    │
-│  │                                                  │    │
-│  │  APIs/Services:                                  │    │
-│  │  - Resend API (email sending)                   │    │
-│  │  - Google Analytics (tracking)                  │    │
-│  │  - Stripe (payments)                            │    │
-│  │                                                  │    │
-│  │  File Systems:                                   │    │
-│  │  - Email templates (.email.tsx)                 │    │
-│  │  - Configuration files (.quallaa/)              │    │
-│  │  - Domain source code (widgets/, services/)     │    │
-│  │                                                  │    │
-│  │  Runtime:                                        │    │
-│  │  - Background jobs, webhooks, queues            │    │
-│  └─────────────────────────────────────────────────┘    │
-│                                                          │
-│  Both UI and AI orchestrate the same infrastructure     │
-└──────────────────────────────────────────────────────────┘
-```
-
-**Example Workflows:**
-
-**Workflow 1: Database Operations**
-1. **Visual UI:** User drags customer into "Trial Users" segment in Audience Manager
-   - **Infrastructure:** Writes to PostgreSQL: `INSERT INTO segments (id, name, rules) VALUES (...)`
-
-2. **AI:** User commands "Show me customers who haven't opened emails in 30 days"
-   - **Infrastructure:** AI executes PostgreSQL query: `SELECT * FROM customers WHERE ...`
-   - **Result:** Visual UI displays query results in data grid
-
-3. **Code mode:** Power user writes SQL directly in query panel
-   - **Infrastructure:** Same PostgreSQL database
-   - **Result:** Query results appear, can be exported or used in segments
-
-**Workflow 2: API Integration**
-1. **Visual UI:** User clicks "Send Test Campaign" button
-   - **Infrastructure:** Backend calls Resend API to send emails
-   - **Result:** Campaign status updated in database, UI refreshes
-
-2. **AI:** User commands "Send welcome campaign to trial users segment"
-   - **Infrastructure:** AI queries database for segment, calls Resend API for each customer
-   - **Result:** Batch email sent, analytics recorded
-
-**Workflow 3: File + Database Hybrid**
-1. **Visual UI:** User edits email template in visual editor
-   - **Infrastructure:** Saves to file: `templates/welcome.email.tsx`
-
-2. **AI:** User commands "Create campaign using welcome template for segment X"
-   - **Infrastructure:**
-     - Reads file: `templates/welcome.email.tsx`
-     - Queries database for segment members
-     - Inserts campaign record into PostgreSQL
-     - Schedules background job for sending
-   - **Result:** New campaign appears in UI, ready to send
-
-**Why This Matters:**
-- **No artificial boundaries** - AI orchestrates databases, APIs, files, background jobs
-- **CRM-like functionality** without building a separate CRM - it's just PostgreSQL + widgets
-- **Version control works** - Git tracks file changes, database migrations tracked separately
-- **Users switch modes seamlessly** - Visual → AI → Code, all working with same infrastructure
-- **Future-proof** - Any new AI model can execute against real infrastructure, not just edit text
-- **Unlimited extensibility** - AI can add new database tables, API integrations, file types
-
-## Key Project Files
-
-### Architecture & Vision
-- **`docs/architecture/domain-abstraction-principles.md`** - Core principles for AI-modifiable domain system
-- **`docs/planning/Application Layer Architecture...md`** - Research report on Theia architecture patterns
-- **`docs/Quallaa-Product-Overview.md`** - Product strategy and market positioning
-
-### Implementation Plans
-- **`docs/planning/todo.md`** - Detailed project plan and task tracking
-- **`docs/planning/marketing-environment-mvp.md`** - Complete implementation plan for first domain environment (6 weeks, 10 phases)
-
-### Build & Deployment
-- **`docs/deployment/`** - Deployment guides (quick start, Theia Cloud)
-- **`examples/electron/`** - Desktop application build target (macOS, Windows, Linux)
-- **`examples/browser/`** - Web application build target
-- **`.vscode/launch.json`** - Pre-configured debug configurations
+---
 
 ## Build System Architecture
 
 ### Monorepo Structure
+
 - **Lerna + Yarn Workspaces**: Manages 90+ packages in this monorepo
 - **Workspace folders**: `packages/`, `dev-packages/`, `examples/`
 - **Build orchestration**: Root package.json scripts coordinate cross-package builds
 
 ### Platform-Specific Code Organization
+
 Within each package, code is organized by platform:
 - `common/` - Platform-agnostic JavaScript (runs everywhere)
 - `browser/` - Browser/DOM APIs (frontend)
@@ -250,16 +48,15 @@ Within each package, code is organized by platform:
 - `electron-node/` - Electron main process + Node.js
 - `electron-main/` - Electron main process only
 
-**Why this matters for Quallaa**: The `node/` backend can orchestrate databases, external APIs, file systems - not just edit text files. This enables true environment management.
-
 ### Dependency Injection
-Theia uses **InversifyJS** for dependency injection. This is critical for customization:
+
+Theia uses **InversifyJS** for dependency injection:
 - Override UI components by rebinding in DI container
 - Avoid modifying Theia core files directly when possible
 - Use `@injectable()`, `@inject()`, `@postConstruct()` decorators
 - Rebind widgets/dialogs in frontend modules for customization
 
-**For Quallaa**: This allows clean UI customization - rebind IDE components with domain-specific interfaces without modifying core Theia code.
+---
 
 ## Essential Commands
 
@@ -276,15 +73,13 @@ npm run compile          # Compile all TypeScript packages (required after insta
 npm run build:browser    # Full build: compile + bundle
 npm run start:browser    # Run at http://localhost:3000
 
-# Electron example (desktop deployment - primary for MVP)
+# Electron example (desktop deployment)
 npm run build:electron   # Full build: compile + bundle
 npm run start:electron   # Launch Electron app
 
 # Build all examples (both browser and electron)
 npm run build:applications
 ```
-
-**Note**: Quallaa will support BOTH desktop and web deployment. Desktop provides better native integration; web provides accessibility.
 
 ### Development Workflow
 ```bash
@@ -330,7 +125,9 @@ cd examples/browser
 npm run build:browser    # Creates production bundle in lib/
 ```
 
-## Quallaa Customization Architecture
+---
+
+## Quallaa Customization
 
 ### Key Configuration Files
 
@@ -368,6 +165,8 @@ npm run build:browser    # Creates production bundle in lib/
 4. **Extend UI components** - Override About Dialog, Getting Started Widget through Theia's extension system
 5. **Update user-facing strings** - "Theia IDE" → "Quallaa" in visible UI only
 6. **Keep `@theia/*` package namespace** - Maintain compatibility with upstream Theia
+
+---
 
 ## Code Signing & Distribution
 
@@ -413,9 +212,12 @@ Web version deployed to standard web hosting:
 3. Configure backend endpoint if using remote backend
 4. Set up SSL certificate for HTTPS (required for modern web features)
 
+---
+
 ## Debugging
 
 ### VS Code Launch Configurations
+
 Pre-configured in `.vscode/launch.json`:
 - **Launch Electron Backend** - Debug desktop backend process
 - **Attach to Electron Frontend** - Debug desktop renderer process
@@ -423,16 +225,19 @@ Pre-configured in `.vscode/launch.json`:
 - **Launch Browser Frontend** - Debug web frontend
 
 ### Debug Workflow (Electron)
+
 1. Open debug view in VS Code
 2. Run "Launch Electron Backend" configuration
 3. In Electron app: Help → Toggle Electron Developer Tools (frontend debugging)
 
 ### Debug Workflow (Browser)
+
 1. Run "Launch Browser Backend" configuration
 2. Run "Launch Browser Frontend" configuration (opens browser)
 3. Use browser DevTools for frontend debugging
 
 ### Debug Single Package
+
 ```bash
 # Backend
 node --inspect-brk=0.0.0.0:9229 examples/electron/lib/backend/main.js
@@ -441,97 +246,72 @@ node --inspect-brk=0.0.0.0:9229 examples/electron/lib/backend/main.js
 --debugPluginHost=9339
 ```
 
+---
+
 ## Architecture Concepts
 
 ### Frontend-Backend Split
+
 - **Backend**: Node.js server process (handles file system, git, databases, external APIs)
 - **Frontend**: Browser/Electron renderer (UI, Monaco editor)
 - **Communication**: JSON-RPC over WebSocket
 - **Shared code**: `common/` folders define protocols
 
-**For Quallaa**: Backend can orchestrate infrastructure (Postgres, email providers, APIs), not just file operations. This enables true environment management where AI commands get executed against real services.
-
 ### Extension System
+
 - **Contributions**: `CommandContribution`, `MenuContribution`, `WidgetFactory`, etc.
 - **Binding**: Use `bind()` and `rebind()` in frontend/backend modules
 - **Example**: Override AboutDialog by rebinding in product extension
 
-**For Quallaa**: Extension system enables domain-specific environment templates. Marketing environment = custom extensions for CRM functionality, email integration, analytics.
-
 ### Shell Layout Customization
-
-**Critical for Quallaa:** We don't just add widgets to the standard IDE shell - we provide completely custom shell layouts per environment type.
 
 **How Theia Shell Works:**
 - `ApplicationShell` manages layout areas (top, left, right, main, bottom)
 - Widgets register with specific areas
 - Default layout shows file explorer on left, editor in main area
 
-**Quallaa Custom Shell Pattern:**
-```typescript
-// Detect project type on workspace open
-if (projectType === 'marketing') {
-  // Hide default sidebar widgets
-  // Create custom top navigation widget
-  // Register domain-specific main area widgets
-  // Keep terminal/problems panel accessible but minimized
-}
-```
+**Customization Approach:**
+- Use `FrontendApplicationContribution` lifecycle hooks
+- `onDidInitializeLayout()` runs after Theia restores layout
+- Use `shell.collapsePanel()` / `shell.expandPanel()` for side panels (left, right, bottom)
+- Use `shell.topPanel.hide()` / `shell.topPanel.show()` for menu bar
 
-**Example - Marketing Shell Layout:**
-- **Top panel**: Custom navigation widget (Home, Campaigns, Audience, Analytics)
-- **Main area**: Campaign manager / Email editor / Audience builder (widget swapping)
-- **Left sidebar**: Minimized or hidden (Explorer still accessible via Cmd+Shift+E)
-- **Bottom panel**: Terminal available via Cmd+` (for power users / Claude Code)
-
-**Implementation Strategy:**
-1. Workspace opens → Read `.quallaa/project-type.json`
-2. If marketing project → Load `MarketingShellLayoutContribution`
-3. Contribution modifies shell, registers domain widgets, hides IDE chrome
-4. Keyboard shortcuts still work for hidden features (progressive disclosure)
-
-Study packages for reference: `packages/core/src/browser/shell/` for shell architecture.
+**Reference:** See `docs/research/2025-01-theia-shell-customization-research.md` for detailed validation of ApplicationShell APIs.
 
 ### VS Code Compatibility
+
 - Theia supports VS Code extensions via plugin system
 - Extensions loaded from `plugins/` directory
 - `npm run download:plugins` - Downloads VS Code extensions for testing
 - Open VSX Registry used for extension distribution (not VS Code Marketplace)
 
-**For Quallaa**: Leverage existing VS Code extensions (Python, data tools, API clients) rather than building from scratch.
+---
 
 ## Performance Considerations
 
-- **Startup time target**: Under 10 seconds for MVP (optimization deferred)
+- **Startup time target**: Under 10 seconds (optimization deferred)
 - **Extension overhead**: Each bundled extension adds ~0.5-1 second to startup
 - **Watch mode cost**: `npm run watch` compiles all packages (use scoped watch for speed)
 - **Native modules**: Rebuild required when switching between browser/electron targets
 - **Web performance**: Consider bundle size for browser deployment; use code splitting
+
+---
 
 ## Common Pitfalls
 
 1. **Forgetting to rebuild**: After `npm install`, always run `npm run compile`
 2. **Native module mismatch**: Switching between browser/electron requires `npm run rebuild:electron` or `npm run rebuild:browser`
 3. **Modifying core instead of extending**: Use dependency injection rebinding, not direct edits
-4. **Package namespace changes**: Renaming `@theia/*` to `@quallaa/*` is high-risk, defer to post-MVP
-5. **Over-engineering**: MVP should embrace technical debt and ship quickly
-6. **Browser/Electron feature differences**: Not all Node.js APIs work in browser; some native modules require Electron
+4. **Package namespace changes**: Renaming `@theia/*` to `@quallaa/*` is high-risk, avoid
+5. **Browser/Electron feature differences**: Not all Node.js APIs work in browser; some native modules require Electron
+6. **Fighting Theia's architecture**: Work with the extension system, not against it
 
-## Acceptable Technical Debt for MVP
-
-- Duplicate code (refactor later)
-- TODO comments throughout
-- Incomplete error handling (display errors, don't crash)
-- Basic logging only
-- No comprehensive test suites
-- Hardcoded values (make configurable in v2)
-- Keeping `@theia/*` namespace (avoid massive refactor)
-- No progressive disclosure UX yet (Phase 2)
-- No domain-specific environment templates yet (Phase 2)
+---
 
 ## Project-Specific Workflows
 
 ### Typical Development Session
+
 ```bash
 # 1. Start from root
 npm install && npm run compile
@@ -557,6 +337,7 @@ cd examples/browser && npm run build:browser
 ```
 
 ### Testing Changes
+
 ```bash
 # Quick test (development build)
 cd examples/electron && npm run start
@@ -570,6 +351,8 @@ cd examples/browser && npm run build:browser
 # Then deploy to test server
 ```
 
+---
+
 ## Dependencies & Node Version
 
 - **Node.js**: >= 20 and < 24 (strict requirement)
@@ -578,129 +361,34 @@ cd examples/browser && npm run build:browser
 - **Yarn**: Workspace management (NOT npm workspaces)
 - **Electron**: v37.2.1 (for desktop builds)
 
-## MVP Success Criteria
+---
 
-**MVP Cannot Ship Without**:
-- Application name is "Quallaa" everywhere users see it
-- Icons display correctly (desktop: dock/taskbar/Finder; web: favicon/PWA)
-- About dialog shows Quallaa branding + "Built on Eclipse Theia" attribution
-- Desktop: DMG/EXE installer works without OS warnings
-- Web: Browser version loads and works in modern browsers (Chrome, Firefox, Safari)
-- Basic IDE functionality works (open folder, edit, save)
-- Settings persist in `~/.quallaa/` directory (desktop) or localStorage (web)
-- README with installation instructions
-- EPL 2.0 compliance: LICENSE, NOTICE, attributions, source link
-- AI integration working (Claude Code or similar)
+## Current Development Goal
 
-## Future Architecture Considerations
+**Goal:** Build an Obsidian + AI chat experience
 
-These are NOT in MVP scope, but inform architecture decisions:
+**Success Criteria:**
+- Clean markdown editor interface
+- AI chat panel side-by-side
+- Distraction-free layout
+- AI can read/edit files when user asks
+- No blank screen errors
+- Proper architecture (no hacks or workarounds)
 
-### Progressive Disclosure (Phase 2)
+**See:** `docs/Quallaa-Product-Overview.md` for complete project vision
 
-**Core Principle:** User chooses domain template and sees domain-specific interface (like Mailchimp/HubSpot), not traditional IDE.
+---
 
-**Default Experience:**
-- Domain-specific navigation tabs (Home, Campaigns, Audience, Analytics, **Docs**)
-- Claude Code chat panel (side-by-side, always visible)
-- IDE features hidden by default (accessible via toggle or keyboard shortcuts)
-- Knowledge base tab for context management (Obsidian-style markdown)
+## Development Principles
 
-**No expertise detection, no gamification, no adaptive UI based on behavior.**
+1. **Work with Theia's architecture, not against it**
+2. **Use extension points before modifying core**
+3. **Maintain EPL 2.0 compliance** (attribution, source access)
+4. **Keep `@theia/*` package namespace** (avoid massive refactors)
+5. **Test in both Electron and browser** (maintain cross-platform compatibility)
+6. **Document architecture decisions** (update docs/DECISIONS.md)
 
-**Knowledge Base (Critical Differentiator):**
-- Obsidian-style markdown editor integrated as domain tab
-- Users document strategy, rules, workflows
-- AI reads docs for context when executing commands
-- Wiki-style `[[links]]` between notes (future enhancement)
-- Bridge between business thinking and technical execution
-
-**Example - Marketing Domain:**
-```
-┌─────────────────────────────────────────────────────────────┐
-│ Home | Campaigns | Audience | Analytics | Docs              │
-├──────────────────────────────┬──────────────────────────────┤
-│  Campaign Dashboard          │  Claude Code                 │
-│  - Active campaigns          │  "Create welcome campaign    │
-│  - Segment overview          │   for trial users"           │
-│  - Recent sends              │                              │
-│                              │  [Type a message...]         │
-│                              │                              │
-└──────────────────────────────┴──────────────────────────────┘
-
-(IDE panels hidden by default - "View → Show IDE Panels" to reveal)
-```
-
-**Implementation Strategy:**
-- Custom shell layout hides IDE panels by default
-- Domain-specific navigation replaces traditional IDE chrome
-- "Show IDE Panels" command for power users
-- Full IDE capability always accessible (Cmd+Shift+E for Explorer, etc.)
-
-### Domain-Specific Environments (In Development - See MARKETING-ENVIRONMENT-MVP.md)
-
-**What is a Domain Environment?**
-
-A domain environment is a complete, pre-configured project template with:
-1. **Custom Shell Layout** - Domain-specific navigation (Home, Campaigns, Audience) replaces traditional IDE chrome
-2. **Backend Infrastructure** - PostgreSQL database, API integrations (Resend, analytics) managed by Theia backend
-3. **Project Template** - Scaffolded directory structure, schemas, sample data
-4. **Configuration Wizards** - Step-by-step setup for API keys, database connection (non-technical friendly)
-5. **Domain Widgets** - Visual editors, dashboards, managers tailored to the domain
-6. **AI Integration** - Claude Code can call backend services to execute domain operations
-
-**Marketing Environment Architecture:**
-```
-User creates "New Marketing Environment" →
-
-  Wizard guides through:
-  - Resend API key setup (with screenshots, validation)
-  - Database configuration (local Docker or cloud)
-  - Sample campaign import (optional)
-
-  Creates project:
-  my-marketing-project/
-  ├── .quallaa/
-  │   ├── project-type.json        # Identifies as marketing project
-  │   ├── services.json             # API keys (encrypted)
-  │   └── database/schema.sql       # Pre-configured tables
-  ├── campaigns/
-  ├── emails/templates/
-  └── segments/
-
-  Opens with custom UI:
-  - Top: [Home] [Campaigns] [Audience] [Analytics] tabs
-  - Main: Campaign manager, email editor, segment builder
-  - Hidden: File explorer, terminal (Cmd+B to show)
-
-  AI can execute:
-  - "Create welcome campaign for trial users" → Calls backend service
-  - "Send test email to me" → Calls Resend API
-  - "Show contacts inactive 30 days" → Queries PostgreSQL
-```
-
-**Key Principle:** Users see a marketing automation platform, not an IDE. But full IDE capability exists underneath for progressive disclosure.
-
-**Other Environment Types (Future):**
-- Finance: Spreadsheet-like interface + reporting + data pipelines
-- Legal: Document management + contract templates + clause library
-- Consulting: Project tracking + deliverable templates + client portal
-
-Each environment follows same pattern: domain UI layer + backend services + Theia foundation.
-
-### Environment Management (Phase 3)
-- Multi-environment orchestration
-- Team collaboration
-- Enterprise deployment
-- Environment templates marketplace
-
-## Development Principles for Quallaa
-
-1. **Keep**: Core IDE capabilities, extension system, VS Code compatibility
-2. **Modify**: Branding, default UI, configuration defaults
-3. **Build new**: Domain environment templates (Phase 2), progressive disclosure (Phase 2)
-4. **Don't prematurely optimize**: Ship MVP fast, iterate based on user feedback
-5. **Future-proof**: Maintain ability to execute anything tokenizable - don't lock users into simplified UX
+---
 
 ## Useful Resources
 
