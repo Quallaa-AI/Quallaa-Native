@@ -107,22 +107,22 @@ export class QuallaaModuleManager implements FrontendApplicationContribution {
     }
 
     /**
-     * Simple mode: Hide IDE chrome, show only docs tree + editor + AI chat.
+     * Simple mode: Minimal UI showing docs tree + editor + AI chat.
      *
      * Layout:
      * - Left: Docs tree (markdown files only)
      * - Main: Editor (markdown files)
      * - Right: AI chat
-     * - Top: Hidden (no menu bar)
+     * - Top: VISIBLE (need menu bar for command palette access)
      * - Bottom: Hidden (no terminal/problems)
+     *
+     * MVP NOTE: We keep the menu bar visible to ensure keyboard shortcuts work.
+     * Phase 2 will implement custom chrome to hide menu bar while preserving shortcuts.
      */
     private async enterSimpleMode(): Promise<void> {
         console.log('[QuallaaModuleManager] Entering simple mode');
-        // CRITICAL: Use hide(), NOT collapsePanel('top')
-        // topPanel is a Lumino Panel widget, not a collapsible area
-        // Research finding: docs/research/2025-01-theia-shell-customization-research.md#the-toppanel-api-error
-        this.shell.topPanel.hide();
-        console.log('[QuallaaModuleManager] Top panel hidden');
+        // MVP: Do NOT hide top panel - breaks command palette and keyboard shortcuts
+        // this.shell.topPanel.hide(); // Commented out for MVP
 
         // Collapse all side panels first
         await this.shell.collapsePanel('left');
@@ -158,14 +158,13 @@ export class QuallaaModuleManager implements FrontendApplicationContribution {
      * - Left: File explorer, search, git (full sidebar)
      * - Main: Editor (all file types)
      * - Right: User-controlled (don't force-expand)
-     * - Top: Visible (menu bar)
+     * - Top: Always visible (menu bar needed for shortcuts)
      * - Bottom: Visible (terminal, problems, output)
      */
     private async enterDeveloperMode(): Promise<void> {
         console.log('[QuallaaModuleManager] Entering developer mode');
-        // Show menu bar
-        this.shell.topPanel.show();
-        console.log('[QuallaaModuleManager] Top panel shown');
+        // MVP: Top panel stays visible in both modes
+        // this.shell.topPanel.show(); // Not needed - always visible
 
         // Expand left panel (file explorer, search, git)
         await this.shell.expandPanel('left');
