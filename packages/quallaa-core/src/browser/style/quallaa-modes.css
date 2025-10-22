@@ -1,0 +1,37 @@
+/* *****************************************************************************
+ * Copyright (C) 2025 Quallaa and others.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v. 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
+ ********************************************************************************/
+
+/**
+ * Quallaa Knowledge Mode - Clean Obsidian-like UI
+ *
+ * Hides IDE chrome elements for a distraction-free writing experience
+ */
+
+/* Hide left icon ribbon (activity bar) in knowledge mode */
+body.quallaa-knowledge-mode .lm-TabBar.theia-app-left {
+    display: none !important;
+}
+
+/* Hide bottom status bar in knowledge mode */
+body.quallaa-knowledge-mode #theia-statusBar,
+body.quallaa-knowledge-mode .theia-statusBar {
+    display: none !important;
+}
+
+/* Ensure left ribbon is visible in developer mode */
+body.quallaa-developer-mode .lm-TabBar.theia-app-left {
+    display: flex !important;
+}
+
+/* Ensure status bar is visible in developer mode */
+body.quallaa-developer-mode #theia-statusBar,
+body.quallaa-developer-mode .theia-statusBar {
+    display: flex !important;
+}

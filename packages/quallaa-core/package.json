@@ -32,7 +32,8 @@
   "scripts": {
     "build": "theiaext build",
     "clean": "theiaext clean",
-    "compile": "theiaext compile",
+    "compile": "theiaext compile && npm run copy:css",
+    "copy:css": "mkdir -p lib/browser/style && cp -f src/browser/style/*.css lib/browser/style/ 2>/dev/null || true",
     "lint": "theiaext lint",
     "test": "theiaext test",
     "watch": "theiaext watch"

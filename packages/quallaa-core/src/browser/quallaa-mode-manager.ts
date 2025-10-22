@@ -21,12 +21,13 @@ import { ApplicationShell } from '@theia/core/lib/browser/shell/application-shel
 import { StorageService } from '@theia/core/lib/browser/storage-service';
 import { CommandRegistry } from '@theia/core/lib/common/command';
 import { KeybindingRegistry } from '@theia/core/lib/browser/keybinding';
+import { WidgetManager } from '@theia/core/lib/browser/widget-manager';
 import { QuallaaCommands } from './quallaa-contribution';
 
 /**
- * Manages simple mode / developer mode toggle for Quallaa.
+ * Manages knowledge mode / developer mode toggle for Quallaa.
  *
- * Simple mode: Markdown editor + docs tree + AI chat (minimal UI)
+ * Knowledge mode: Markdown editor + docs tree + AI chat (knowledge base/note-taking UI)
  * Developer mode: Full IDE with all panels visible
  *
  * Research validated: packages/quallaa-core/docs/research/2025-01-theia-shell-customization-research.md
@@ -36,6 +37,7 @@ import { QuallaaCommands } from './quallaa-contribution';
 export class QuallaaModuleManager implements FrontendApplicationContribution {
 
     private static readonly MODE_KEY = 'quallaa-ui-mode';
+    private static readonly FIRST_LAUNCH_KEY = 'quallaa-first-launch-complete';
 
     @inject(ApplicationShell)
     protected readonly shell: ApplicationShell;
@@ -49,11 +51,16 @@ export class QuallaaModuleManager implements FrontendApplicationContribution {
     @inject(KeybindingRegistry)
     protected readonly keybindings: KeybindingRegistry;
 
+    @inject(WidgetManager)
+    protected readonly widgetManager: WidgetManager;
+
+    private modeApplied = false;
+
     /**
      * Called when application is ready to start.
      * Registers command and keybinding manually to avoid async dependency issues.
      */
-    onStart(app: FrontendApplication): void {
+    async onStart(app: FrontendApplication): Promise<void> {
         console.log('[QuallaaModuleManager] Registering toggle command and keybinding');
 
         // Register command
@@ -64,46 +71,94 @@ export class QuallaaModuleManager implements FrontendApplicationContribution {
             }
         });
 
-        // Register keybinding (Cmd+K D / Ctrl+K D)
+        // Register keybinding (Cmd+Shift+M / Ctrl+Shift+M for "Mode")
         this.keybindings.registerKeybinding({
             command: QuallaaCommands.TOGGLE_DEVELOPER_MODE.id,
-            keybinding: 'ctrlcmd+k d',
+            keybinding: 'ctrlcmd+shift+m',
             context: 'true'
         });
 
         console.log('[QuallaaModuleManager] Command and keybinding registered successfully');
-    }
 
-    /**
-     * Called after layout is initialized.
-     * This runs AFTER Theia restores saved layout, so we can override it.
-     *
-     * Lifecycle: Application starts → Theia restores layout → onDidInitializeLayout → Shell attaches to DOM
-     */
-    async onDidInitializeLayout(app: FrontendApplication): Promise<void> {
-        console.log('[QuallaaModuleManager] onDidInitializeLayout called');
-        try {
-            const mode = await this.storage.getData<string>(
-                QuallaaModuleManager.MODE_KEY,
-                'simple'  // Default to simple mode
+        // Apply mode AFTER shell is fully attached to DOM and ready
+        // This ensures panel sizing works correctly
+        if (!this.modeApplied) {
+            // Check if this is the very first launch
+            const firstLaunchComplete = await this.storage.getData<boolean>(
+                QuallaaModuleManager.FIRST_LAUNCH_KEY
             );
-            console.log('[QuallaaModuleManager] Current mode from storage:', mode);
+
+            let mode: string;
+
+            if (!firstLaunchComplete) {
+                // First launch ever - force knowledge mode
+                console.log('[QuallaaModuleManager] First launch detected, setting knowledge mode as default');
+                mode = 'knowledge';
+                await this.storage.setData(QuallaaModuleManager.MODE_KEY, mode);
+                await this.storage.setData(QuallaaModuleManager.FIRST_LAUNCH_KEY, true);
+            } else {
+                // Not first launch - respect saved preference
+                mode = await this.storage.getData<string>(
+                    QuallaaModuleManager.MODE_KEY,
+                    'knowledge' // Default to knowledge if somehow unset
+                );
+                console.log('[QuallaaModuleManager] Storage returned mode:', mode);
+            }
+
+            console.log('[QuallaaModuleManager] onStart: Applying mode:', mode);
             await this.applyMode(mode);
-        } catch (error) {
-            console.error('[QuallaaModuleManager] Error in onDidInitializeLayout:', error);
+            this.modeApplied = true;
         }
     }
 
     /**
-     * Toggle between simple and developer mode.
-     * Called by toggle command (Cmd+K D).
+     * Called on first launch when there is no saved layout.
+     * This is where we set up the default Quallaa knowledge mode layout.
+     *
+     * Lifecycle: Application starts → No saved layout → initializeLayout → onDidInitializeLayout → Shell attaches to DOM
+     *
+     * Note: onDidInitializeLayout will be called after this, so we just set up the widgets here
+     * and let onDidInitializeLayout handle the mode application.
+     */
+    async initializeLayout(app: FrontendApplication): Promise<void> {
+        console.log('[QuallaaModuleManager] initializeLayout called - first launch detected');
+
+        // Set default mode to knowledge (will be applied in onDidInitializeLayout)
+        await this.storage.setData(QuallaaModuleManager.MODE_KEY, 'knowledge');
+
+        console.log('[QuallaaModuleManager] Default mode set to knowledge, will be applied in onDidInitializeLayout');
+    }
+
+    /**
+     * Called after layout is initialized, regardless of whether it was restored or created fresh.
+     * This runs AFTER Theia restores saved layout (if it exists) or after initializeLayout (if first launch).
+     *
+     * Lifecycle: Application starts → Layout initialized → onDidInitializeLayout → Shell attaches to DOM
+     *
+     * NOTE: This is where we ensure knowledge mode is the default for first launch.
+     */
+    async onDidInitializeLayout(app: FrontendApplication): Promise<void> {
+        console.log('[QuallaaModuleManager] onDidInitializeLayout called');
+
+        // Force knowledge mode as default if not explicitly set by user
+        // This ensures fresh installs start in knowledge mode
+        const existingMode = await this.storage.getData<string>(QuallaaModuleManager.MODE_KEY);
+        if (!existingMode) {
+            console.log('[QuallaaModuleManager] No mode set, defaulting to knowledge mode');
+            await this.storage.setData(QuallaaModuleManager.MODE_KEY, 'knowledge');
+        }
+    }
+
+    /**
+     * Toggle between knowledge mode and developer mode.
+     * Called by toggle command (Cmd+Shift+M for Mode).
      */
     async toggleMode(): Promise<void> {
         const current = await this.storage.getData<string>(
             QuallaaModuleManager.MODE_KEY,
-            'simple'
+            'knowledge'
         );
-        const newMode = current === 'simple' ? 'developer' : 'simple';
+        const newMode = current === 'knowledge' ? 'developer' : 'knowledge';
         console.log('[QuallaaModuleManager] Toggling mode:', current, '→', newMode);
         await this.storage.setData(QuallaaModuleManager.MODE_KEY, newMode);
         await this.applyMode(newMode);
@@ -114,72 +169,128 @@ export class QuallaaModuleManager implements FrontendApplicationContribution {
      */
     private async applyMode(mode: string): Promise<void> {
         console.log('[QuallaaModuleManager] Applying mode:', mode);
-        if (mode === 'simple') {
-            await this.enterSimpleMode();
+        if (mode === 'knowledge') {
+            await this.enterKnowledgeMode();
         } else {
             await this.enterDeveloperMode();
         }
     }
 
     /**
-     * Simple mode: Minimal UI showing docs tree + editor + AI chat.
+     * Knowledge mode: Clean Obsidian-like UI.
      *
      * Layout:
-     * - Left: Docs tree (markdown files only)
+     * - Left: Docs tree (markdown files only) - NO icon ribbon
      * - Main: Editor (markdown files)
-     * - Right: AI chat
-     * - Top: VISIBLE (need menu bar for command palette access)
-     * - Bottom: Hidden (no terminal/problems)
+     * - Right: AI chat (collapsible)
+     * - Top: Menu bar visible
+     * - Bottom: Status bar HIDDEN
+     * - Left icon ribbon: HIDDEN
      *
-     * MVP NOTE: We keep the menu bar visible to ensure keyboard shortcuts work.
-     * Phase 2 will implement custom chrome to hide menu bar while preserving shortcuts.
+     * This is the primary mode for note-taking, knowledge management, and AI-assisted writing.
+     * Ultra-clean Obsidian-like experience.
      */
-    private async enterSimpleMode(): Promise<void> {
-        console.log('[QuallaaModuleManager] Entering simple mode');
-        // MVP: Do NOT hide top panel - breaks command palette and keyboard shortcuts
-        // this.shell.topPanel.hide(); // Commented out for MVP
+    private async enterKnowledgeMode(): Promise<void> {
+        console.log('[QuallaaModuleManager] Entering knowledge mode');
 
-        // Collapse all side panels first
-        await this.shell.collapsePanel('left');
-        await this.shell.collapsePanel('right');
+        // Collapse bottom panel (terminal/problems)
         await this.shell.collapsePanel('bottom');
 
         // Show docs tree in left panel
-        // Note: Widget IDs from packages/docs-view/src/browser/docs-tree-widget.tsx
+        // Note: View container ID from packages/docs-view/src/common/index.ts
         try {
-            await this.shell.leftPanelHandler.activate('docs-view');
-            await this.shell.expandPanel('left');
+            console.log('[QuallaaModuleManager] Opening docs-view-container widget...');
+            const docsWidget = await this.widgetManager.getOrCreateWidget('docs-view-container');
+            console.log('[QuallaaModuleManager] Docs widget created:', docsWidget.id, docsWidget.title.label);
+
+            // Add widget to left panel
+            await this.shell.addWidget(docsWidget, { area: 'left' });
+
+            // Directly expand the left panel and activate the widget
+            const expandedWidget = this.shell.leftPanelHandler.expand(docsWidget.id);
+            if (expandedWidget) {
+                expandedWidget.activate();
+                // Wait for expansion to complete before resizing
+                await new Promise(resolve => setTimeout(resolve, 100));
+                // Explicitly resize the left panel to 300px (default size)
+                this.shell.leftPanelHandler.resize(300);
+                console.log('[QuallaaModuleManager] ✓ Docs view expanded and activated, panel resized to 300px');
+            } else {
+                console.error('[QuallaaModuleManager] ✗ Failed to expand docs widget');
+            }
         } catch (error) {
-            // Widget not found - silently ignore
+            console.error('[QuallaaModuleManager] ✗ Failed to open docs-view-container:', error);
+            console.error('[QuallaaModuleManager]   Error details:', error instanceof Error ? error.message : String(error));
         }
 
         // Show AI chat in right panel
-        // Note: Widget ID from packages/ai-chat-ui/
+        // Note: Widget ID from packages/ai-chat-ui/src/browser/chat-view-widget.tsx
         try {
-            await this.shell.rightPanelHandler.activate('ide-ai-chat-view');
-            await this.shell.expandPanel('right');
+            console.log('[QuallaaModuleManager] Opening chat-view-widget...');
+            const chatWidget = await this.widgetManager.getOrCreateWidget('chat-view-widget');
+            console.log('[QuallaaModuleManager] Chat widget created:', chatWidget.id, chatWidget.title.label);
+
+            // Add widget to right panel
+            await this.shell.addWidget(chatWidget, { area: 'right' });
+
+            // Directly expand the right panel and activate the widget
+            const expandedWidget = this.shell.rightPanelHandler.expand(chatWidget.id);
+            if (expandedWidget) {
+                expandedWidget.activate();
+                // Wait for expansion to complete before resizing
+                await new Promise(resolve => setTimeout(resolve, 100));
+                // Explicitly resize the right panel to 300px (default size)
+                this.shell.rightPanelHandler.resize(300);
+                console.log('[QuallaaModuleManager] ✓ Chat view expanded and activated, panel resized to 300px');
+            } else {
+                console.error('[QuallaaModuleManager] ✗ Failed to expand chat widget');
+            }
         } catch (error) {
-            // Widget not found - silently ignore
+            console.error('[QuallaaModuleManager] ✗ Failed to open chat-view-widget:', error);
+            console.error('[QuallaaModuleManager]   Error details:', error instanceof Error ? error.message : String(error));
         }
 
         // Main area = editor (automatically shows open files)
         // No action needed - Theia handles this
+
+        // Hide UI chrome by adding CSS classes to the document body
+        // This is more reliable than timing JavaScript .hide() calls
+        document.body.classList.add('quallaa-knowledge-mode');
+        document.body.classList.remove('quallaa-developer-mode');
+
+        // Also call .hide() for good measure (works after first render)
+        this.shell.leftPanelHandler.tabBar.hide();
+        (this.shell as any).statusBar.hide();
+
+        console.log('[QuallaaModuleManager] ✓ Knowledge mode UI chrome hidden');
+
+        console.log('[QuallaaModuleManager] Knowledge mode layout complete');
     }
 
     /**
      * Developer mode: Show full IDE.
      *
      * Layout:
-     * - Left: File explorer, search, git (full sidebar)
+     * - Left: File explorer, search, git (full sidebar with icon ribbon)
      * - Main: Editor (all file types)
      * - Right: User-controlled (don't force-expand)
-     * - Top: Always visible (menu bar needed for shortcuts)
-     * - Bottom: Visible (terminal, problems, output)
+     * - Top: Menu bar visible
+     * - Bottom: Status bar visible, terminal/problems panels visible
      */
     private async enterDeveloperMode(): Promise<void> {
         console.log('[QuallaaModuleManager] Entering developer mode');
-        // MVP: Top panel stays visible in both modes
-        // this.shell.topPanel.show(); // Not needed - always visible
+
+        // Show UI chrome by removing knowledge mode class
+        document.body.classList.remove('quallaa-knowledge-mode');
+        document.body.classList.add('quallaa-developer-mode');
+
+        // Show left icon ribbon (activity bar)
+        this.shell.leftPanelHandler.tabBar.show();
+        console.log('[QuallaaModuleManager] ✓ Left icon ribbon shown');
+
+        // Show bottom status bar
+        (this.shell as any).statusBar.show();
+        console.log('[QuallaaModuleManager] ✓ Bottom status bar shown');
 
         // Expand left panel (file explorer, search, git)
         await this.shell.expandPanel('left');

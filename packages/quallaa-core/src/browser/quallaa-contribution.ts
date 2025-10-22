@@ -34,8 +34,8 @@ export namespace QuallaaCommands {
 /**
  * Registers Quallaa commands
  *
- * NOTE: We can't inject QuallaaModuleManager because it has async dependencies.
- * Instead, we duplicate the toggle logic here (acceptable for MVP).
+ * NOTE: Command registration happens in QuallaaModuleManager.onStart() to avoid async dependency issues.
+ * This contribution class is kept for potential future extensions.
  */
 @injectable()
 export class QuallaaCommandContribution implements CommandContribution {
@@ -49,43 +49,8 @@ export class QuallaaCommandContribution implements CommandContribution {
     }
 
     registerCommands(commands: CommandRegistry): void {
-        commands.registerCommand(QuallaaCommands.TOGGLE_DEVELOPER_MODE, {
-            execute: async () => {
-                // Get services from the global container at runtime
-                // This is a workaround for the async dependency issue
-                if (!this.shell || !this.storage) {
-                    // Services should be available by the time commands execute
-                    return;
-                }
-
-                const MODE_KEY = 'quallaa-ui-mode';
-                const current = await this.storage.getData<string>(MODE_KEY, 'simple');
-                const newMode = current === 'simple' ? 'developer' : 'simple';
-                await this.storage.setData(MODE_KEY, newMode);
-
-                if (newMode === 'simple') {
-                    this.shell.topPanel.hide();
-                    await this.shell.collapsePanel('left');
-                    await this.shell.collapsePanel('right');
-                    await this.shell.collapsePanel('bottom');
-
-                    try {
-                        await this.shell.leftPanelHandler.activate('docs-view');
-                        await this.shell.expandPanel('left');
-                    } catch (e) { /* ignore */ }
-
-                    try {
-                        await this.shell.rightPanelHandler.activate('ide-ai-chat-view');
-                        await this.shell.expandPanel('right');
-                    } catch (e) { /* ignore */ }
-                } else {
-                    this.shell.topPanel.show();
-                    await this.shell.expandPanel('left');
-                    await this.shell.expandPanel('bottom');
-                }
-            },
-            isEnabled: () => !!this.shell && !!this.storage
-        });
+        // Command registration now handled in QuallaaModuleManager.onStart()
+        // This method is kept empty for potential future command registrations
     }
 
     // Method to set services (called from module)
@@ -102,12 +67,7 @@ export class QuallaaCommandContribution implements CommandContribution {
 export class QuallaaKeybindingContribution implements KeybindingContribution {
 
     registerKeybindings(keybindings: KeybindingRegistry): void {
-        // Chord keybinding: Cmd+K D / Ctrl+K D (like VS Code shortcuts)
-        // This avoids conflict with debug view (Cmd+Shift+D) and docs view
-        keybindings.registerKeybinding({
-            command: QuallaaCommands.TOGGLE_DEVELOPER_MODE.id,
-            keybinding: 'ctrlcmd+k d',
-            context: 'true'
-        });
+        // Keybinding registration now handled in QuallaaModuleManager.onStart()
+        // This method is kept empty for potential future keybinding registrations
     }
 }

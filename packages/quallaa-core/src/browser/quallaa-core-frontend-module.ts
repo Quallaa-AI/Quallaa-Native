@@ -18,6 +18,8 @@ import { ContainerModule } from '@theia/core/shared/inversify';
 import { FrontendApplicationContribution } from '@theia/core/lib/browser';
 import { QuallaaModuleManager } from './quallaa-mode-manager';
 
+import './style/quallaa-modes.css';
+
 /**
  * Quallaa Core frontend module.
  *
