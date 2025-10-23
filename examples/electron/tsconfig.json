@@ -99,9 +99,6 @@
       "path": "../../packages/docs-view"
     },
     {
-      "path": "../../packages/domain-core"
-    },
-    {
       "path": "../../packages/editor"
     },
     {
@@ -124,9 +121,6 @@
     },
     {
       "path": "../../packages/markers"
-    },
-    {
-      "path": "../../packages/marketing-domain"
     },
     {
       "path": "../../packages/memory-inspector"
@@ -175,9 +169,6 @@
     },
     {
       "path": "../../packages/property-view"
-    },
-    {
-      "path": "../../packages/quallaa-core"
     },
     {
       "path": "../../packages/remote"

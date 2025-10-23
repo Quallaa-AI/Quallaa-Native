@@ -19,7 +19,8 @@
           "showWindowEarly": true
         },
         "preferences": {
-          "window.autoDetectColorScheme": true
+          "window.autoDetectColorScheme": true,
+          "window.menuBarVisibility": "classic"
         }
       }
     },
@@ -79,8 +80,6 @@
     "@theia/navigator": "1.65.0",
     "@theia/outline-view": "1.65.0",
     "@theia/output": "1.65.0",
-    "@quallaa/domain-core": "1.0.0",
-    "@quallaa/marketing-domain": "1.0.0",
     "@theia/plugin-dev": "1.65.0",
     "@theia/plugin-ext": "1.65.0",
     "@theia/plugin-ext-headless": "1.65.0",
@@ -89,7 +88,6 @@
     "@theia/preview": "1.65.0",
     "@theia/process": "1.65.0",
     "@theia/property-view": "1.65.0",
-    "@theia/quallaa-core": "1.65.0",
     "@theia/remote": "1.65.0",
     "@theia/remote-wsl": "1.65.0",
     "@theia/scanoss": "1.65.0",
