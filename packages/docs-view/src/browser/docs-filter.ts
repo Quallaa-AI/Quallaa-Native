@@ -17,6 +17,7 @@
 import { injectable } from '@theia/core/shared/inversify';
 import { MaybePromise } from '@theia/core/lib/common/types';
 import { DirNode, FileNode } from '@theia/filesystem/lib/browser';
+import { WorkspaceRootNode } from '@theia/navigator/lib/browser/navigator-tree';
 
 /**
  * Filter for the Docs view that only shows markdown files (.md extension).
@@ -37,9 +38,14 @@ export class DocsFilter {
     /**
      * Determines if a single item should be displayed in the docs view.
      * @param item Tree node to check
-     * @returns true if item should be shown (is directory or .md file)
+     * @returns true if item should be shown (is workspace root, directory, or .md file)
      */
     protected filterItem(item: unknown): boolean {
+        // Always show workspace root nodes
+        if (WorkspaceRootNode.is(item)) {
+            return true;
+        }
+
         // Always show directories so users can navigate the tree
         if (DirNode.is(item)) {
             return true;

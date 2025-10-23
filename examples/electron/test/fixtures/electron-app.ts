@@ -20,6 +20,7 @@ export type TestFixtures = {
   electronApp: ElectronApplication;
   page: Page;
   userDataDir: string;
+  workspace: string;
 };
 
 /**
@@ -40,18 +41,46 @@ export const test = base.extend<TestFixtures>({
   },
 
   /**
+   * Test workspace directory with sample markdown files
+   * Tests can modify this workspace before the app launches if needed
+   */
+  workspace: async ({}, use) => {
+    const workspaceDir = path.join(os.tmpdir(), `quallaa-workspace-${Date.now()}`);
+    fs.mkdirSync(workspaceDir, { recursive: true });
+
+    // Create default test files
+    fs.writeFileSync(path.join(workspaceDir, 'README.md'), '# My Project\n\nThis is a test project.');
+    fs.writeFileSync(path.join(workspaceDir, 'notes.md'), '# Notes\n\nSome notes here.');
+    fs.writeFileSync(path.join(workspaceDir, 'todo.md'), '# TODO\n\n- [ ] Task 1\n- [ ] Task 2');
+    fs.writeFileSync(path.join(workspaceDir, 'index.js'), 'console.log("test");');
+    fs.writeFileSync(path.join(workspaceDir, 'styles.css'), 'body { margin: 0; }');
+
+    // Create subdirectory with markdown
+    const docsDir = path.join(workspaceDir, 'docs');
+    fs.mkdirSync(docsDir, { recursive: true });
+    fs.writeFileSync(path.join(docsDir, 'guide.md'), '# Guide\n\nProject guide.');
+
+    await use(workspaceDir);
+    // Cleanup after test
+    if (fs.existsSync(workspaceDir)) {
+      fs.rmSync(workspaceDir, { recursive: true, force: true });
+    }
+  },
+
+  /**
    * Electron application instance
    */
-  electronApp: async ({ userDataDir }, use) => {
+  electronApp: async ({ userDataDir, workspace }, use) => {
     // Path to the Electron main process
     const electronPath = require('electron');
     const appPath = path.join(__dirname, '../../lib/backend/electron-main.js');
 
-    // Launch Electron app
+    // Launch Electron app with workspace
     const app = await electron.launch({
       executablePath: electronPath as string,
       args: [
         appPath,
+        workspace, // Open workspace on launch
         `--user-data-dir=${userDataDir}`,
         '--no-sandbox',
         '--disable-dev-shm-usage',
