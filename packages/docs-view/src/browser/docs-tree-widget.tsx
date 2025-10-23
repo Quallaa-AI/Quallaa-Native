@@ -44,8 +44,8 @@ export class DocsTreeWidget extends FileTreeWidget {
     @postConstruct()
     protected override init(): void {
         super.init();
-        this.title.label = 'Docs';
-        this.title.caption = 'Documentation and Markdown Files';
+        this.title.label = 'Knowledge Base';
+        this.title.caption = 'Knowledge Base - Markdown Files';
         this.title.closable = true;
         this.title.iconClass = codicon('book');
     }
@@ -55,18 +55,18 @@ export class DocsTreeWidget extends FileTreeWidget {
      */
     protected override doUpdateRows(): void {
         super.doUpdateRows();
-        this.title.label = 'Docs';
+        this.title.label = 'Knowledge Base';
         if (WorkspaceNode.is(this.model.root)) {
             if (this.model.root.name === WorkspaceNode.name) {
                 const rootNode = this.model.root.children[0];
                 if (WorkspaceRootNode.is(rootNode)) {
-                    this.title.caption = `Docs - ${this.toNodeName(rootNode)}`;
+                    this.title.caption = `Knowledge Base - ${this.toNodeName(rootNode)}`;
                 }
             } else {
-                this.title.caption = `Docs - ${this.toNodeName(this.model.root)}`;
+                this.title.caption = `Knowledge Base - ${this.toNodeName(this.model.root)}`;
             }
         } else {
-            this.title.caption = 'Documentation and Markdown Files';
+            this.title.caption = 'Knowledge Base - Markdown Files';
         }
     }
 

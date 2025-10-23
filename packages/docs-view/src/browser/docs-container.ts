@@ -20,6 +20,7 @@ import { createFileTreeContainer } from '@theia/filesystem/lib/browser';
 import { DocsTree } from './docs-tree';
 import { DocsTreeModel } from './docs-tree-model';
 import { DocsTreeWidget } from './docs-tree-widget';
+import { DocsFilter } from './docs-filter';
 
 /**
  * Context menu path for the docs tree.
@@ -47,6 +48,10 @@ export function createDocsTreeContainer(parent: interfaces.Container): Container
         widget: DocsTreeWidget,
         props: DOCS_TREE_PROPS,
     });
+
+    // Ensure DocsFilter is available in the child container
+    // It's bound in the parent but child needs explicit access
+    child.bind(DocsFilter).toConstantValue(parent.get(DocsFilter));
 
     return child;
 }

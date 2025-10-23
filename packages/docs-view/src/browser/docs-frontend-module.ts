@@ -17,6 +17,7 @@
 import { ContainerModule } from '@theia/core/shared/inversify';
 import {
     bindViewContribution,
+    FrontendApplicationContribution,
     WidgetFactory
 } from '@theia/core/lib/browser';
 import { DocsTreeWidget } from './docs-tree-widget';
@@ -36,6 +37,7 @@ export default new ContainerModule(bind => {
 
     // Bind the contribution
     bindViewContribution(bind, DocsContribution);
+    bind(FrontendApplicationContribution).toService(DocsContribution);
 
     // Bind the docs tree widget factory
     bind(DocsTreeWidget).toDynamicValue(ctx =>

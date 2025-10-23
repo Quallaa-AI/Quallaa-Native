@@ -25,10 +25,10 @@ import {
 import { DOCS_VIEW_CONTAINER_ID, DOCS_TREE_WIDGET_ID } from '../common';
 
 /**
- * Title options for the Docs view container.
+ * Title options for the Knowledge Base view container.
  */
 export const DOCS_VIEW_CONTAINER_TITLE_OPTIONS: ViewContainerTitleOptions = {
-    label: 'Docs',
+    label: 'Knowledge Base',
     iconClass: codicon('book'),
     closeable: true
 };

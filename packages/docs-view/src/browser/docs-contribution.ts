@@ -16,23 +16,23 @@
 
 import { injectable } from '@theia/core/shared/inversify';
 import { AbstractViewContribution } from '@theia/core/lib/browser/shell/view-contribution';
-import { KeybindingRegistry } from '@theia/core/lib/browser';
+import { KeybindingRegistry, FrontendApplication, FrontendApplicationContribution } from '@theia/core/lib/browser';
 import { Command, CommandRegistry, MenuModelRegistry } from '@theia/core/lib/common';
 import { DocsTreeWidget } from './docs-tree-widget';
-import { DOCS_VIEW_CONTAINER_ID, DOCS_TOGGLE_COMMAND_ID, DOCS_REFRESH_COMMAND_ID } from '../common';
+import { DOCS_VIEW_CONTAINER_ID, DOCS_TREE_WIDGET_ID, DOCS_TOGGLE_COMMAND_ID, DOCS_REFRESH_COMMAND_ID } from '../common';
 import { DOCS_VIEW_CONTAINER_TITLE_OPTIONS } from './docs-widget-factory';
 
 /**
- * Commands for the Docs view.
+ * Commands for the Knowledge Base view.
  */
 export namespace DocsCommands {
     export const TOGGLE: Command = {
         id: DOCS_TOGGLE_COMMAND_ID,
-        label: 'Toggle Docs View'
+        label: 'Toggle Knowledge Base'
     };
     export const REFRESH: Command = {
         id: DOCS_REFRESH_COMMAND_ID,
-        label: 'Refresh Docs'
+        label: 'Refresh Knowledge Base'
     };
 }
 
@@ -40,20 +40,27 @@ export namespace DocsCommands {
  * Contribution for the Docs view, handling view registration and commands.
  */
 @injectable()
-export class DocsContribution extends AbstractViewContribution<DocsTreeWidget> {
+export class DocsContribution extends AbstractViewContribution<DocsTreeWidget> implements FrontendApplicationContribution {
 
     constructor() {
         super({
             viewContainerId: DOCS_VIEW_CONTAINER_ID,
-            widgetId: DocsTreeWidget.prototype.id,
+            widgetId: DOCS_TREE_WIDGET_ID,
             widgetName: DOCS_VIEW_CONTAINER_TITLE_OPTIONS.label,
             defaultWidgetOptions: {
                 area: 'left',
-                rank: 50  // Above Explorer (100), below nothing - first in sidebar
+                rank: 10  // Lower rank = higher in sidebar (Explorer is 100)
             },
             toggleCommandId: DOCS_TOGGLE_COMMAND_ID,
             toggleKeybinding: 'ctrlcmd+shift+d'
         });
+    }
+
+    /**
+     * Initialize the view layout on application startup.
+     */
+    async initializeLayout(app: FrontendApplication): Promise<void> {
+        await this.openView();
     }
 
     /**
