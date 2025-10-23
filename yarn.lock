@@ -1994,8 +1994,6 @@
   version "1.65.0"
   resolved "file:examples/electron"
   dependencies:
-    "@quallaa/domain-core" "1.0.0"
-    "@quallaa/marketing-domain" "1.0.0"
     "@theia/ai-anthropic" "1.65.0"
     "@theia/ai-chat" "1.65.0"
     "@theia/ai-chat-ui" "1.65.0"
@@ -3311,7 +3309,7 @@
     "@theia/filesystem" "1.65.0"
     tslib "^2.6.2"
 
-"@theia/quallaa-core@1.65.0", "@theia/quallaa-core@file:/Users/jefftoffoli/Documents/GitHub/Quallaa-Native/packages/quallaa-core":
+"@theia/quallaa-core@file:/Users/jefftoffoli/Documents/GitHub/Quallaa-Native/packages/quallaa-core":
   version "1.65.0"
   resolved "file:packages/quallaa-core"
   dependencies:
