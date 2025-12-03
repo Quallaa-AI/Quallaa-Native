@@ -88,6 +88,7 @@
     "@theia/preview": "1.65.0",
     "@theia/process": "1.65.0",
     "@theia/property-view": "1.65.0",
+    "@theia/quallaa-core": "1.65.0",
     "@theia/remote": "1.65.0",
     "@theia/remote-wsl": "1.65.0",
     "@theia/scanoss": "1.65.0",

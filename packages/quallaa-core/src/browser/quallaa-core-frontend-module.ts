@@ -16,7 +16,9 @@
 
 import { ContainerModule } from '@theia/core/shared/inversify';
 import { FrontendApplicationContribution } from '@theia/core/lib/browser';
+import { MenuContribution } from '@theia/core/lib/common/menu';
 import { QuallaaModuleManager } from './quallaa-mode-manager';
+import { QuallaaMenuContribution } from './quallaa-contribution';
 
 import './style/quallaa-modes.css';
 
@@ -31,9 +33,10 @@ export default new ContainerModule(bind => {
     bind(QuallaaModuleManager).toSelf().inSingletonScope();
     bind(FrontendApplicationContribution).toService(QuallaaModuleManager);
 
-    // Command and keybinding contributions
-    // NOTE: We don't bind these as CommandContribution or KeybindingContribution
-    // because they would create async dependency issues that break the entire
-    // keybinding system. Instead, QuallaaModuleManager registers them manually
-    // in its onStart hook using CommandRegistry and KeybindingRegistry directly.
+    // Menu contribution for View > Layout > Toggle Developer Mode
+    bind(QuallaaMenuContribution).toSelf().inSingletonScope();
+    bind(MenuContribution).toService(QuallaaMenuContribution);
+
+    // NOTE: Command and keybinding registration happens in QuallaaModuleManager.onStart()
+    // to avoid async dependency issues that would break the keybinding system.
 });

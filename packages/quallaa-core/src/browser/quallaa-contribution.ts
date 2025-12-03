@@ -14,11 +14,10 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import { injectable, postConstruct } from '@theia/core/shared/inversify';
-import { CommandContribution, CommandRegistry, Command } from '@theia/core/lib/common/command';
-import { KeybindingContribution, KeybindingRegistry } from '@theia/core/lib/browser/keybinding';
-import { ApplicationShell } from '@theia/core/lib/browser/shell/application-shell';
-import { StorageService } from '@theia/core/lib/browser/storage-service';
+import { injectable } from '@theia/core/shared/inversify';
+import { Command } from '@theia/core/lib/common/command';
+import { MenuContribution, MenuModelRegistry } from '@theia/core/lib/common/menu';
+import { CommonMenus } from '@theia/core/lib/browser/common-frontend-contribution';
 
 /**
  * Quallaa commands
@@ -32,42 +31,17 @@ export namespace QuallaaCommands {
 }
 
 /**
- * Registers Quallaa commands
- *
- * NOTE: Command registration happens in QuallaaModuleManager.onStart() to avoid async dependency issues.
- * This contribution class is kept for potential future extensions.
+ * Registers Quallaa menu items
  */
 @injectable()
-export class QuallaaCommandContribution implements CommandContribution {
+export class QuallaaMenuContribution implements MenuContribution {
 
-    protected shell: ApplicationShell | undefined;
-    protected storage: StorageService | undefined;
-
-    @postConstruct()
-    protected init(): void {
-        // Services are injected later - we'll get them when the command executes
-    }
-
-    registerCommands(commands: CommandRegistry): void {
-        // Command registration now handled in QuallaaModuleManager.onStart()
-        // This method is kept empty for potential future command registrations
-    }
-
-    // Method to set services (called from module)
-    setServices(shell: ApplicationShell, storage: StorageService): void {
-        this.shell = shell;
-        this.storage = storage;
-    }
-}
-
-/**
- * Registers Quallaa keybindings
- */
-@injectable()
-export class QuallaaKeybindingContribution implements KeybindingContribution {
-
-    registerKeybindings(keybindings: KeybindingRegistry): void {
-        // Keybinding registration now handled in QuallaaModuleManager.onStart()
-        // This method is kept empty for potential future keybinding registrations
+    registerMenus(registry: MenuModelRegistry): void {
+        // Add "Toggle Developer Mode" to View > Layout menu
+        registry.registerMenuAction(CommonMenus.VIEW_LAYOUT, {
+            commandId: QuallaaCommands.TOGGLE_DEVELOPER_MODE.id,
+            label: 'Toggle Developer Mode',
+            order: '0' // First item in layout section
+        });
     }
 }
