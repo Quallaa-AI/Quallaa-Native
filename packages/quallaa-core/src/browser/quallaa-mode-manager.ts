@@ -22,6 +22,7 @@ import { StorageService } from '@theia/core/lib/browser/storage-service';
 import { CommandRegistry } from '@theia/core/lib/common/command';
 import { KeybindingRegistry } from '@theia/core/lib/browser/keybinding';
 import { WidgetManager } from '@theia/core/lib/browser/widget-manager';
+import { StatusBar, StatusBarAlignment } from '@theia/core/lib/browser/status-bar/status-bar-types';
 import { QuallaaCommands } from './quallaa-contribution';
 
 /**
@@ -54,6 +55,10 @@ export class QuallaaModuleManager implements FrontendApplicationContribution {
     @inject(WidgetManager)
     protected readonly widgetManager: WidgetManager;
 
+    @inject(StatusBar)
+    protected readonly statusBar: StatusBar;
+
+    private static readonly STATUS_BAR_ID = 'quallaa-mode-indicator';
     private modeApplied = false;
 
     /**
@@ -174,6 +179,26 @@ export class QuallaaModuleManager implements FrontendApplicationContribution {
         } else {
             await this.enterDeveloperMode();
         }
+        // Update status bar indicator
+        this.updateStatusBarIndicator(mode);
+    }
+
+    /**
+     * Update the status bar mode indicator.
+     * Shows current mode with an icon and clickable label.
+     */
+    private updateStatusBarIndicator(mode: string): void {
+        const isKnowledgeMode = mode === 'knowledge';
+        this.statusBar.setElement(QuallaaModuleManager.STATUS_BAR_ID, {
+            text: isKnowledgeMode ? '$(book) Knowledge' : '$(code) Developer',
+            alignment: StatusBarAlignment.LEFT,
+            priority: 1000, // High priority to show on left side
+            command: QuallaaCommands.TOGGLE_DEVELOPER_MODE.id,
+            tooltip: isKnowledgeMode
+                ? 'Knowledge Mode - Click to switch to Developer Mode (⌘⇧M)'
+                : 'Developer Mode - Click to switch to Knowledge Mode (⌘⇧M)'
+        });
+        console.log('[QuallaaModuleManager] Status bar indicator updated:', mode);
     }
 
     /**
